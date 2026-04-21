@@ -1,0 +1,629 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Catalogue — NaturaCorp</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,600&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+tailwind.config = {
+  theme: {
+    extend: {
+      colors: {
+        forest: { DEFAULT:'#0B1F12', light:'#1a3a24', mid:'#2D6A4F', pale:'#4a9970' },
+        gold:   { DEFAULT:'#C8A96E', light:'#E8D5A8', pale:'#F5EDD6' },
+        cream:  { DEFAULT:'#F7F2E8', dark:'#EDE4D0', deep:'#D6C9A8' },
+        bark:   { DEFAULT:'#3D2B1F', light:'#5a4035' },
+      },
+      fontFamily: {
+        serif: ['Cormorant Garamond', 'Georgia', 'serif'],
+        sans:  ['DM Sans', 'system-ui', 'sans-serif'],
+      },
+    }
+  }
+}
+</script>
+<style>
+  body { background-color: #F7F2E8; color: #0B1F12; }
+
+  body::before {
+    content: '';
+    position: fixed; inset: 0; z-index: 9999; pointer-events: none;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+    opacity: 0.35;
+  }
+
+  .reveal { opacity: 0; transform: translateY(28px); transition: opacity 0.8s ease, transform 0.8s ease; }
+  .reveal.visible { opacity: 1; transform: translateY(0); }
+  .reveal-left { opacity: 0; transform: translateX(-28px); transition: opacity 0.9s ease, transform 0.9s ease; }
+  .reveal-left.visible { opacity: 1; transform: translateX(0); }
+
+  .nav-scrolled { background-color: rgba(247,242,232,0.95) !important; backdrop-filter: blur(12px); border-bottom: 1px solid #D6C9A8; }
+  .nav-brand     { color: #F7F2E8; transition: color 0.3s ease; }
+  .nav-link-item { color: rgba(247,242,232,0.65); transition: color 0.25s ease; }
+  .nav-link-item:hover, .nav-link-item.active { color: #F7F2E8; }
+  .nav-ghost { color: rgba(247,242,232,0.55); border-color: rgba(247,242,232,0.2) !important; transition: color 0.25s, border-color 0.25s; }
+  .nav-ghost:hover { color: #F7F2E8 !important; border-color: rgba(247,242,232,0.45) !important; }
+  .nav-cta { background: #C8A96E !important; color: #0B1F12 !important; transition: background 0.25s; }
+  .nav-cta:hover { background: #e0c48a !important; }
+  .nav-scrolled .nav-brand     { color: #0B1F12; }
+  .nav-scrolled .nav-link-item { color: rgba(11,31,18,0.65); }
+  .nav-scrolled .nav-link-item:hover, .nav-scrolled .nav-link-item.active { color: #0B1F12; }
+  .nav-scrolled .nav-ghost { color: rgba(11,31,18,0.5) !important; border-color: #EDE4D0 !important; }
+  .nav-scrolled .nav-ghost:hover { color: #0B1F12 !important; border-color: rgba(11,31,18,0.25) !important; }
+  .nav-scrolled .nav-cta { background: #0B1F12 !important; color: #F7F2E8 !important; }
+  .nav-scrolled .nav-cta:hover { background: #1a3a24 !important; }
+
+  .title-line::after {
+    content: '';
+    display: block;
+    width: 60px;
+    height: 1px;
+    background: #C8A96E;
+    margin-top: 14px;
+  }
+
+  .link-gold { position: relative; }
+  .link-gold::after { content: ''; position: absolute; bottom: -2px; left: 0; width: 0; height: 1px; background: #C8A96E; transition: width 0.3s ease; }
+  .link-gold:hover::after { width: 100%; }
+
+  .delay-100 { transition-delay: 0.1s; }
+  .delay-200 { transition-delay: 0.2s; }
+  .delay-300 { transition-delay: 0.3s; }
+  .delay-400 { transition-delay: 0.4s; }
+
+  /* Mobile menu */
+  #mobile-menu { position:fixed; inset:0; z-index:200; visibility:hidden; pointer-events:none; }
+  #mobile-menu.open { visibility:visible; pointer-events:all; }
+  .menu-backdrop { position:absolute; inset:0; background:rgba(11,31,18,0.75); backdrop-filter:blur(4px); opacity:0; transition:opacity 0.4s ease; }
+  #mobile-menu.open .menu-backdrop { opacity:1; }
+  .menu-panel { position:absolute; top:0; right:0; bottom:0; width:300px; background:#0B1F12; display:flex; flex-direction:column; padding:28px 32px 40px; transform:translateX(100%); transition:transform 0.42s cubic-bezier(0.25,0.46,0.45,0.94); }
+  #mobile-menu.open .menu-panel { transform:translateX(0); }
+  .menu-bar { display:block; width:22px; height:1.5px; background:currentColor; transition:all 0.3s ease; border-radius:2px; }
+  #menu-btn.open .menu-bar:nth-child(1) { transform:translateY(5px) rotate(45deg); }
+  #menu-btn.open .menu-bar:nth-child(2) { opacity:0; }
+  #menu-btn.open .menu-bar:nth-child(3) { transform:translateY(-5px) rotate(-45deg); }
+  .mobile-nav-link { display:block; font-family:'Cormorant Garamond',Georgia,serif; font-size:26px; font-weight:300; color:rgba(247,242,232,0.5); letter-spacing:-0.01em; padding:10px 0; border-bottom:1px solid rgba(247,242,232,0.07); transition:color 0.2s ease; text-decoration:none; }
+  .mobile-nav-link:hover, .mobile-nav-link.active { color:#F7F2E8; }
+  .mobile-nav-link.active { font-weight:500; }
+
+  /* Filter pills */
+  .filter-pill { cursor: pointer; transition: all 0.25s ease; border: 1px solid transparent; }
+  .filter-pill:hover { border-color: #C8A96E; color: #0B1F12; }
+  .filter-pill.active { background: #0B1F12; color: #F7F2E8; border-color: #0B1F12; }
+
+  /* Product card */
+  .prod-card {
+    background: #F7F2E8;
+    border: 1px solid #EDE4D0;
+    transition: transform 0.35s ease, box-shadow 0.35s ease, border-color 0.35s ease;
+  }
+  .prod-card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 20px 48px rgba(11,31,18,0.10);
+    border-color: #C8A96E;
+  }
+
+  /* Category color bands */
+  .band-immunite { background: linear-gradient(135deg, #2D6A4F, #4a9970); }
+  .band-energie   { background: linear-gradient(135deg, #7B5E2A, #C8A96E); }
+  .band-articulaire { background: linear-gradient(135deg, #5a4035, #8a6550); }
+  .band-sommeil   { background: linear-gradient(135deg, #1a1a3a, #3a3a6a); }
+  .band-digestion { background: linear-gradient(135deg, #1a3a24, #2D6A4F); }
+  .band-default   { background: linear-gradient(135deg, #0B1F12, #1a3a24); }
+
+  /* Modal */
+  #modal-overlay { transition: opacity 0.3s ease; }
+  #modal-overlay.hidden { opacity: 0; pointer-events: none; }
+  #modal-box { transition: transform 0.35s ease, opacity 0.35s ease; }
+  #modal-overlay.hidden #modal-box { transform: translateY(24px); opacity: 0; }
+</style>
+</head>
+<body class="font-sans antialiased overflow-x-hidden">
+
+<!-- NAVIGATION -->
+<nav id="navbar" class="fixed top-0 left-0 right-0 z-50 transition-all duration-500" style="background:transparent">
+  <div class="max-w-7xl mx-auto px-8 flex items-center justify-between h-20">
+    <a href="index.html" class="flex items-center gap-3 group">
+      <svg width="32" height="32" viewBox="0 0 32 32" fill="none">
+        <path d="M16 4C16 4 8 10 8 18C8 22.4 11.6 26 16 26C20.4 26 24 22.4 24 18C24 10 16 4 16 4Z" fill="#2D6A4F" opacity="0.3"/>
+        <path d="M16 8C16 8 10 13 10 19C10 22.3 12.7 25 16 25C19.3 25 22 22.3 22 19C22 13 16 8 16 8Z" fill="#2D6A4F"/>
+        <path d="M16 28V18" stroke="#C8A96E" stroke-width="1.5" stroke-linecap="round"/>
+        <path d="M13 22C13 22 14.5 20 16 20" stroke="#C8A96E" stroke-width="1.2" stroke-linecap="round"/>
+      </svg>
+      <span class="font-serif font-semibold text-xl tracking-wide nav-brand">NaturaCorp</span>
+    </a>
+    <div class="hidden md:flex items-center gap-10 text-sm font-medium">
+      <a href="index.html" class="link-gold nav-link-item">Accueil</a>
+      <a href="produits.html" class="link-gold nav-link-item active font-semibold">Produits</a>
+      <a href="a-propos.html" class="link-gold nav-link-item">À propos</a>
+      <a href="contact.html" class="link-gold nav-link-item">Contact</a>
+    </div>
+    <div class="hidden md:flex items-center gap-3">
+      <a href="http://localhost:8000/login" target="_blank"
+         class="inline-flex items-center gap-1.5 text-xs font-medium nav-ghost border px-3.5 py-2 tracking-wide">
+        <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg>
+        Espace partenaire
+      </a>
+      <a href="contact.html" class="inline-flex items-center gap-2 nav-cta text-sm font-medium px-6 py-2.5 tracking-wide">
+        Devenir partenaire
+        <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2 7h10M7 2l5 5-5 5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </a>
+    </div>
+  </div>
+</nav>
+
+<!-- HERO BANDE -->
+<section class="relative bg-forest overflow-hidden pt-32 pb-20 px-8">
+  <svg class="absolute top-0 right-0 w-[400px] h-[400px] opacity-[0.05]" viewBox="0 0 300 300" fill="none">
+    <circle cx="150" cy="150" r="140" stroke="#C8A96E" stroke-width="1"/>
+    <circle cx="150" cy="150" r="100" stroke="#C8A96E" stroke-width="0.5"/>
+    <circle cx="150" cy="150" r="60" stroke="#C8A96E" stroke-width="0.5"/>
+  </svg>
+  <svg class="absolute left-0 bottom-0 w-[300px] opacity-[0.06]" viewBox="0 0 200 300" fill="none">
+    <path d="M100 10C100 10 180 80 180 160C180 230 150 280 100 290C50 280 20 230 20 160C20 80 100 10 100 10Z" fill="#4a9970"/>
+    <path d="M100 10C100 10 100 150 100 290" stroke="#C8A96E" stroke-width="1" opacity="0.4"/>
+  </svg>
+  <div class="relative z-10 max-w-7xl mx-auto">
+    <div class="flex items-center gap-3 mb-6 reveal">
+      <div class="h-px w-12 bg-gold"></div>
+      <span class="text-gold text-xs font-medium tracking-[0.25em] uppercase">Catalogue professionnel</span>
+    </div>
+    <h1 class="font-serif text-cream reveal delay-100">
+      <span class="block text-5xl md:text-7xl font-light leading-tight">Nos formules</span>
+      <span class="block text-5xl md:text-7xl font-semibold italic text-gold leading-tight">naturelles.</span>
+    </h1>
+    <p class="text-cream/55 text-lg mt-6 max-w-xl font-light leading-relaxed reveal delay-200">
+      Compléments alimentaires de haute précision, exclusivement distribués en pharmacie. Chaque formule repose sur des études cliniques et une traçabilité totale des ingrédients.
+    </p>
+  </div>
+</section>
+
+<!-- BARRE FILTRES STICKY -->
+<div class="sticky top-20 z-40 bg-cream/95 backdrop-blur-sm border-b border-cream-dark px-8 py-4">
+  <div class="max-w-7xl mx-auto">
+    <div class="flex flex-wrap gap-2 items-center">
+      <span class="text-xs text-forest/40 font-medium tracking-widest uppercase mr-2">Filtrer</span>
+      <button onclick="filterProducts('tous')" class="filter-pill active text-xs font-medium px-4 py-1.5 tracking-wide" data-filter="tous">Tous</button>
+      <button onclick="filterProducts('immunite')" class="filter-pill text-xs font-medium px-4 py-1.5 tracking-wide text-forest/60" data-filter="immunite">Immunité</button>
+      <button onclick="filterProducts('energie')" class="filter-pill text-xs font-medium px-4 py-1.5 tracking-wide text-forest/60" data-filter="energie">Énergie</button>
+      <button onclick="filterProducts('articulaire')" class="filter-pill text-xs font-medium px-4 py-1.5 tracking-wide text-forest/60" data-filter="articulaire">Articulaire</button>
+      <button onclick="filterProducts('sommeil')" class="filter-pill text-xs font-medium px-4 py-1.5 tracking-wide text-forest/60" data-filter="sommeil">Sommeil</button>
+      <button onclick="filterProducts('digestion')" class="filter-pill text-xs font-medium px-4 py-1.5 tracking-wide text-forest/60" data-filter="digestion">Digestion</button>
+      <span class="ml-auto text-xs text-forest/40" id="count-display">9 produits</span>
+    </div>
+  </div>
+</div>
+
+<!-- GRILLE PRODUITS -->
+<section class="py-16 px-8">
+  <div class="max-w-7xl mx-auto grid md:grid-cols-2 lg:grid-cols-3 gap-6" id="products-grid">
+
+    <!-- REF-001 -->
+    <div class="prod-card product-card reveal" data-category="immunite energie" onclick="openModal('Oméga-3 Premium', 'REF-001', 'immunite', 'EPA 600mg + DHA 400mg par capsule. Huile de poisson sauvage de qualité pharmaceutique, certification IFOS 5 étoiles. Encapsulation à froid, absence de goût de poisson garanti.', '60 capsules / boîte', ['Cardiovasculaire','Cognitif','Immunité'], 'https://images.unsplash.com/photo-1498837167922-ddd7525433e4?w=600&q=80&auto=format&fit=crop')">
+      <div class="relative h-36 overflow-hidden">
+        <img src="https://images.unsplash.com/photo-1498837167922-ddd7525433e4?w=600&q=80&auto=format&fit=crop" class="absolute inset-0 w-full h-full object-cover" alt="Oméga-3 Premium">
+        <div class="absolute inset-0 band-immunite" style="opacity:0.55"></div>
+        <div class="absolute inset-0 flex items-end justify-end p-5">
+          <span class="text-white/70 text-xs font-medium tracking-widest">REF-001</span>
+        </div>
+      </div>
+      <div class="p-6">
+        <div class="flex items-start justify-between mb-2">
+          <h3 class="font-serif text-xl font-semibold text-forest">Oméga-3 Premium</h3>
+        </div>
+        <p class="text-forest/55 text-sm leading-relaxed mb-4">EPA 600mg + DHA 400mg. Certification IFOS 5 étoiles. Absence de goût de poisson garanti.</p>
+        <div class="flex flex-wrap gap-1.5 mb-5">
+          <span class="text-[11px] font-medium px-2.5 py-1 bg-forest/8 text-forest/70 border border-forest/10">Cardiovasculaire</span>
+          <span class="text-[11px] font-medium px-2.5 py-1 bg-forest/8 text-forest/70 border border-forest/10">Cognitif</span>
+          <span class="text-[11px] font-medium px-2.5 py-1 bg-forest/8 text-forest/70 border border-forest/10">Immunité</span>
+        </div>
+        <div class="flex items-center justify-between pt-4 border-t border-cream-dark">
+          <span class="text-xs text-forest/40">60 capsules / boîte</span>
+          <button class="text-xs font-medium text-gold hover:text-forest transition tracking-wide">Voir détail →</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- REF-002 -->
+    <div class="prod-card product-card reveal delay-100" data-category="immunite articulaire" onclick="openModal('Vitamine D3 + K2', 'REF-002', 'immunite', 'D3 5000 UI + K2 MK-7 200µg. Formule huileuse microencapsulée pour une absorption maximale. Idéale pour les carences hivernales et le maintien osseux à long terme.', '90 capsules / boîte', ['Immunité','Osseux','Densité minérale'], 'https://images.unsplash.com/photo-1584308666744-24d5c474f2ae?w=600&q=80&auto=format&fit=crop')">
+      <div class="relative h-36 overflow-hidden">
+        <img src="https://images.unsplash.com/photo-1584308666744-24d5c474f2ae?w=600&q=80&auto=format&fit=crop" class="absolute inset-0 w-full h-full object-cover" alt="Vitamine D3 + K2">
+        <div class="absolute inset-0 band-energie" style="opacity:0.55"></div>
+        <div class="absolute inset-0 flex items-end justify-end p-5">
+          <span class="text-white/70 text-xs font-medium tracking-widest">REF-002</span>
+        </div>
+      </div>
+      <div class="p-6">
+        <h3 class="font-serif text-xl font-semibold text-forest mb-2">Vitamine D3 + K2</h3>
+        <p class="text-forest/55 text-sm leading-relaxed mb-4">D3 5000 UI + K2 MK-7 200µg. Formule huileuse microencapsulée, absorption maximale.</p>
+        <div class="flex flex-wrap gap-1.5 mb-5">
+          <span class="text-[11px] font-medium px-2.5 py-1 bg-forest/8 text-forest/70 border border-forest/10">Immunité</span>
+          <span class="text-[11px] font-medium px-2.5 py-1 bg-forest/8 text-forest/70 border border-forest/10">Osseux</span>
+        </div>
+        <div class="flex items-center justify-between pt-4 border-t border-cream-dark">
+          <span class="text-xs text-forest/40">90 capsules / boîte</span>
+          <button class="text-xs font-medium text-gold hover:text-forest transition tracking-wide">Voir détail →</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- REF-003 -->
+    <div class="prod-card product-card reveal delay-200" data-category="articulaire" onclick="openModal('Curcuma & Poivre Noir', 'REF-003', 'articulaire', 'Curcumine 95% titrée + Pipérine 98%. Biodisponibilité 20× supérieure grâce à la nanoencapsulation brevetée. Sans additifs, sans gluten, vegan certifié.', '60 gélules / boîte', ['Anti-inflammatoire','Articulaire','Digestion'], 'https://images.unsplash.com/photo-1615485500704-8e990f9900f7?w=600&q=80&auto=format&fit=crop')">
+      <div class="relative h-36 overflow-hidden">
+        <img src="https://images.unsplash.com/photo-1615485500704-8e990f9900f7?w=600&q=80&auto=format&fit=crop" class="absolute inset-0 w-full h-full object-cover" alt="Curcuma & Poivre Noir">
+        <div class="absolute inset-0 band-articulaire" style="opacity:0.50"></div>
+        <div class="absolute inset-0 flex items-end justify-end p-5">
+          <span class="text-white/70 text-xs font-medium tracking-widest">REF-003</span>
+        </div>
+      </div>
+      <div class="p-6">
+        <h3 class="font-serif text-xl font-semibold text-forest mb-2">Curcuma & Poivre Noir</h3>
+        <p class="text-forest/55 text-sm leading-relaxed mb-4">Curcumine 95% + Pipérine 98%. Biodisponibilité 20× supérieure. Vegan certifié.</p>
+        <div class="flex flex-wrap gap-1.5 mb-5">
+          <span class="text-[11px] font-medium px-2.5 py-1 bg-forest/8 text-forest/70 border border-forest/10">Anti-inflammatoire</span>
+          <span class="text-[11px] font-medium px-2.5 py-1 bg-forest/8 text-forest/70 border border-forest/10">Articulaire</span>
+        </div>
+        <div class="flex items-center justify-between pt-4 border-t border-cream-dark">
+          <span class="text-xs text-forest/40">60 gélules / boîte</span>
+          <button class="text-xs font-medium text-gold hover:text-forest transition tracking-wide">Voir détail →</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- REF-004 -->
+    <div class="prod-card product-card reveal" data-category="energie" onclick="openModal('Magnésium Marin', 'REF-004', 'energie', 'Magnésium bisglycinate + marin 300mg élémentaire par jour. Triple complexe pour une assimilation optimale et une tolérance digestive maximale. Enrichi en vitamine B6 active (P5P).', '90 comprimés / boîte', ['Stress & Fatigue','Musculaire','Système nerveux'], 'https://images.unsplash.com/photo-1550572017-edd951b55104?w=600&q=80&auto=format&fit=crop')">
+      <div class="relative h-36 overflow-hidden">
+        <img src="https://images.unsplash.com/photo-1550572017-edd951b55104?w=600&q=80&auto=format&fit=crop" class="absolute inset-0 w-full h-full object-cover" alt="Magnésium Marin">
+        <div class="absolute inset-0 band-energie" style="opacity:0.55"></div>
+        <div class="absolute inset-0 flex items-end justify-end p-5">
+          <span class="text-white/70 text-xs font-medium tracking-widest">REF-004</span>
+        </div>
+      </div>
+      <div class="p-6">
+        <h3 class="font-serif text-xl font-semibold text-forest mb-2">Magnésium Marin</h3>
+        <p class="text-forest/55 text-sm leading-relaxed mb-4">Triple complexe 300mg. Tolérance digestive maximale. Enrichi vitamine B6 P5P.</p>
+        <div class="flex flex-wrap gap-1.5 mb-5">
+          <span class="text-[11px] font-medium px-2.5 py-1 bg-forest/8 text-forest/70 border border-forest/10">Stress & Fatigue</span>
+          <span class="text-[11px] font-medium px-2.5 py-1 bg-forest/8 text-forest/70 border border-forest/10">Musculaire</span>
+        </div>
+        <div class="flex items-center justify-between pt-4 border-t border-cream-dark">
+          <span class="text-xs text-forest/40">90 comprimés / boîte</span>
+          <button class="text-xs font-medium text-gold hover:text-forest transition tracking-wide">Voir détail →</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- REF-005 -->
+    <div class="prod-card product-card reveal delay-100" data-category="sommeil" onclick="openModal('Mélatonine & Passiflore', 'REF-005', 'sommeil', 'Mélatonine 1,9 mg à libération prolongée + extrait de passiflore 200mg standardisé. Favorise l\'endormissement naturel et améliore la qualité du sommeil profond sans accoutumance.', '30 comprimés / boîte', ['Sommeil','Relaxation','Sans accoutumance'], 'https://images.unsplash.com/photo-1563986768494-4dee2763ff3f?w=600&q=80&auto=format&fit=crop')">
+      <div class="relative h-36 overflow-hidden">
+        <img src="https://images.unsplash.com/photo-1563986768494-4dee2763ff3f?w=600&q=80&auto=format&fit=crop" class="absolute inset-0 w-full h-full object-cover" alt="Mélatonine & Passiflore">
+        <div class="absolute inset-0 band-sommeil" style="opacity:0.60"></div>
+        <div class="absolute inset-0 flex items-end justify-end p-5">
+          <span class="text-white/70 text-xs font-medium tracking-widest">REF-005</span>
+        </div>
+      </div>
+      <div class="p-6">
+        <h3 class="font-serif text-xl font-semibold text-forest mb-2">Mélatonine & Passiflore</h3>
+        <p class="text-forest/55 text-sm leading-relaxed mb-4">Mélatonine 1,9mg libération prolongée + passiflore 200mg. Sans accoutumance.</p>
+        <div class="flex flex-wrap gap-1.5 mb-5">
+          <span class="text-[11px] font-medium px-2.5 py-1 bg-forest/8 text-forest/70 border border-forest/10">Sommeil</span>
+          <span class="text-[11px] font-medium px-2.5 py-1 bg-forest/8 text-forest/70 border border-forest/10">Relaxation</span>
+        </div>
+        <div class="flex items-center justify-between pt-4 border-t border-cream-dark">
+          <span class="text-xs text-forest/40">30 comprimés / boîte</span>
+          <button class="text-xs font-medium text-gold hover:text-forest transition tracking-wide">Voir détail →</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- REF-006 -->
+    <div class="prod-card product-card reveal delay-200" data-category="digestion immunite" onclick="openModal('Probiotiques Pro 50', 'REF-006', 'digestion', '50 milliards de bactéries actives garanties jusqu\'à la date d\'expiration, 10 souches dont Lactobacillus rhamnosus GG. Conditionnement thermorésistant, sans réfrigération requise.', '30 gélules / boîte', ['Microbiote','Immunité','Digestion'], 'https://images.unsplash.com/photo-1611077543185-f13ccf247b0b?w=600&q=80&auto=format&fit=crop')">
+      <div class="relative h-36 overflow-hidden">
+        <img src="https://images.unsplash.com/photo-1611077543185-f13ccf247b0b?w=600&q=80&auto=format&fit=crop" class="absolute inset-0 w-full h-full object-cover" alt="Probiotiques Pro 50">
+        <div class="absolute inset-0 band-digestion" style="opacity:0.55"></div>
+        <div class="absolute inset-0 flex items-end justify-end p-5">
+          <span class="text-white/70 text-xs font-medium tracking-widest">REF-006</span>
+        </div>
+      </div>
+      <div class="p-6">
+        <h3 class="font-serif text-xl font-semibold text-forest mb-2">Probiotiques Pro 50</h3>
+        <p class="text-forest/55 text-sm leading-relaxed mb-4">50 milliards de bactéries actives, 10 souches. Sans réfrigération.</p>
+        <div class="flex flex-wrap gap-1.5 mb-5">
+          <span class="text-[11px] font-medium px-2.5 py-1 bg-forest/8 text-forest/70 border border-forest/10">Microbiote</span>
+          <span class="text-[11px] font-medium px-2.5 py-1 bg-forest/8 text-forest/70 border border-forest/10">Immunité</span>
+          <span class="text-[11px] font-medium px-2.5 py-1 bg-forest/8 text-forest/70 border border-forest/10">Digestion</span>
+        </div>
+        <div class="flex items-center justify-between pt-4 border-t border-cream-dark">
+          <span class="text-xs text-forest/40">30 gélules / boîte</span>
+          <button class="text-xs font-medium text-gold hover:text-forest transition tracking-wide">Voir détail →</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- REF-007 -->
+    <div class="prod-card product-card reveal" data-category="immunite energie" onclick="openModal('Vitamine C Liposomale', 'REF-007', 'immunite', '1000 mg de vitamine C encapsulée en liposomes phospholipidiques de haute pureté. Biodisponibilité 4× supérieure à la vitamine C classique. Tolérée par les estomacs sensibles.', '60 sachets / boîte', ['Immunité','Antioxydant','Collagène'], 'https://images.unsplash.com/photo-1612776572997-76cc42e058c3?w=600&q=80&auto=format&fit=crop')">
+      <div class="relative h-36 overflow-hidden">
+        <img src="https://images.unsplash.com/photo-1612776572997-76cc42e058c3?w=600&q=80&auto=format&fit=crop" class="absolute inset-0 w-full h-full object-cover" alt="Vitamine C Liposomale">
+        <div class="absolute inset-0 band-immunite" style="opacity:0.55"></div>
+        <div class="absolute inset-0 flex items-end justify-end p-5">
+          <span class="text-white/70 text-xs font-medium tracking-widest">REF-007</span>
+        </div>
+      </div>
+      <div class="p-6">
+        <h3 class="font-serif text-xl font-semibold text-forest mb-2">Vitamine C Liposomale</h3>
+        <p class="text-forest/55 text-sm leading-relaxed mb-4">1000mg encapsulée en liposomes. Biodisponibilité 4× supérieure. Tolérance maximale.</p>
+        <div class="flex flex-wrap gap-1.5 mb-5">
+          <span class="text-[11px] font-medium px-2.5 py-1 bg-forest/8 text-forest/70 border border-forest/10">Immunité</span>
+          <span class="text-[11px] font-medium px-2.5 py-1 bg-forest/8 text-forest/70 border border-forest/10">Antioxydant</span>
+        </div>
+        <div class="flex items-center justify-between pt-4 border-t border-cream-dark">
+          <span class="text-xs text-forest/40">60 sachets / boîte</span>
+          <button class="text-xs font-medium text-gold hover:text-forest transition tracking-wide">Voir détail →</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- REF-008 -->
+    <div class="prod-card product-card reveal delay-100" data-category="articulaire energie" onclick="openModal('Zinc & Sélénium', 'REF-008', 'articulaire', 'Zinc bisglycinate 15mg + Sélénium organique (sélénométhionine) 100µg. Association synergique idéale pour la peau, les ongles, les cheveux et le système immunitaire.', '60 gélules / boîte', ['Peau & Cheveux','Immunité','Antioxydant'], 'https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=600&q=80&auto=format&fit=crop')">
+      <div class="relative h-36 overflow-hidden">
+        <img src="https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=600&q=80&auto=format&fit=crop" class="absolute inset-0 w-full h-full object-cover" alt="Zinc & Sélénium">
+        <div class="absolute inset-0 band-articulaire" style="opacity:0.50"></div>
+        <div class="absolute inset-0 flex items-end justify-end p-5">
+          <span class="text-white/70 text-xs font-medium tracking-widest">REF-008</span>
+        </div>
+      </div>
+      <div class="p-6">
+        <h3 class="font-serif text-xl font-semibold text-forest mb-2">Zinc & Sélénium</h3>
+        <p class="text-forest/55 text-sm leading-relaxed mb-4">Zinc bisglycinate 15mg + Sélénium organique 100µg. Peau, ongles, cheveux.</p>
+        <div class="flex flex-wrap gap-1.5 mb-5">
+          <span class="text-[11px] font-medium px-2.5 py-1 bg-forest/8 text-forest/70 border border-forest/10">Peau & Cheveux</span>
+          <span class="text-[11px] font-medium px-2.5 py-1 bg-forest/8 text-forest/70 border border-forest/10">Immunité</span>
+        </div>
+        <div class="flex items-center justify-between pt-4 border-t border-cream-dark">
+          <span class="text-xs text-forest/40">60 gélules / boîte</span>
+          <button class="text-xs font-medium text-gold hover:text-forest transition tracking-wide">Voir détail →</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- REF-009 -->
+    <div class="prod-card product-card reveal delay-200" data-category="digestion energie" onclick="openModal('Complexe B Actif', 'REF-009', 'energie', '8 vitamines du groupe B sous formes biologiquement actives : méthylfolate (5-MTHF), méthylcobalamine (B12), pyridoxal-5-phosphate (B6). Formule de référence pour le soutien neurologique et énergétique.', '60 comprimés / boîte', ['Énergie','Neurologique','Homocystéine'], 'https://images.unsplash.com/photo-1559757148-5c350d0d3c56?w=600&q=80&auto=format&fit=crop')">
+      <div class="relative h-36 overflow-hidden">
+        <img src="https://images.unsplash.com/photo-1559757148-5c350d0d3c56?w=600&q=80&auto=format&fit=crop" class="absolute inset-0 w-full h-full object-cover" alt="Complexe B Actif">
+        <div class="absolute inset-0 band-digestion" style="opacity:0.55"></div>
+        <div class="absolute inset-0 flex items-end justify-end p-5">
+          <span class="text-white/70 text-xs font-medium tracking-widest">REF-009</span>
+        </div>
+      </div>
+      <div class="p-6">
+        <h3 class="font-serif text-xl font-semibold text-forest mb-2">Complexe B Actif</h3>
+        <p class="text-forest/55 text-sm leading-relaxed mb-4">8 vitamines B sous formes actives. Méthylfolate, méthylcobalamine. Formule neurologique.</p>
+        <div class="flex flex-wrap gap-1.5 mb-5">
+          <span class="text-[11px] font-medium px-2.5 py-1 bg-forest/8 text-forest/70 border border-forest/10">Énergie</span>
+          <span class="text-[11px] font-medium px-2.5 py-1 bg-forest/8 text-forest/70 border border-forest/10">Neurologique</span>
+        </div>
+        <div class="flex items-center justify-between pt-4 border-t border-cream-dark">
+          <span class="text-xs text-forest/40">60 comprimés / boîte</span>
+          <button class="text-xs font-medium text-gold hover:text-forest transition tracking-wide">Voir détail →</button>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- CTA BANDE -->
+<section class="bg-forest py-20 px-8 text-center relative overflow-hidden">
+  <div class="absolute inset-0 flex items-center justify-center overflow-hidden pointer-events-none">
+    <span class="font-serif text-[18vw] font-bold text-white/[0.03] select-none whitespace-nowrap">NATURACORP</span>
+  </div>
+  <div class="relative z-10 max-w-xl mx-auto reveal">
+    <div class="h-px w-12 bg-gold mx-auto mb-8"></div>
+    <h2 class="font-serif text-4xl md:text-5xl text-cream font-light mb-6">
+      Vous souhaitez<br><em class="text-gold">référencer nos produits ?</em>
+    </h2>
+    <p class="text-cream/50 text-sm leading-relaxed mb-10 font-light">
+      Contactez votre commercial NaturaCorp pour obtenir le catalogue tarifaire complet et les conditions de partenariat exclusives pharmacies.
+    </p>
+    <a href="contact.html" class="inline-flex items-center gap-3 bg-gold text-forest font-semibold px-8 py-4 hover:bg-gold-light transition-colors duration-300 tracking-wide text-sm">
+      Demander un catalogue
+      <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2 7h10M7 2l5 5-5 5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </a>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="bg-forest text-cream/50 border-t border-white/10">
+  <div class="max-w-7xl mx-auto px-8 py-14 grid grid-cols-2 md:grid-cols-4 gap-8">
+    <div class="col-span-2 md:col-span-1">
+      <div class="flex items-center gap-3 mb-4">
+        <svg width="28" height="28" viewBox="0 0 32 32" fill="none">
+          <path d="M16 4C16 4 8 10 8 18C8 22.4 11.6 26 16 26C20.4 26 24 22.4 24 18C24 10 16 4 16 4Z" fill="#2D6A4F" opacity="0.4"/>
+          <path d="M16 8C16 8 10 13 10 19C10 22.3 12.7 25 16 25C19.3 25 22 22.3 22 19C22 13 16 8 16 8Z" fill="#4a9970"/>
+          <path d="M16 28V18" stroke="#C8A96E" stroke-width="1.5" stroke-linecap="round"/>
+        </svg>
+        <span class="font-serif font-semibold text-lg text-cream">NaturaCorp</span>
+      </div>
+      <p class="text-xs leading-relaxed text-cream/35">Compléments alimentaires<br>pour professionnels de santé<br>depuis 2009.</p>
+    </div>
+    <div>
+      <div class="text-xs font-medium tracking-widest uppercase text-cream/30 mb-4">Navigation</div>
+      <div class="flex flex-col gap-2.5 text-sm">
+        <a href="index.html" class="hover:text-cream transition-colors">Accueil</a>
+        <a href="produits.html" class="text-gold">Produits</a>
+        <a href="a-propos.html" class="hover:text-cream transition-colors">À propos</a>
+        <a href="contact.html" class="hover:text-cream transition-colors">Contact</a>
+      </div>
+    </div>
+    <div>
+      <div class="text-xs font-medium tracking-widest uppercase text-cream/30 mb-4">Contact</div>
+      <div class="flex flex-col gap-2.5 text-sm">
+        <span>12 Rue de la Santé, Paris</span>
+        <span>contact@naturacorp.fr</span>
+        <span>01 23 45 67 89</span>
+      </div>
+    </div>
+    <div>
+      <div class="text-xs font-medium tracking-widest uppercase text-cream/30 mb-4">Certifications</div>
+      <div class="flex flex-col gap-2.5 text-sm">
+        <span>ISO 22000</span>
+        <span>GMP — Bonnes Pratiques</span>
+        <span>IFOS 5★ Oméga-3</span>
+        <span>Bio FR-BIO-01</span>
+      </div>
+    </div>
+  </div>
+  <div class="border-t border-white/10 px-8 py-5 max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-3 text-xs text-cream/25">
+    <span>© 2025 NaturaCorp. Tous droits réservés.</span>
+    <span>Distribué exclusivement en pharmacie</span>
+  </div>
+</footer>
+
+<!-- MODAL DÉTAIL PRODUIT -->
+<div id="modal-overlay" class="hidden fixed inset-0 z-[100] flex items-center justify-center p-6" onclick="closeModalOutside(event)">
+  <div class="absolute inset-0 bg-forest/70 backdrop-blur-sm"></div>
+  <div id="modal-box" class="relative bg-cream max-w-lg w-full shadow-2xl">
+    <div id="modal-band" class="relative h-40 overflow-hidden band-default flex items-end justify-between px-8 py-5">
+      <img id="modal-img" src="" alt="" class="absolute inset-0 w-full h-full object-cover">
+      <div id="modal-overlay-color" class="absolute inset-0 band-default" style="opacity:0.55"></div>
+      <span id="modal-ref" class="relative z-10 text-white/70 text-xs font-medium tracking-widest"></span>
+      <button onclick="closeModal()" class="relative z-10 text-white/70 hover:text-white transition text-2xl leading-none">&times;</button>
+    </div>
+    <div class="p-8">
+      <h3 id="modal-name" class="font-serif text-2xl font-semibold text-forest mb-4"></h3>
+      <p id="modal-desc" class="text-forest/60 text-sm leading-relaxed mb-6"></p>
+      <div class="flex flex-wrap gap-2 mb-6" id="modal-tags"></div>
+      <div class="flex items-center justify-between pt-5 border-t border-cream-dark">
+        <span id="modal-format" class="text-xs text-forest/40"></span>
+        <a href="contact.html" class="inline-flex items-center gap-2 bg-forest text-cream text-xs font-medium px-5 py-2.5 hover:bg-forest-light transition-colors tracking-wide">
+          Commander
+          <svg width="12" height="12" viewBox="0 0 14 14" fill="none"><path d="M2 7h10M7 2l5 5-5 5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+// CRM API sync — enrichit les cartes avec les données live du CRM
+const CRM_API = 'http://localhost:8000/api';
+fetch(CRM_API + '/produits', { headers: { 'Accept': 'application/json' } })
+  .then(r => r.ok ? r.json() : null)
+  .then(produits => {
+    if (!produits) return;
+    produits.forEach(p => {
+      // Trouver la carte correspondante par nom
+      document.querySelectorAll('.product-card').forEach(card => {
+        const h3 = card.querySelector('h3');
+        if (!h3 || h3.textContent.trim() !== p.nom) return;
+        // Mettre à jour l'image si différente
+        const img = card.querySelector('img');
+        if (img && p.image_url) img.src = p.image_url;
+        // Injecter le tarif
+        const footer = card.querySelector('.border-t');
+        if (footer) {
+          let priceEl = footer.querySelector('.crm-price');
+          if (!priceEl) {
+            priceEl = document.createElement('span');
+            priceEl.className = 'crm-price text-xs font-semibold text-forest/70';
+            footer.insertBefore(priceEl, footer.firstChild);
+          }
+          priceEl.textContent = Number(p.tarif_unitaire).toFixed(2) + ' € HT';
+        }
+        // Badge rupture si stock = 0
+        if (p.stock === 0) {
+          const imgWrap = card.querySelector('.relative.h-36');
+          if (imgWrap && !imgWrap.querySelector('.rupture-badge')) {
+            const badge = document.createElement('div');
+            badge.className = 'rupture-badge';
+            badge.style.cssText = 'position:absolute;top:10px;left:10px;background:rgba(220,38,38,0.85);color:#fff;font-size:10px;font-weight:600;padding:3px 8px;border-radius:3px;letter-spacing:0.06em;z-index:2;backdrop-filter:blur(4px);';
+            badge.textContent = 'RUPTURE';
+            imgWrap.appendChild(badge);
+          }
+        }
+      });
+    });
+    // Indicateur de connexion CRM actif
+    const countEl = document.getElementById('count-display');
+    if (countEl) {
+      const dot = document.createElement('span');
+      dot.style.cssText = 'display:inline-block;width:6px;height:6px;background:#16A34A;border-radius:50%;margin-right:5px;vertical-align:middle;';
+      dot.title = 'Données live du CRM';
+      countEl.prepend(dot);
+    }
+  })
+  .catch(() => {});
+
+// Nav scroll
+const navbar = document.getElementById('navbar');
+window.addEventListener('scroll', () => {
+  if (window.scrollY > 50) navbar.classList.add('nav-scrolled');
+  else navbar.classList.remove('nav-scrolled');
+});
+
+// Reveal
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); observer.unobserve(e.target); } });
+}, { threshold: 0.12 });
+document.querySelectorAll('.reveal, .reveal-left').forEach(el => observer.observe(el));
+
+// Filter
+function filterProducts(category) {
+  const cards = document.querySelectorAll('.product-card');
+  const pills = document.querySelectorAll('.filter-pill');
+
+  pills.forEach(p => p.classList.remove('active'));
+  document.querySelector(`[data-filter="${category}"]`).classList.add('active');
+
+  let visible = 0;
+  cards.forEach(card => {
+    const show = category === 'tous' || card.dataset.category.includes(category);
+    card.style.display = show ? 'block' : 'none';
+    if (show) visible++;
+  });
+  document.getElementById('count-display').textContent = visible + ' produit' + (visible > 1 ? 's' : '');
+}
+
+// Modal
+const bandMap = {
+  immunite: 'band-immunite', energie: 'band-energie', articulaire: 'band-articulaire',
+  sommeil: 'band-sommeil', digestion: 'band-digestion', default: 'band-default'
+};
+function openModal(name, ref, category, desc, format, tags, imageUrl) {
+  document.getElementById('modal-name').textContent = name;
+  document.getElementById('modal-ref').textContent = ref;
+  document.getElementById('modal-desc').textContent = desc;
+  document.getElementById('modal-format').textContent = format;
+  const tagsEl = document.getElementById('modal-tags');
+  tagsEl.innerHTML = tags.map(t => `<span class="text-[11px] font-medium px-2.5 py-1 bg-forest/8 text-forest/70 border border-forest/10">${t}</span>`).join('');
+  const band = document.getElementById('modal-band');
+  band.className = `relative h-40 overflow-hidden flex items-end justify-between px-8 py-5`;
+  const overlayColor = document.getElementById('modal-overlay-color');
+  overlayColor.className = `absolute inset-0 ${bandMap[category] || bandMap.default}`;
+  if (imageUrl) {
+    const img = document.getElementById('modal-img');
+    img.src = imageUrl;
+    img.style.display = 'block';
+  }
+  const overlay = document.getElementById('modal-overlay');
+  overlay.classList.remove('hidden');
+  setTimeout(() => overlay.style.opacity = 1, 10);
+  document.body.style.overflow = 'hidden';
+}
+function closeModal() {
+  const overlay = document.getElementById('modal-overlay');
+  overlay.classList.add('hidden');
+  overlay.style.opacity = 0;
+  document.body.style.overflow = '';
+}
+function closeModalOutside(e) {
+  if (e.target === document.getElementById('modal-overlay') || e.target === e.currentTarget.querySelector('.absolute.inset-0')) closeModal();
+}
+document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
+</script>
+
+</body>
+</html>

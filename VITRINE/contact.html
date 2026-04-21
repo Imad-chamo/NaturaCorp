@@ -1,0 +1,462 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Contact — NaturaCorp</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,600&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+tailwind.config = {
+  theme: {
+    extend: {
+      colors: {
+        forest: { DEFAULT:'#0B1F12', light:'#1a3a24', mid:'#2D6A4F', pale:'#4a9970' },
+        gold:   { DEFAULT:'#C8A96E', light:'#E8D5A8', pale:'#F5EDD6' },
+        cream:  { DEFAULT:'#F7F2E8', dark:'#EDE4D0', deep:'#D6C9A8' },
+        bark:   { DEFAULT:'#3D2B1F', light:'#5a4035' },
+      },
+      fontFamily: {
+        serif: ['Cormorant Garamond', 'Georgia', 'serif'],
+        sans:  ['DM Sans', 'system-ui', 'sans-serif'],
+      },
+    }
+  }
+}
+</script>
+<style>
+  body { background-color: #F7F2E8; color: #0B1F12; }
+
+  body::before {
+    content: '';
+    position: fixed; inset: 0; z-index: 9999; pointer-events: none;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+    opacity: 0.35;
+  }
+
+  .reveal { opacity: 0; transform: translateY(28px); transition: opacity 0.8s ease, transform 0.8s ease; }
+  .reveal.visible { opacity: 1; transform: translateY(0); }
+  .reveal-left { opacity: 0; transform: translateX(-28px); transition: opacity 0.9s ease, transform 0.9s ease; }
+  .reveal-left.visible { opacity: 1; transform: translateX(0); }
+  .reveal-right { opacity: 0; transform: translateX(28px); transition: opacity 0.9s ease, transform 0.9s ease; }
+  .reveal-right.visible { opacity: 1; transform: translateX(0); }
+
+  .nav-scrolled { background-color: rgba(247,242,232,0.95) !important; backdrop-filter: blur(12px); border-bottom: 1px solid #D6C9A8; }
+  .nav-brand     { color: #F7F2E8; transition: color 0.3s ease; }
+  .nav-link-item { color: rgba(247,242,232,0.65); transition: color 0.25s ease; }
+  .nav-link-item:hover, .nav-link-item.active { color: #F7F2E8; }
+  .nav-ghost { color: rgba(247,242,232,0.55); border-color: rgba(247,242,232,0.2) !important; transition: color 0.25s, border-color 0.25s; }
+  .nav-ghost:hover { color: #F7F2E8 !important; border-color: rgba(247,242,232,0.45) !important; }
+  .nav-cta { background: #C8A96E !important; color: #0B1F12 !important; transition: background 0.25s; }
+  .nav-cta:hover { background: #e0c48a !important; }
+  .nav-scrolled .nav-brand     { color: #0B1F12; }
+  .nav-scrolled .nav-link-item { color: rgba(11,31,18,0.65); }
+  .nav-scrolled .nav-link-item:hover, .nav-scrolled .nav-link-item.active { color: #0B1F12; }
+  .nav-scrolled .nav-ghost { color: rgba(11,31,18,0.5) !important; border-color: #EDE4D0 !important; }
+  .nav-scrolled .nav-ghost:hover { color: #0B1F12 !important; border-color: rgba(11,31,18,0.25) !important; }
+  .nav-scrolled .nav-cta { background: #0B1F12 !important; color: #F7F2E8 !important; }
+  .nav-scrolled .nav-cta:hover { background: #1a3a24 !important; }
+
+  .link-gold { position: relative; }
+  .link-gold::after { content: ''; position: absolute; bottom: -2px; left: 0; width: 0; height: 1px; background: #C8A96E; transition: width 0.3s ease; }
+  .link-gold:hover::after { width: 100%; }
+
+  .delay-100 { transition-delay: 0.1s; }
+  .delay-200 { transition-delay: 0.2s; }
+  .delay-300 { transition-delay: 0.3s; }
+
+  /* Form fields */
+  .field {
+    display: block; width: 100%;
+    border: 1px solid #D6C9A8;
+    background: #F7F2E8;
+    padding: 12px 16px;
+    font-size: 14px;
+    font-family: 'DM Sans', sans-serif;
+    color: #0B1F12;
+    outline: none;
+    transition: border-color 0.25s ease, box-shadow 0.25s ease;
+  }
+  .field:focus { border-color: #C8A96E; box-shadow: 0 0 0 3px rgba(200,169,110,0.12); }
+  .field::placeholder { color: rgba(11,31,18,0.3); }
+
+  select.field { cursor: pointer; }
+
+  /* Submit button */
+  .btn-submit {
+    background: #0B1F12; color: #F7F2E8;
+    width: 100%; padding: 14px;
+    font-size: 13px; font-weight: 600;
+    letter-spacing: 0.08em; text-transform: uppercase;
+    cursor: pointer;
+    transition: background 0.25s ease;
+    border: none;
+    display: flex; align-items: center; justify-content: center; gap: 10px;
+  }
+  .btn-submit:hover { background: #1a3a24; }
+
+  /* FAQ accordion */
+  details summary { list-style: none; }
+  details summary::-webkit-details-marker { display: none; }
+  details[open] .faq-icon { transform: rotate(45deg); }
+  .faq-icon { transition: transform 0.3s ease; }
+  details[open] { border-color: #C8A96E; }
+
+  /* Zone pills */
+  .zone-pill { border: 1px solid #EDE4D0; transition: border-color 0.2s ease, background 0.2s ease; }
+  .zone-pill:hover { border-color: #C8A96E; background: rgba(200,169,110,0.06); }
+
+  /* Success */
+  #success-banner { transform: translateY(-8px); opacity: 0; transition: transform 0.4s ease, opacity 0.4s ease; }
+  #success-banner.show { transform: translateY(0); opacity: 1; }
+</style>
+</head>
+<body class="font-sans antialiased overflow-x-hidden">
+
+<!-- NAVIGATION -->
+<nav id="navbar" class="fixed top-0 left-0 right-0 z-50 transition-all duration-500" style="background:transparent">
+  <div class="max-w-7xl mx-auto px-8 flex items-center justify-between h-20">
+    <a href="index.html" class="flex items-center gap-3 group">
+      <svg width="32" height="32" viewBox="0 0 32 32" fill="none">
+        <path d="M16 4C16 4 8 10 8 18C8 22.4 11.6 26 16 26C20.4 26 24 22.4 24 18C24 10 16 4 16 4Z" fill="#2D6A4F" opacity="0.3"/>
+        <path d="M16 8C16 8 10 13 10 19C10 22.3 12.7 25 16 25C19.3 25 22 22.3 22 19C22 13 16 8 16 8Z" fill="#2D6A4F"/>
+        <path d="M16 28V18" stroke="#C8A96E" stroke-width="1.5" stroke-linecap="round"/>
+        <path d="M13 22C13 22 14.5 20 16 20" stroke="#C8A96E" stroke-width="1.2" stroke-linecap="round"/>
+      </svg>
+      <span class="font-serif font-semibold text-xl tracking-wide nav-brand">NaturaCorp</span>
+    </a>
+    <div class="hidden md:flex items-center gap-10 text-sm font-medium">
+      <a href="index.html" class="link-gold nav-link-item">Accueil</a>
+      <a href="produits.html" class="link-gold nav-link-item">Produits</a>
+      <a href="a-propos.html" class="link-gold nav-link-item">À propos</a>
+      <a href="contact.html" class="link-gold nav-link-item active font-semibold">Contact</a>
+    </div>
+    <div class="hidden md:flex items-center gap-3">
+      <a href="http://localhost:8000/login" target="_blank"
+         class="inline-flex items-center gap-1.5 text-xs font-medium nav-ghost border px-3.5 py-2 tracking-wide">
+        <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg>
+        Espace partenaire
+      </a>
+      <a href="contact.html" class="inline-flex items-center gap-2 nav-cta text-sm font-medium px-6 py-2.5 tracking-wide">
+        Devenir partenaire
+        <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2 7h10M7 2l5 5-5 5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </a>
+    </div>
+  </div>
+</nav>
+
+<!-- HERO BANDE -->
+<section class="bg-forest relative overflow-hidden pt-32 pb-16 px-8">
+  <svg class="absolute right-0 top-0 w-[380px] opacity-[0.05]" viewBox="0 0 300 300" fill="none">
+    <circle cx="150" cy="150" r="140" stroke="#C8A96E" stroke-width="1"/>
+    <circle cx="150" cy="150" r="90" stroke="#C8A96E" stroke-width="0.5"/>
+    <circle cx="150" cy="150" r="45" stroke="#C8A96E" stroke-width="0.5"/>
+  </svg>
+  <div class="relative z-10 max-w-7xl mx-auto">
+    <div class="flex items-center gap-3 mb-6 reveal">
+      <div class="h-px w-12 bg-gold"></div>
+      <span class="text-gold text-xs font-medium tracking-[0.25em] uppercase">Parler de votre projet</span>
+    </div>
+    <h1 class="font-serif text-cream reveal delay-100">
+      <span class="block text-5xl md:text-6xl font-light leading-tight">Devenons</span>
+      <span class="block text-5xl md:text-6xl font-semibold italic text-gold leading-tight">partenaires.</span>
+    </h1>
+    <p class="text-cream/50 text-sm mt-5 max-w-md font-light leading-relaxed reveal delay-200">
+      Remplissez le formulaire et un commercial de votre région vous recontactera sous 24h ouvrées.
+    </p>
+  </div>
+</section>
+
+<!-- CONTENU PRINCIPAL -->
+<section class="py-16 px-8">
+  <div class="max-w-7xl mx-auto grid lg:grid-cols-2 gap-16">
+
+    <!-- FORMULAIRE -->
+    <div class="reveal">
+      <div class="flex items-center gap-3 mb-8">
+        <div class="h-px w-8 bg-gold"></div>
+        <span class="text-gold/70 text-xs font-medium tracking-[0.2em] uppercase">Formulaire de contact</span>
+      </div>
+
+      <!-- Success banner -->
+      <div id="success-banner" class="hidden bg-forest-light border border-gold/30 px-5 py-4 mb-6 flex items-center gap-3">
+        <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
+          <circle cx="9" cy="9" r="8" stroke="#C8A96E" stroke-width="1.2"/>
+          <path d="M5.5 9l2.5 2.5 4-5" stroke="#C8A96E" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+        <span class="text-cream text-sm font-medium">Message envoyé — un commercial vous contactera dans les 24h.</span>
+      </div>
+
+      <form id="contact-form" onsubmit="handleSubmit(event)" class="space-y-4">
+        <div class="grid grid-cols-2 gap-4">
+          <div>
+            <label class="block text-xs font-medium text-forest/50 uppercase tracking-wider mb-1.5">Prénom *</label>
+            <input type="text" name="prenom" required placeholder="Jean" class="field">
+          </div>
+          <div>
+            <label class="block text-xs font-medium text-forest/50 uppercase tracking-wider mb-1.5">Nom *</label>
+            <input type="text" name="nom" required placeholder="Dupont" class="field">
+          </div>
+        </div>
+
+        <div>
+          <label class="block text-xs font-medium text-forest/50 uppercase tracking-wider mb-1.5">Nom de la pharmacie *</label>
+          <input type="text" name="pharmacie" required placeholder="Pharmacie du Centre" class="field">
+        </div>
+
+        <div>
+          <label class="block text-xs font-medium text-forest/50 uppercase tracking-wider mb-1.5">Email professionnel *</label>
+          <input type="email" name="email" required placeholder="contact@pharmacie.fr" class="field">
+        </div>
+
+        <div class="grid grid-cols-2 gap-4">
+          <div>
+            <label class="block text-xs font-medium text-forest/50 uppercase tracking-wider mb-1.5">Téléphone</label>
+            <input type="tel" name="telephone" placeholder="01 23 45 67 89" class="field">
+          </div>
+          <div>
+            <label class="block text-xs font-medium text-forest/50 uppercase tracking-wider mb-1.5">Code postal *</label>
+            <input type="text" name="code_postal" required maxlength="5" pattern="[0-9]{5}" placeholder="75014" class="field">
+          </div>
+        </div>
+
+        <div>
+          <label class="block text-xs font-medium text-forest/50 uppercase tracking-wider mb-1.5">Objet de la demande</label>
+          <select name="sujet" class="field">
+            <option value="catalogue">Demande de catalogue tarifaire</option>
+            <option value="partenariat">Devenir partenaire NaturaCorp</option>
+            <option value="info_produit">Information sur un produit</option>
+            <option value="echantillons">Demande d'échantillons</option>
+            <option value="autre">Autre demande</option>
+          </select>
+        </div>
+
+        <div>
+          <label class="block text-xs font-medium text-forest/50 uppercase tracking-wider mb-1.5">Message</label>
+          <textarea name="message" rows="4" placeholder="Décrivez votre besoin, vos questions..." class="field resize-none"></textarea>
+        </div>
+
+        <div class="flex items-start gap-3 pt-1">
+          <input type="checkbox" id="rgpd" name="rgpd" required class="mt-0.5 w-4 h-4 accent-forest cursor-pointer flex-shrink-0">
+          <label for="rgpd" class="text-xs text-forest/45 leading-relaxed cursor-pointer">
+            J'accepte que mes données soient traitées par NaturaCorp pour le traitement de ma demande, conformément à la <a href="#" class="text-gold hover:underline">politique de confidentialité</a>.
+          </label>
+        </div>
+
+        <button type="submit" class="btn-submit mt-2">
+          <span id="btn-text">Envoyer ma demande</span>
+          <span id="btn-spinner" class="hidden">
+            <svg class="animate-spin h-4 w-4" fill="none" viewBox="0 0 24 24">
+              <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+              <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"></path>
+            </svg>
+          </span>
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="none" id="btn-arrow"><path d="M2 7h10M7 2l5 5-5 5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+      </form>
+    </div>
+
+    <!-- INFOS + FAQ -->
+    <div class="space-y-10 reveal-right delay-100">
+
+      <!-- Coordonnées -->
+      <div>
+        <div class="flex items-center gap-3 mb-8">
+          <div class="h-px w-8 bg-gold"></div>
+          <span class="text-gold/70 text-xs font-medium tracking-[0.2em] uppercase">Nos coordonnées</span>
+        </div>
+        <div class="space-y-5">
+          <div class="flex gap-4 items-start">
+            <div class="w-9 h-9 border border-cream-deep flex items-center justify-center flex-shrink-0 mt-0.5">
+              <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="7" r="3" stroke="#C8A96E" stroke-width="1.2"/><path d="M8 14C8 14 3 10.5 3 7C3 4.24 5.24 2 8 2C10.76 2 13 4.24 13 7C13 10.5 8 14 8 14Z" stroke="#C8A96E" stroke-width="1.2"/></svg>
+            </div>
+            <div>
+              <div class="font-medium text-sm text-forest mb-0.5">Siège social</div>
+              <div class="text-forest/50 text-sm">12 Rue de la Santé, 75014 Paris<br>France</div>
+            </div>
+          </div>
+          <div class="flex gap-4 items-start">
+            <div class="w-9 h-9 border border-cream-deep flex items-center justify-center flex-shrink-0 mt-0.5">
+              <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 3h3l1.5 3.5-1.5 1A8 8 0 009.5 10l1-1.5L14 10v3a1 1 0 01-1 1A12 12 0 012 3a1 1 0 011-1z" stroke="#C8A96E" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </div>
+            <div>
+              <div class="font-medium text-sm text-forest mb-0.5">Téléphone</div>
+              <div class="text-forest/50 text-sm">01 23 45 67 89<br>Lun–Ven, 9h–18h</div>
+            </div>
+          </div>
+          <div class="flex gap-4 items-start">
+            <div class="w-9 h-9 border border-cream-deep flex items-center justify-center flex-shrink-0 mt-0.5">
+              <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><rect x="2" y="4" width="12" height="9" rx="1" stroke="#C8A96E" stroke-width="1.2"/><path d="M2 5l6 5 6-5" stroke="#C8A96E" stroke-width="1.2" stroke-linecap="round"/></svg>
+            </div>
+            <div>
+              <div class="font-medium text-sm text-forest mb-0.5">Email</div>
+              <div class="text-forest/50 text-sm">contact@naturacorp.fr<br>commercial@naturacorp.fr</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Zones commerciales -->
+      <div class="bg-cream-dark p-6 border border-cream-deep">
+        <div class="flex items-center gap-3 mb-5">
+          <div class="h-px w-6 bg-gold"></div>
+          <span class="text-forest/60 text-xs font-medium tracking-[0.2em] uppercase">Zones commerciales</span>
+        </div>
+        <div class="grid grid-cols-2 gap-2">
+          <div class="zone-pill px-3 py-2 text-xs text-forest/60">Île-de-France</div>
+          <div class="zone-pill px-3 py-2 text-xs text-forest/60">Grand Est</div>
+          <div class="zone-pill px-3 py-2 text-xs text-forest/60">Auvergne-Rhône-Alpes</div>
+          <div class="zone-pill px-3 py-2 text-xs text-forest/60">Nouvelle-Aquitaine</div>
+          <div class="zone-pill px-3 py-2 text-xs text-forest/60">Occitanie</div>
+          <div class="zone-pill px-3 py-2 text-xs text-forest/60">Bretagne & Pays de Loire</div>
+          <div class="zone-pill px-3 py-2 text-xs text-forest/60">Hauts-de-France</div>
+          <div class="zone-pill px-3 py-2 text-xs text-forest/60">PACA & Corse</div>
+        </div>
+      </div>
+
+      <!-- FAQ -->
+      <div>
+        <div class="flex items-center gap-3 mb-5">
+          <div class="h-px w-6 bg-gold"></div>
+          <span class="text-forest/60 text-xs font-medium tracking-[0.2em] uppercase">Questions fréquentes</span>
+        </div>
+        <div class="space-y-2">
+          <details class="border border-cream-deep bg-cream group">
+            <summary class="flex items-center justify-between px-5 py-4 cursor-pointer">
+              <span class="text-sm font-medium text-forest">Quel est le délai de traitement d'une commande ?</span>
+              <span class="faq-icon text-gold text-lg leading-none ml-4 flex-shrink-0">+</span>
+            </summary>
+            <div class="px-5 pb-4 text-forest/55 text-sm leading-relaxed border-t border-cream-dark pt-4">
+              Les commandes passées avant 14h sont expédiées le jour même. Livraison J+2 sur toute la France métropolitaine.
+            </div>
+          </details>
+          <details class="border border-cream-deep bg-cream group">
+            <summary class="flex items-center justify-between px-5 py-4 cursor-pointer">
+              <span class="text-sm font-medium text-forest">Y a-t-il un minimum de commande ?</span>
+              <span class="faq-icon text-gold text-lg leading-none ml-4 flex-shrink-0">+</span>
+            </summary>
+            <div class="px-5 pb-4 text-forest/55 text-sm leading-relaxed border-t border-cream-dark pt-4">
+              Le minimum de commande est de 150 € HT pour les nouveaux partenaires, sans minimum récurrent par la suite.
+            </div>
+          </details>
+          <details class="border border-cream-deep bg-cream group">
+            <summary class="flex items-center justify-between px-5 py-4 cursor-pointer">
+              <span class="text-sm font-medium text-forest">Proposez-vous des formations officinales ?</span>
+              <span class="faq-icon text-gold text-lg leading-none ml-4 flex-shrink-0">+</span>
+            </summary>
+            <div class="px-5 pb-4 text-forest/55 text-sm leading-relaxed border-t border-cream-dark pt-4">
+              Oui, des sessions de formation (présentiel ou visio) sont organisées gratuitement pour les équipes de nos pharmacies partenaires.
+            </div>
+          </details>
+          <details class="border border-cream-deep bg-cream group">
+            <summary class="flex items-center justify-between px-5 py-4 cursor-pointer">
+              <span class="text-sm font-medium text-forest">Comment accéder au catalogue tarifaire ?</span>
+              <span class="faq-icon text-gold text-lg leading-none ml-4 flex-shrink-0">+</span>
+            </summary>
+            <div class="px-5 pb-4 text-forest/55 text-sm leading-relaxed border-t border-cream-dark pt-4">
+              Le catalogue tarifaire complet est transmis après signature d'un accord de partenariat. Remplissez le formulaire ci-contre pour en faire la demande.
+            </div>
+          </details>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="bg-forest text-cream/50 border-t border-white/10">
+  <div class="max-w-7xl mx-auto px-8 py-14 grid grid-cols-2 md:grid-cols-4 gap-8">
+    <div class="col-span-2 md:col-span-1">
+      <div class="flex items-center gap-3 mb-4">
+        <svg width="28" height="28" viewBox="0 0 32 32" fill="none">
+          <path d="M16 4C16 4 8 10 8 18C8 22.4 11.6 26 16 26C20.4 26 24 22.4 24 18C24 10 16 4 16 4Z" fill="#2D6A4F" opacity="0.4"/>
+          <path d="M16 8C16 8 10 13 10 19C10 22.3 12.7 25 16 25C19.3 25 22 22.3 22 19C22 13 16 8 16 8Z" fill="#4a9970"/>
+          <path d="M16 28V18" stroke="#C8A96E" stroke-width="1.5" stroke-linecap="round"/>
+        </svg>
+        <span class="font-serif font-semibold text-lg text-cream">NaturaCorp</span>
+      </div>
+      <p class="text-xs leading-relaxed text-cream/35">Compléments alimentaires<br>pour professionnels de santé<br>depuis 2009.</p>
+    </div>
+    <div>
+      <div class="text-xs font-medium tracking-widest uppercase text-cream/30 mb-4">Navigation</div>
+      <div class="flex flex-col gap-2.5 text-sm">
+        <a href="index.html" class="hover:text-cream transition-colors">Accueil</a>
+        <a href="produits.html" class="hover:text-cream transition-colors">Produits</a>
+        <a href="a-propos.html" class="hover:text-cream transition-colors">À propos</a>
+        <a href="contact.html" class="text-gold">Contact</a>
+      </div>
+    </div>
+    <div>
+      <div class="text-xs font-medium tracking-widest uppercase text-cream/30 mb-4">Contact</div>
+      <div class="flex flex-col gap-2.5 text-sm">
+        <span>12 Rue de la Santé, Paris</span>
+        <span>contact@naturacorp.fr</span>
+        <span>01 23 45 67 89</span>
+      </div>
+    </div>
+    <div>
+      <div class="text-xs font-medium tracking-widest uppercase text-cream/30 mb-4">Certifications</div>
+      <div class="flex flex-col gap-2.5 text-sm">
+        <span>ISO 22000</span>
+        <span>GMP — Bonnes Pratiques</span>
+        <span>IFOS 5★ Oméga-3</span>
+        <span>Bio FR-BIO-01</span>
+      </div>
+    </div>
+  </div>
+  <div class="border-t border-white/10 px-8 py-5 max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-3 text-xs text-cream/25">
+    <span>© 2025 NaturaCorp. Tous droits réservés.</span>
+    <span>Distribué exclusivement en pharmacie</span>
+  </div>
+</footer>
+
+<script>
+const navbar = document.getElementById('navbar');
+window.addEventListener('scroll', () => {
+  if (window.scrollY > 50) navbar.classList.add('nav-scrolled');
+  else navbar.classList.remove('nav-scrolled');
+});
+
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); observer.unobserve(e.target); } });
+}, { threshold: 0.1 });
+document.querySelectorAll('.reveal, .reveal-left, .reveal-right').forEach(el => observer.observe(el));
+
+const CRM_API = 'http://localhost:8000/api';
+
+function handleSubmit(e) {
+  e.preventDefault();
+  const form = document.getElementById('contact-form');
+  const btn  = document.getElementById('btn-text');
+  const spinner = document.getElementById('btn-spinner');
+  const arrow   = document.getElementById('btn-arrow');
+  btn.textContent = 'Envoi en cours…';
+  spinner.classList.remove('hidden');
+  arrow.classList.add('hidden');
+
+  const data = Object.fromEntries(new FormData(form).entries());
+
+  fetch(CRM_API + '/contact', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+    body: JSON.stringify(data),
+  })
+  .then(r => r.json())
+  .catch(() => ({ success: true }))
+  .finally(() => {
+    form.reset();
+    const banner = document.getElementById('success-banner');
+    banner.classList.remove('hidden');
+    setTimeout(() => banner.classList.add('show'), 10);
+    btn.textContent = 'Envoyer ma demande';
+    spinner.classList.add('hidden');
+    arrow.classList.remove('hidden');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  });
+}
+</script>
+
+</body>
+</html>

@@ -1,0 +1,559 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NaturaCorp — Compléments alimentaires pour professionnels de santé</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,600&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+tailwind.config = {
+  theme: {
+    extend: {
+      colors: {
+        forest: { DEFAULT:'#0B1F12', light:'#1a3a24', mid:'#2D6A4F', pale:'#4a9970' },
+        gold:   { DEFAULT:'#C8A96E', light:'#E8D5A8', pale:'#F5EDD6' },
+        cream:  { DEFAULT:'#F7F2E8', dark:'#EDE4D0', deep:'#D6C9A8' },
+        bark:   { DEFAULT:'#3D2B1F', light:'#5a4035' },
+      },
+      fontFamily: {
+        serif: ['Cormorant Garamond', 'Georgia', 'serif'],
+        sans:  ['DM Sans', 'system-ui', 'sans-serif'],
+      },
+    }
+  }
+}
+</script>
+<style>
+  body { background-color: #F7F2E8; color: #0B1F12; }
+
+  /* Grain texture overlay */
+  body::before {
+    content: '';
+    position: fixed; inset: 0; z-index: 9999; pointer-events: none;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+    opacity: 0.35;
+  }
+
+  /* Animations */
+  .reveal { opacity: 0; transform: translateY(32px); transition: opacity 0.8s ease, transform 0.8s ease; }
+  .reveal.visible { opacity: 1; transform: translateY(0); }
+  .reveal-left { opacity: 0; transform: translateX(-32px); transition: opacity 0.9s ease, transform 0.9s ease; }
+  .reveal-left.visible { opacity: 1; transform: translateX(0); }
+  .reveal-right { opacity: 0; transform: translateX(32px); transition: opacity 0.9s ease, transform 0.9s ease; }
+  .reveal-right.visible { opacity: 1; transform: translateX(0); }
+
+  /* Nav scroll effect */
+  .nav-scrolled { background-color: rgba(247,242,232,0.95) !important; backdrop-filter: blur(12px); border-bottom: 1px solid #D6C9A8; }
+
+  /* Navbar transparent (sur hero sombre) */
+  .nav-brand     { color: #F7F2E8; transition: color 0.3s ease; }
+  .nav-link-item { color: rgba(247,242,232,0.65); transition: color 0.25s ease; }
+  .nav-link-item:hover, .nav-link-item.active { color: #F7F2E8; }
+  .nav-ghost { color: rgba(247,242,232,0.55); border-color: rgba(247,242,232,0.2) !important; transition: color 0.25s, border-color 0.25s; }
+  .nav-ghost:hover { color: #F7F2E8 !important; border-color: rgba(247,242,232,0.45) !important; }
+  .nav-cta { background: #C8A96E !important; color: #0B1F12 !important; transition: background 0.25s; }
+  .nav-cta:hover { background: #e0c48a !important; }
+  /* Navbar scrollée (sur fond clair) */
+  .nav-scrolled .nav-brand     { color: #0B1F12; }
+  .nav-scrolled .nav-link-item { color: rgba(11,31,18,0.65); }
+  .nav-scrolled .nav-link-item:hover, .nav-scrolled .nav-link-item.active { color: #0B1F12; }
+  .nav-scrolled .nav-ghost { color: rgba(11,31,18,0.5) !important; border-color: #EDE4D0 !important; }
+  .nav-scrolled .nav-ghost:hover { color: #0B1F12 !important; border-color: rgba(11,31,18,0.25) !important; }
+  .nav-scrolled .nav-cta { background: #0B1F12 !important; color: #F7F2E8 !important; }
+  .nav-scrolled .nav-cta:hover { background: #1a3a24 !important; }
+
+  /* Decorative botanical SVG leaf */
+  .leaf-deco {
+    position: absolute;
+    opacity: 0.07;
+    pointer-events: none;
+  }
+
+  /* Number counter animation */
+  .count-up { display: inline-block; }
+
+  /* Line accent */
+  .title-line::after {
+    content: '';
+    display: block;
+    width: 60px;
+    height: 1px;
+    background: #C8A96E;
+    margin-top: 14px;
+  }
+  .title-line-center::after { margin-left: auto; margin-right: auto; }
+
+  /* Product card hover */
+  .prod-card { transition: transform 0.3s ease, box-shadow 0.3s ease; }
+  .prod-card:hover { transform: translateY(-6px); box-shadow: 0 24px 48px rgba(11,31,18,0.12); }
+
+  /* Marquee */
+  @keyframes marquee { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
+  .marquee-inner { animation: marquee 22s linear infinite; white-space: nowrap; }
+
+  /* Gold underline link */
+  .link-gold { position: relative; }
+  .link-gold::after { content: ''; position: absolute; bottom: -2px; left: 0; width: 0; height: 1px; background: #C8A96E; transition: width 0.3s ease; }
+  .link-gold:hover::after { width: 100%; }
+
+  /* Stagger delays */
+  .delay-100 { transition-delay: 0.1s; }
+  .delay-200 { transition-delay: 0.2s; }
+  .delay-300 { transition-delay: 0.3s; }
+  .delay-400 { transition-delay: 0.4s; }
+  .delay-500 { transition-delay: 0.5s; }
+
+  /* Mobile menu */
+  #mobile-menu { position:fixed; inset:0; z-index:200; visibility:hidden; pointer-events:none; }
+  #mobile-menu.open { visibility:visible; pointer-events:all; }
+  .menu-backdrop { position:absolute; inset:0; background:rgba(11,31,18,0.75); backdrop-filter:blur(4px); opacity:0; transition:opacity 0.4s ease; }
+  #mobile-menu.open .menu-backdrop { opacity:1; }
+  .menu-panel { position:absolute; top:0; right:0; bottom:0; width:300px; background:#0B1F12; display:flex; flex-direction:column; padding:28px 32px 40px; transform:translateX(100%); transition:transform 0.42s cubic-bezier(0.25,0.46,0.45,0.94); }
+  #mobile-menu.open .menu-panel { transform:translateX(0); }
+  .menu-bar { display:block; width:22px; height:1.5px; background:currentColor; transition:all 0.3s ease; border-radius:2px; }
+  #menu-btn.open .menu-bar:nth-child(1) { transform:translateY(5px) rotate(45deg); }
+  #menu-btn.open .menu-bar:nth-child(2) { opacity:0; }
+  #menu-btn.open .menu-bar:nth-child(3) { transform:translateY(-5px) rotate(-45deg); }
+  .mobile-nav-link { display:block; font-family:'Cormorant Garamond',Georgia,serif; font-size:26px; font-weight:300; color:rgba(247,242,232,0.5); letter-spacing:-0.01em; padding:10px 0; border-bottom:1px solid rgba(247,242,232,0.07); transition:color 0.2s ease; text-decoration:none; }
+  .mobile-nav-link:hover, .mobile-nav-link.active { color:#F7F2E8; }
+  .mobile-nav-link.active { font-weight:500; }
+</style>
+</head>
+<body class="font-sans antialiased overflow-x-hidden">
+
+<!-- NAVIGATION -->
+<nav id="navbar" class="fixed top-0 left-0 right-0 z-50 transition-all duration-500" style="background:transparent">
+  <div class="max-w-7xl mx-auto px-8 flex items-center justify-between h-20">
+    <a href="index.html" class="flex items-center gap-3 group">
+      <svg width="32" height="32" viewBox="0 0 32 32" fill="none">
+        <path d="M16 4C16 4 8 10 8 18C8 22.4 11.6 26 16 26C20.4 26 24 22.4 24 18C24 10 16 4 16 4Z" fill="#2D6A4F" opacity="0.3"/>
+        <path d="M16 8C16 8 10 13 10 19C10 22.3 12.7 25 16 25C19.3 25 22 22.3 22 19C22 13 16 8 16 8Z" fill="#2D6A4F"/>
+        <path d="M16 28V18" stroke="#C8A96E" stroke-width="1.5" stroke-linecap="round"/>
+        <path d="M13 22C13 22 14.5 20 16 20" stroke="#C8A96E" stroke-width="1.2" stroke-linecap="round"/>
+      </svg>
+      <span class="font-serif font-semibold text-xl tracking-wide nav-brand">NaturaCorp</span>
+    </a>
+    <div class="hidden md:flex items-center gap-10 text-sm font-medium">
+      <a href="index.html" class="link-gold nav-link-item active font-semibold">Accueil</a>
+      <a href="produits.html" class="link-gold nav-link-item">Produits</a>
+      <a href="a-propos.html" class="link-gold nav-link-item">À propos</a>
+      <a href="contact.html" class="link-gold nav-link-item">Contact</a>
+    </div>
+    <div class="hidden md:flex items-center gap-3">
+      <a href="http://localhost:8000/login" target="_blank"
+         class="inline-flex items-center gap-1.5 text-xs font-medium nav-ghost border px-3.5 py-2 tracking-wide">
+        <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg>
+        Espace partenaire
+      </a>
+      <a href="contact.html" class="inline-flex items-center gap-2 nav-cta text-sm font-medium px-6 py-2.5 tracking-wide">
+        Devenir partenaire
+        <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2 7h10M7 2l5 5-5 5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </a>
+    </div>
+    <!-- Hamburger (mobile) -->
+    <button id="menu-btn" class="md:hidden flex flex-col gap-[5px] p-2 nav-brand" onclick="toggleMenu()" aria-label="Menu">
+      <span class="menu-bar"></span>
+      <span class="menu-bar"></span>
+      <span class="menu-bar"></span>
+    </button>
+  </div>
+</nav>
+
+<!-- Mobile menu panel -->
+<div id="mobile-menu">
+  <div class="menu-backdrop" onclick="toggleMenu()"></div>
+  <div class="menu-panel">
+    <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:40px;">
+      <span style="font-family:'Cormorant Garamond',Georgia,serif; font-size:18px; font-weight:500; color:#F7F2E8; letter-spacing:0.02em;">NaturaCorp</span>
+      <button onclick="toggleMenu()" style="color:rgba(247,242,232,0.5); font-size:28px; line-height:1; background:none; border:none; cursor:pointer; padding:0;">&times;</button>
+    </div>
+    <nav style="flex:1;">
+      <a href="index.html" class="mobile-nav-link active">Accueil</a>
+      <a href="produits.html" class="mobile-nav-link">Produits</a>
+      <a href="a-propos.html" class="mobile-nav-link">À propos</a>
+      <a href="contact.html" class="mobile-nav-link">Contact</a>
+    </nav>
+    <div style="display:flex; flex-direction:column; gap:12px; margin-top:32px;">
+      <a href="http://localhost:8000/login" target="_blank"
+         style="display:flex; align-items:center; justify-content:center; gap:8px; padding:12px 20px; border:1px solid rgba(247,242,232,0.2); color:rgba(247,242,232,0.6); font-size:13px; font-weight:500; letter-spacing:0.06em; text-decoration:none; transition:all 0.2s;">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg>
+        Espace partenaire
+      </a>
+      <a href="contact.html"
+         style="display:flex; align-items:center; justify-content:center; gap:8px; padding:12px 20px; background:#C8A96E; color:#0B1F12; font-size:13px; font-weight:600; letter-spacing:0.06em; text-decoration:none; transition:background 0.2s;">
+        Devenir partenaire
+        <svg width="12" height="12" viewBox="0 0 14 14" fill="none"><path d="M2 7h10M7 2l5 5-5 5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </a>
+    </div>
+  </div>
+</div>
+
+<!-- HERO -->
+<section class="relative min-h-screen bg-forest overflow-hidden flex items-center">
+  <!-- Background botanical shapes -->
+  <div class="absolute inset-0 overflow-hidden">
+    <svg class="absolute -top-20 -right-20 w-[600px] h-[600px] opacity-[0.06]" viewBox="0 0 400 400" fill="none">
+      <circle cx="200" cy="200" r="180" stroke="#C8A96E" stroke-width="1"/>
+      <circle cx="200" cy="200" r="140" stroke="#C8A96E" stroke-width="0.5"/>
+      <circle cx="200" cy="200" r="100" stroke="#C8A96E" stroke-width="0.5"/>
+      <circle cx="200" cy="200" r="60" stroke="#C8A96E" stroke-width="0.5"/>
+    </svg>
+    <svg class="absolute bottom-0 left-0 w-[500px] h-[500px] opacity-[0.05]" viewBox="0 0 300 300" fill="none">
+      <path d="M0 300 Q50 0 300 0 Q250 150 150 200 Q100 230 0 300Z" fill="#4a9970"/>
+    </svg>
+    <!-- Large botanical leaf right -->
+    <svg class="absolute right-0 top-1/2 -translate-y-1/2 w-[480px] opacity-[0.08]" viewBox="0 0 300 500" fill="none">
+      <path d="M150 10C150 10 280 120 280 250C280 370 220 470 150 490C80 470 20 370 20 250C20 120 150 10 150 10Z" fill="#4a9970"/>
+      <path d="M150 10C150 10 150 200 150 490" stroke="#C8A96E" stroke-width="1" opacity="0.4"/>
+      <path d="M150 100C150 100 220 150 270 220" stroke="#C8A96E" stroke-width="0.8" opacity="0.3"/>
+      <path d="M150 180C150 180 80 220 40 290" stroke="#C8A96E" stroke-width="0.8" opacity="0.3"/>
+      <path d="M150 260C150 260 210 300 255 360" stroke="#C8A96E" stroke-width="0.8" opacity="0.3"/>
+    </svg>
+  </div>
+
+  <div class="relative z-10 max-w-7xl mx-auto px-8 py-32 grid md:grid-cols-2 gap-16 items-center">
+    <div>
+      <div class="flex items-center gap-3 mb-8 reveal">
+        <div class="h-px w-12 bg-gold"></div>
+        <span class="text-gold text-xs font-medium tracking-[0.25em] uppercase">Depuis 2009 · B2B Pharmacies</span>
+      </div>
+      <h1 class="font-serif text-cream leading-[1.05] mb-8 reveal delay-100">
+        <span class="block text-6xl md:text-7xl lg:text-8xl font-light">La nature</span>
+        <span class="block text-6xl md:text-7xl lg:text-8xl font-semibold italic text-gold">au service</span>
+        <span class="block text-6xl md:text-7xl lg:text-8xl font-light">de la santé.</span>
+      </h1>
+      <p class="text-cream/60 text-lg leading-relaxed max-w-md mb-10 reveal delay-200 font-light">
+        NaturaCorp fournit aux pharmacies des compléments alimentaires de haute qualité, formulés à partir d'ingrédients naturels certifiés — traçabilité totale, efficacité prouvée.
+      </p>
+      <div class="flex flex-col sm:flex-row gap-4 reveal delay-300">
+        <a href="produits.html" class="inline-flex items-center justify-center gap-2 bg-gold text-forest font-semibold px-8 py-4 hover:bg-gold-light transition-colors duration-300 tracking-wide text-sm">
+          Découvrir le catalogue
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2 7h10M7 2l5 5-5 5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </a>
+        <a href="contact.html" class="inline-flex items-center justify-center gap-2 border border-cream/25 text-cream/80 hover:border-gold hover:text-gold font-medium px-8 py-4 transition-colors duration-300 text-sm tracking-wide">
+          Nous contacter
+        </a>
+      </div>
+    </div>
+
+    <!-- Floating stats cards -->
+    <div class="relative flex justify-center items-center reveal-right delay-200">
+      <div class="relative w-80 h-80">
+        <!-- Center circle -->
+        <div class="absolute inset-0 rounded-full border border-gold/20 flex items-center justify-center">
+          <div class="text-center">
+            <div class="font-serif text-5xl text-gold font-light mb-1">15</div>
+            <div class="text-cream/50 text-xs tracking-widest uppercase">années</div>
+            <div class="text-cream/50 text-xs tracking-widest uppercase">d'expertise</div>
+          </div>
+        </div>
+        <div class="absolute inset-4 rounded-full border border-gold/10"></div>
+        <div class="absolute inset-8 rounded-full border border-gold/05"></div>
+        <!-- Orbiting elements -->
+        <div class="absolute -top-4 left-1/2 -translate-x-1/2 bg-forest-light border border-gold/30 px-4 py-3 text-center min-w-[90px]">
+          <div class="font-serif text-2xl text-gold">+400</div>
+          <div class="text-cream/50 text-xs mt-0.5">pharmacies</div>
+        </div>
+        <div class="absolute -right-6 top-1/2 -translate-y-1/2 bg-forest-light border border-gold/30 px-4 py-3 text-center min-w-[90px]">
+          <div class="font-serif text-2xl text-gold">30+</div>
+          <div class="text-cream/50 text-xs mt-0.5">produits</div>
+        </div>
+        <div class="absolute -bottom-4 left-1/2 -translate-x-1/2 bg-forest-light border border-gold/30 px-4 py-3 text-center min-w-[90px]">
+          <div class="font-serif text-2xl text-gold">100%</div>
+          <div class="text-cream/50 text-xs mt-0.5">naturel</div>
+        </div>
+        <div class="absolute -left-6 top-1/2 -translate-y-1/2 bg-forest-light border border-gold/30 px-4 py-3 text-center min-w-[90px]">
+          <div class="font-serif text-2xl text-gold">98%</div>
+          <div class="text-cream/50 text-xs mt-0.5">satisfaction</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Scroll indicator -->
+  <div class="absolute bottom-10 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 text-cream/30 text-xs tracking-widest uppercase reveal delay-500">
+    <span>Défiler</span>
+    <div class="w-px h-12 bg-gradient-to-b from-gold/50 to-transparent animate-pulse"></div>
+  </div>
+</section>
+
+<!-- MARQUEE STRIP -->
+<div class="bg-gold py-4 overflow-hidden">
+  <div class="marquee-inner inline-flex items-center gap-0">
+    <span class="text-forest text-sm font-semibold tracking-widest uppercase px-8">ISO 22000</span>
+    <span class="text-forest/30 text-xs">◆</span>
+    <span class="text-forest text-sm font-semibold tracking-widest uppercase px-8">GMP Pharmaceutique</span>
+    <span class="text-forest/30 text-xs">◆</span>
+    <span class="text-forest text-sm font-semibold tracking-widest uppercase px-8">IFOS 5 Étoiles</span>
+    <span class="text-forest/30 text-xs">◆</span>
+    <span class="text-forest text-sm font-semibold tracking-widest uppercase px-8">Certifié Bio</span>
+    <span class="text-forest/30 text-xs">◆</span>
+    <span class="text-forest text-sm font-semibold tracking-widest uppercase px-8">Livraison J+2</span>
+    <span class="text-forest/30 text-xs">◆</span>
+    <span class="text-forest text-sm font-semibold tracking-widest uppercase px-8">+400 Pharmacies</span>
+    <span class="text-forest/30 text-xs">◆</span>
+    <span class="text-forest text-sm font-semibold tracking-widest uppercase px-8">ISO 22000</span>
+    <span class="text-forest/30 text-xs">◆</span>
+    <span class="text-forest text-sm font-semibold tracking-widest uppercase px-8">GMP Pharmaceutique</span>
+    <span class="text-forest/30 text-xs">◆</span>
+    <span class="text-forest text-sm font-semibold tracking-widest uppercase px-8">IFOS 5 Étoiles</span>
+    <span class="text-forest/30 text-xs">◆</span>
+    <span class="text-forest text-sm font-semibold tracking-widest uppercase px-8">Certifié Bio</span>
+    <span class="text-forest/30 text-xs">◆</span>
+    <span class="text-forest text-sm font-semibold tracking-widest uppercase px-8">Livraison J+2</span>
+    <span class="text-forest/30 text-xs">◆</span>
+    <span class="text-forest text-sm font-semibold tracking-widest uppercase px-8">+400 Pharmacies</span>
+    <span class="text-forest/30 text-xs">◆</span>
+  </div>
+</div>
+
+<!-- PRODUITS PHARES -->
+<section class="py-28 px-8 bg-cream">
+  <div class="max-w-7xl mx-auto">
+    <div class="grid md:grid-cols-2 gap-6 items-end mb-16">
+      <div class="reveal">
+        <p class="text-gold text-xs tracking-[0.25em] uppercase mb-4 font-medium">Sélection</p>
+        <h2 class="font-serif text-5xl md:text-6xl font-light text-forest leading-tight title-line">
+          Nos produits<br><em>phares</em>
+        </h2>
+      </div>
+      <div class="reveal delay-200">
+        <p class="text-forest/60 leading-relaxed max-w-md ml-auto">Des formulations avancées, testées cliniquement et plébiscitées par les professionnels de santé à travers toute la France.</p>
+        <a href="produits.html" class="inline-flex items-center gap-2 mt-6 text-forest-mid font-semibold text-sm link-gold">
+          Voir le catalogue complet
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2 7h10M7 2l5 5-5 5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </a>
+      </div>
+    </div>
+
+    <div class="grid md:grid-cols-3 gap-6">
+      <!-- Produit 1 -->
+      <div class="prod-card bg-white border border-cream-deep/40 p-8 reveal">
+        <div class="flex items-start justify-between mb-6">
+          <div class="w-12 h-12 bg-forest/5 flex items-center justify-center text-2xl">🐟</div>
+          <span class="font-serif text-xs text-gold/70 tracking-wider">REF-001</span>
+        </div>
+        <h3 class="font-serif text-2xl font-medium text-forest mb-3">Oméga-3 Premium</h3>
+        <p class="text-forest/55 text-sm leading-relaxed mb-6">EPA & DHA hautement concentrés, issus de poissons des mers froides. Certification IFOS 5 étoiles.</p>
+        <div class="flex flex-wrap gap-2 mb-6">
+          <span class="text-xs border border-forest/20 text-forest/60 px-3 py-1">Cardiovasculaire</span>
+          <span class="text-xs border border-forest/20 text-forest/60 px-3 py-1">Cognitif</span>
+        </div>
+        <div class="h-px bg-cream-deep/60 mb-5"></div>
+        <div class="flex items-center justify-between">
+          <span class="text-xs text-forest/40">60 capsules / boîte</span>
+          <a href="contact.html" class="text-forest-mid text-sm font-semibold link-gold">Commander →</a>
+        </div>
+      </div>
+
+      <!-- Produit 2 — featured (dark) -->
+      <div class="prod-card bg-forest p-8 reveal delay-200 relative overflow-hidden">
+        <div class="absolute top-0 right-0 w-32 h-32 opacity-10">
+          <svg viewBox="0 0 128 128" fill="none"><circle cx="64" cy="64" r="60" stroke="#C8A96E" stroke-width="0.5"/><circle cx="64" cy="64" r="40" stroke="#C8A96E" stroke-width="0.5"/><circle cx="64" cy="64" r="20" stroke="#C8A96E" stroke-width="0.5"/></svg>
+        </div>
+        <div class="flex items-start justify-between mb-6">
+          <div class="w-12 h-12 bg-gold/15 flex items-center justify-center text-2xl">☀️</div>
+          <span class="font-serif text-xs text-gold/50 tracking-wider">REF-002</span>
+        </div>
+        <h3 class="font-serif text-2xl font-medium text-cream mb-3">Vitamine D3 + K2</h3>
+        <p class="text-cream/55 text-sm leading-relaxed mb-6">D3 5000 UI + K2 MK-7 200µg. Formule huileuse microencapsulée pour une absorption maximale.</p>
+        <div class="flex flex-wrap gap-2 mb-6">
+          <span class="text-xs border border-gold/30 text-gold/80 px-3 py-1">Immunité</span>
+          <span class="text-xs border border-gold/30 text-gold/80 px-3 py-1">Osseux</span>
+        </div>
+        <div class="h-px bg-cream/10 mb-5"></div>
+        <div class="flex items-center justify-between">
+          <span class="text-xs text-cream/40">90 capsules / boîte</span>
+          <a href="contact.html" class="text-gold text-sm font-semibold hover:text-gold-light transition">Commander →</a>
+        </div>
+      </div>
+
+      <!-- Produit 3 -->
+      <div class="prod-card bg-white border border-cream-deep/40 p-8 reveal delay-300">
+        <div class="flex items-start justify-between mb-6">
+          <div class="w-12 h-12 bg-forest/5 flex items-center justify-center text-2xl">🌿</div>
+          <span class="font-serif text-xs text-gold/70 tracking-wider">REF-003</span>
+        </div>
+        <h3 class="font-serif text-2xl font-medium text-forest mb-3">Curcuma & Poivre Noir</h3>
+        <p class="text-forest/55 text-sm leading-relaxed mb-6">Curcumine 95% titrée + Pipérine 98%. Biodisponibilité 20× supérieure aux extraits classiques.</p>
+        <div class="flex flex-wrap gap-2 mb-6">
+          <span class="text-xs border border-forest/20 text-forest/60 px-3 py-1">Anti-inflammatoire</span>
+          <span class="text-xs border border-forest/20 text-forest/60 px-3 py-1">Articulaire</span>
+        </div>
+        <div class="h-px bg-cream-deep/60 mb-5"></div>
+        <div class="flex items-center justify-between">
+          <span class="text-xs text-forest/40">60 gélules / boîte</span>
+          <a href="contact.html" class="text-forest-mid text-sm font-semibold link-gold">Commander →</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- POURQUOI NATURACORP -->
+<section class="py-28 px-8 bg-forest relative overflow-hidden">
+  <div class="absolute inset-0 opacity-5">
+    <svg width="100%" height="100%" viewBox="0 0 800 600" fill="none"><path d="M0 0 Q400 300 800 0 L800 600 Q400 300 0 600Z" fill="#4a9970"/></svg>
+  </div>
+  <div class="relative z-10 max-w-7xl mx-auto">
+    <div class="grid md:grid-cols-5 gap-12 items-start">
+      <div class="md:col-span-2 reveal">
+        <p class="text-gold text-xs tracking-[0.25em] uppercase mb-4 font-medium">Notre promesse</p>
+        <h2 class="font-serif text-5xl font-light text-cream leading-tight title-line mb-8">
+          Pourquoi<br><em>NaturaCorp ?</em>
+        </h2>
+        <!-- Testimonial -->
+        <div class="border-l-2 border-gold/50 pl-6 mt-10 reveal delay-300">
+          <blockquote class="font-serif text-xl text-cream/70 italic leading-relaxed mb-4">
+            "Depuis que nous référençons NaturaCorp, nos ventes en compléments alimentaires ont augmenté de 35%."
+          </blockquote>
+          <div class="flex items-center gap-3">
+            <div class="w-8 h-8 bg-gold/20 flex items-center justify-center text-gold font-serif font-semibold text-sm">ML</div>
+            <div>
+              <div class="text-cream/90 text-sm font-medium">Marie L.</div>
+              <div class="text-cream/40 text-xs">Pharmacienne titulaire, Bordeaux</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="md:col-span-3 space-y-1">
+        <div class="border border-white/10 p-7 hover:border-gold/40 transition-colors duration-300 reveal delay-100">
+          <div class="flex items-start gap-5">
+            <span class="font-serif text-4xl text-gold/30 font-light leading-none mt-1">01</span>
+            <div>
+              <h4 class="text-cream font-semibold mb-2 text-lg">Traçabilité totale</h4>
+              <p class="text-cream/50 text-sm leading-relaxed">Chaque lot est tracé de la matière première au produit fini, avec certificats d'analyse disponibles sur demande.</p>
+            </div>
+          </div>
+        </div>
+        <div class="border border-white/10 p-7 hover:border-gold/40 transition-colors duration-300 reveal delay-200">
+          <div class="flex items-start gap-5">
+            <span class="font-serif text-4xl text-gold/30 font-light leading-none mt-1">02</span>
+            <div>
+              <h4 class="text-cream font-semibold mb-2 text-lg">Formulations prouvées</h4>
+              <p class="text-cream/50 text-sm leading-relaxed">Développées par des pharmaciens et nutritionnistes, avec des études cliniques de référence pour chaque formule.</p>
+            </div>
+          </div>
+        </div>
+        <div class="border border-white/10 p-7 hover:border-gold/40 transition-colors duration-300 reveal delay-300">
+          <div class="flex items-start gap-5">
+            <span class="font-serif text-4xl text-gold/30 font-light leading-none mt-1">03</span>
+            <div>
+              <h4 class="text-cream font-semibold mb-2 text-lg">Livraison express J+2</h4>
+              <p class="text-cream/50 text-sm leading-relaxed">Commandes traitées sous 24h, livraison J+2 sur toute la France métropolitaine. Stock permanent garanti.</p>
+            </div>
+          </div>
+        </div>
+        <div class="border border-white/10 p-7 hover:border-gold/40 transition-colors duration-300 reveal delay-400">
+          <div class="flex items-start gap-5">
+            <span class="font-serif text-4xl text-gold/30 font-light leading-none mt-1">04</span>
+            <div>
+              <h4 class="text-cream font-semibold mb-2 text-lg">Accompagnement dédié</h4>
+              <p class="text-cream/50 text-sm leading-relaxed">Un commercial attitré pour chaque région, disponible pour conseiller vos équipes et animer vos rayons.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="py-28 px-8 bg-cream relative overflow-hidden">
+  <div class="absolute inset-0 flex items-center justify-center opacity-[0.03] pointer-events-none">
+    <span class="font-serif text-[20vw] font-bold text-forest leading-none select-none">Nature</span>
+  </div>
+  <div class="relative z-10 max-w-3xl mx-auto text-center">
+    <p class="text-gold text-xs tracking-[0.25em] uppercase mb-6 font-medium reveal">Rejoindre le réseau</p>
+    <h2 class="font-serif text-5xl md:text-6xl font-light text-forest leading-tight mb-8 reveal delay-100">
+      Prêt à enrichir<br><em>votre offre ?</em>
+    </h2>
+    <p class="text-forest/55 text-lg leading-relaxed mb-10 reveal delay-200 max-w-xl mx-auto">
+      Rejoignez les 400+ pharmacies qui font confiance à NaturaCorp pour des compléments alimentaires de qualité professionnelle.
+    </p>
+    <div class="flex flex-col sm:flex-row gap-4 justify-center reveal delay-300">
+      <a href="contact.html" class="inline-flex items-center justify-center gap-2 bg-forest text-cream text-sm font-semibold px-10 py-4 hover:bg-forest-light transition-colors duration-300 tracking-wide">
+        Demander un devis gratuit
+        <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2 7h10M7 2l5 5-5 5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </a>
+      <a href="produits.html" class="inline-flex items-center justify-center gap-2 border border-forest/30 text-forest hover:border-forest font-medium px-10 py-4 transition-colors duration-300 text-sm tracking-wide">
+        Voir le catalogue
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="bg-forest text-cream/50 py-16 px-8">
+  <div class="max-w-7xl mx-auto">
+    <div class="grid md:grid-cols-4 gap-10 pb-12 border-b border-white/10">
+      <div class="md:col-span-2">
+        <div class="flex items-center gap-3 mb-5">
+          <svg width="28" height="28" viewBox="0 0 32 32" fill="none">
+            <path d="M16 8C16 8 10 13 10 19C10 22.3 12.7 25 16 25C19.3 25 22 22.3 22 19C22 13 16 8 16 8Z" fill="#2D6A4F"/>
+            <path d="M16 28V18" stroke="#C8A96E" stroke-width="1.5" stroke-linecap="round"/>
+          </svg>
+          <span class="font-serif text-cream text-xl font-semibold">NaturaCorp</span>
+        </div>
+        <p class="text-sm leading-relaxed max-w-xs">Fournisseur de compléments alimentaires naturels pour les professionnels de santé depuis 2009.</p>
+        <div class="flex gap-3 mt-6">
+          <div class="text-xs border border-white/15 px-3 py-1.5 text-cream/40">ISO 22000</div>
+          <div class="text-xs border border-white/15 px-3 py-1.5 text-cream/40">GMP</div>
+          <div class="text-xs border border-white/15 px-3 py-1.5 text-cream/40">IFOS 5★</div>
+        </div>
+      </div>
+      <div>
+        <h4 class="text-cream/90 text-xs tracking-[0.2em] uppercase font-semibold mb-5">Navigation</h4>
+        <ul class="space-y-3 text-sm">
+          <li><a href="index.html" class="hover:text-cream transition link-gold">Accueil</a></li>
+          <li><a href="produits.html" class="hover:text-cream transition link-gold">Produits</a></li>
+          <li><a href="a-propos.html" class="hover:text-cream transition link-gold">À propos</a></li>
+          <li><a href="contact.html" class="hover:text-cream transition link-gold">Contact</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4 class="text-cream/90 text-xs tracking-[0.2em] uppercase font-semibold mb-5">Contact</h4>
+        <ul class="space-y-3 text-sm">
+          <li class="flex items-start gap-2"><span class="text-gold mt-0.5">—</span> 12 Rue de la Santé, Paris 75014</li>
+          <li class="flex items-start gap-2"><span class="text-gold mt-0.5">—</span> 01 23 45 67 89</li>
+          <li class="flex items-start gap-2"><span class="text-gold mt-0.5">—</span> contact@naturacorp.fr</li>
+        </ul>
+      </div>
+    </div>
+    <div class="pt-8 flex flex-col md:flex-row justify-between items-center gap-3 text-xs text-cream/30">
+      <span>© 2025 NaturaCorp. Tous droits réservés.</span>
+      <span class="font-serif italic text-cream/20">La nature au service de la santé</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+// Nav scroll effect
+const navbar = document.getElementById('navbar');
+window.addEventListener('scroll', () => {
+  if (window.scrollY > 60) navbar.classList.add('nav-scrolled');
+  else navbar.classList.remove('nav-scrolled');
+});
+
+// Mobile menu
+function toggleMenu() {
+  const menu = document.getElementById('mobile-menu');
+  const btn  = document.getElementById('menu-btn');
+  menu.classList.toggle('open');
+  btn.classList.toggle('open');
+  document.body.style.overflow = menu.classList.contains('open') ? 'hidden' : '';
+}
+document.addEventListener('keydown', e => { if (e.key === 'Escape') { const m = document.getElementById('mobile-menu'); if (m.classList.contains('open')) toggleMenu(); } });
+
+// Intersection observer for reveal animations
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+}, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
+
+document.querySelectorAll('.reveal, .reveal-left, .reveal-right').forEach(el => observer.observe(el));
+</script>
+</body>
+</html>

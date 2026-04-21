@@ -1,0 +1,30 @@
+# ===========================
+# CRM — Laravel
+# ===========================
+CRM/vendor/
+CRM/node_modules/
+CRM/.env
+CRM/.env.testing
+CRM/storage/logs/*.log
+CRM/storage/app/public/documents/
+CRM/bootstrap/cache/*.php
+CRM/public/hot
+CRM/public/build/
+CRM/.phpunit.result.cache
+CRM/.phpunit.cache/
+
+# ===========================
+# VITRINE — Static HTML
+# ===========================
+VITRINE/node_modules/
+
+# ===========================
+# Système / IDE
+# ===========================
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+*.swp
+*.swo
+.claude/

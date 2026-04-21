@@ -1,0 +1,456 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>À propos — NaturaCorp</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,600&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+tailwind.config = {
+  theme: {
+    extend: {
+      colors: {
+        forest: { DEFAULT:'#0B1F12', light:'#1a3a24', mid:'#2D6A4F', pale:'#4a9970' },
+        gold:   { DEFAULT:'#C8A96E', light:'#E8D5A8', pale:'#F5EDD6' },
+        cream:  { DEFAULT:'#F7F2E8', dark:'#EDE4D0', deep:'#D6C9A8' },
+        bark:   { DEFAULT:'#3D2B1F', light:'#5a4035' },
+      },
+      fontFamily: {
+        serif: ['Cormorant Garamond', 'Georgia', 'serif'],
+        sans:  ['DM Sans', 'system-ui', 'sans-serif'],
+      },
+    }
+  }
+}
+</script>
+<style>
+  body { background-color: #F7F2E8; color: #0B1F12; }
+
+  body::before {
+    content: '';
+    position: fixed; inset: 0; z-index: 9999; pointer-events: none;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+    opacity: 0.35;
+  }
+
+  .reveal { opacity: 0; transform: translateY(28px); transition: opacity 0.8s ease, transform 0.8s ease; }
+  .reveal.visible { opacity: 1; transform: translateY(0); }
+  .reveal-left { opacity: 0; transform: translateX(-28px); transition: opacity 0.9s ease, transform 0.9s ease; }
+  .reveal-left.visible { opacity: 1; transform: translateX(0); }
+  .reveal-right { opacity: 0; transform: translateX(28px); transition: opacity 0.9s ease, transform 0.9s ease; }
+  .reveal-right.visible { opacity: 1; transform: translateX(0); }
+
+  .nav-scrolled { background-color: rgba(247,242,232,0.95) !important; backdrop-filter: blur(12px); border-bottom: 1px solid #D6C9A8; }
+  .nav-brand     { color: #F7F2E8; transition: color 0.3s ease; }
+  .nav-link-item { color: rgba(247,242,232,0.65); transition: color 0.25s ease; }
+  .nav-link-item:hover, .nav-link-item.active { color: #F7F2E8; }
+  .nav-ghost { color: rgba(247,242,232,0.55); border-color: rgba(247,242,232,0.2) !important; transition: color 0.25s, border-color 0.25s; }
+  .nav-ghost:hover { color: #F7F2E8 !important; border-color: rgba(247,242,198,0.45) !important; }
+  .nav-cta { background: #C8A96E !important; color: #0B1F12 !important; transition: background 0.25s; }
+  .nav-cta:hover { background: #e0c48a !important; }
+  .nav-scrolled .nav-brand     { color: #0B1F12; }
+  .nav-scrolled .nav-link-item { color: rgba(11,31,18,0.65); }
+  .nav-scrolled .nav-link-item:hover, .nav-scrolled .nav-link-item.active { color: #0B1F12; }
+  .nav-scrolled .nav-ghost { color: rgba(11,31,18,0.5) !important; border-color: #EDE4D0 !important; }
+  .nav-scrolled .nav-ghost:hover { color: #0B1F12 !important; border-color: rgba(11,31,18,0.25) !important; }
+  .nav-scrolled .nav-cta { background: #0B1F12 !important; color: #F7F2E8 !important; }
+  .nav-scrolled .nav-cta:hover { background: #1a3a24 !important; }
+
+  .title-line::after {
+    content: '';
+    display: block;
+    width: 60px;
+    height: 1px;
+    background: #C8A96E;
+    margin-top: 14px;
+  }
+  .title-line-center::after { margin-left: auto; margin-right: auto; }
+
+  .link-gold { position: relative; }
+  .link-gold::after { content: ''; position: absolute; bottom: -2px; left: 0; width: 0; height: 1px; background: #C8A96E; transition: width 0.3s ease; }
+  .link-gold:hover::after { width: 100%; }
+
+  .delay-100 { transition-delay: 0.1s; }
+  .delay-200 { transition-delay: 0.2s; }
+  .delay-300 { transition-delay: 0.3s; }
+  .delay-400 { transition-delay: 0.4s; }
+
+  /* Timeline line */
+  .timeline-item::before {
+    content: '';
+    position: absolute;
+    left: -1px;
+    top: 0;
+    bottom: 0;
+    width: 1px;
+    background: linear-gradient(to bottom, #C8A96E, transparent);
+  }
+
+  /* Team card */
+  .team-card { transition: transform 0.3s ease, box-shadow 0.3s ease; }
+  .team-card:hover { transform: translateY(-4px); box-shadow: 0 16px 40px rgba(11,31,18,0.10); }
+
+  /* Value card hover */
+  .value-card { transition: border-color 0.3s ease; }
+  .value-card:hover { border-color: #C8A96E; }
+</style>
+</head>
+<body class="font-sans antialiased overflow-x-hidden">
+
+<!-- NAVIGATION -->
+<nav id="navbar" class="fixed top-0 left-0 right-0 z-50 transition-all duration-500" style="background:transparent">
+  <div class="max-w-7xl mx-auto px-8 flex items-center justify-between h-20">
+    <a href="index.html" class="flex items-center gap-3 group">
+      <svg width="32" height="32" viewBox="0 0 32 32" fill="none">
+        <path d="M16 4C16 4 8 10 8 18C8 22.4 11.6 26 16 26C20.4 26 24 22.4 24 18C24 10 16 4 16 4Z" fill="#2D6A4F" opacity="0.3"/>
+        <path d="M16 8C16 8 10 13 10 19C10 22.3 12.7 25 16 25C19.3 25 22 22.3 22 19C22 13 16 8 16 8Z" fill="#2D6A4F"/>
+        <path d="M16 28V18" stroke="#C8A96E" stroke-width="1.5" stroke-linecap="round"/>
+        <path d="M13 22C13 22 14.5 20 16 20" stroke="#C8A96E" stroke-width="1.2" stroke-linecap="round"/>
+      </svg>
+      <span class="font-serif font-semibold text-xl tracking-wide nav-brand">NaturaCorp</span>
+    </a>
+    <div class="hidden md:flex items-center gap-10 text-sm font-medium">
+      <a href="index.html" class="link-gold nav-link-item">Accueil</a>
+      <a href="produits.html" class="link-gold nav-link-item">Produits</a>
+      <a href="a-propos.html" class="link-gold nav-link-item active font-semibold">À propos</a>
+      <a href="contact.html" class="link-gold nav-link-item">Contact</a>
+    </div>
+    <div class="hidden md:flex items-center gap-3">
+      <a href="http://localhost:8000/login" target="_blank"
+         class="inline-flex items-center gap-1.5 text-xs font-medium nav-ghost border px-3.5 py-2 tracking-wide">
+        <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg>
+        Espace partenaire
+      </a>
+      <a href="contact.html" class="inline-flex items-center gap-2 nav-cta text-sm font-medium px-6 py-2.5 tracking-wide">
+        Devenir partenaire
+        <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2 7h10M7 2l5 5-5 5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </a>
+    </div>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="relative bg-forest overflow-hidden pt-36 pb-24 px-8">
+  <!-- Botanical background -->
+  <svg class="absolute -right-20 top-0 w-[500px] h-[500px] opacity-[0.05]" viewBox="0 0 400 400" fill="none">
+    <circle cx="200" cy="200" r="180" stroke="#C8A96E" stroke-width="1"/>
+    <circle cx="200" cy="200" r="130" stroke="#C8A96E" stroke-width="0.5"/>
+    <circle cx="200" cy="200" r="80" stroke="#C8A96E" stroke-width="0.5"/>
+  </svg>
+  <svg class="absolute left-0 bottom-0 w-[400px] opacity-[0.06]" viewBox="0 0 250 350" fill="none">
+    <path d="M125 10C125 10 220 90 220 185C220 265 180 330 125 345C70 330 30 265 30 185C30 90 125 10 125 10Z" fill="#4a9970"/>
+    <path d="M125 10C125 10 125 180 125 345" stroke="#C8A96E" stroke-width="1" opacity="0.3"/>
+    <path d="M125 80C125 80 185 120 215 170" stroke="#C8A96E" stroke-width="0.8" opacity="0.25"/>
+    <path d="M125 160C125 160 70 190 40 240" stroke="#C8A96E" stroke-width="0.8" opacity="0.25"/>
+  </svg>
+
+  <div class="relative z-10 max-w-7xl mx-auto grid md:grid-cols-2 gap-16 items-center">
+    <div>
+      <div class="flex items-center gap-3 mb-8 reveal">
+        <div class="h-px w-12 bg-gold"></div>
+        <span class="text-gold text-xs font-medium tracking-[0.25em] uppercase">Notre histoire</span>
+      </div>
+      <h1 class="font-serif text-cream leading-[1.05] mb-8 reveal delay-100">
+        <span class="block text-5xl md:text-6xl lg:text-7xl font-light">Fondée sur</span>
+        <span class="block text-5xl md:text-6xl lg:text-7xl font-semibold italic text-gold">la conviction</span>
+        <span class="block text-5xl md:text-6xl lg:text-7xl font-light">que la nature</span>
+        <span class="block text-5xl md:text-6xl lg:text-7xl font-light">soigne mieux.</span>
+      </h1>
+    </div>
+    <!-- Stats column -->
+    <div class="grid grid-cols-2 gap-4 reveal-right delay-200">
+      <div class="bg-forest-light border border-gold/20 p-6">
+        <div class="font-serif text-4xl text-gold font-light mb-1">2009</div>
+        <div class="text-cream/40 text-xs tracking-widest uppercase mt-1">Fondée</div>
+      </div>
+      <div class="bg-forest-light border border-gold/20 p-6">
+        <div class="font-serif text-4xl text-gold font-light mb-1">+400</div>
+        <div class="text-cream/40 text-xs tracking-widest uppercase mt-1">Pharmacies</div>
+      </div>
+      <div class="bg-forest-light border border-gold/20 p-6">
+        <div class="font-serif text-4xl text-gold font-light mb-1">30+</div>
+        <div class="text-cream/40 text-xs tracking-widest uppercase mt-1">Produits</div>
+      </div>
+      <div class="bg-forest-light border border-gold/20 p-6">
+        <div class="font-serif text-4xl text-gold font-light mb-1">12</div>
+        <div class="text-cream/40 text-xs tracking-widest uppercase mt-1">Commerciaux</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- HISTOIRE / TIMELINE -->
+<section class="py-24 px-8">
+  <div class="max-w-7xl mx-auto grid md:grid-cols-2 gap-20 items-start">
+    <!-- Texte -->
+    <div>
+      <div class="flex items-center gap-3 mb-6 reveal">
+        <div class="h-px w-8 bg-gold"></div>
+        <span class="text-gold/70 text-xs font-medium tracking-[0.2em] uppercase">De la conviction à l'entreprise</span>
+      </div>
+      <h2 class="font-serif text-4xl md:text-5xl font-light text-forest mb-6 title-line reveal delay-100">
+        Une exigence<br><em>pharmaceutique</em>
+      </h2>
+      <p class="text-forest/60 text-sm leading-relaxed mb-5 reveal delay-200">
+        NaturaCorp est née d'un constat simple : les compléments alimentaires disponibles en pharmacie manquaient souvent de transparence sur leurs formulations et leurs sources d'approvisionnement.
+      </p>
+      <p class="text-forest/60 text-sm leading-relaxed mb-5 reveal delay-300">
+        Fondée par une équipe de pharmaciens et de nutritionnistes, l'entreprise a développé une charte qualité exigeante, avec une traçabilité totale des ingrédients et des dosages validés par des études cliniques.
+      </p>
+      <p class="text-forest/60 text-sm leading-relaxed reveal delay-400">
+        Aujourd'hui présente dans plus de 400 pharmacies à travers la France, NaturaCorp continue d'innover avec le soutien d'un réseau de chercheurs et de professionnels de santé.
+      </p>
+    </div>
+
+    <!-- Timeline -->
+    <div class="space-y-0 pl-6 reveal-right delay-100">
+      <div class="relative timeline-item pl-8 pb-10">
+        <div class="absolute left-0 top-1 w-2 h-2 bg-gold rounded-full -translate-x-[3.5px]"></div>
+        <div class="text-gold text-sm font-semibold mb-1">2009</div>
+        <h4 class="font-serif text-lg text-forest font-medium mb-1">Fondation</h4>
+        <p class="text-forest/50 text-sm">Sophie Bernard crée NaturaCorp à Paris avec une vision : des compléments alimentaires de qualité pharmaceutique accessibles aux officines.</p>
+      </div>
+      <div class="relative timeline-item pl-8 pb-10">
+        <div class="absolute left-0 top-1 w-2 h-2 bg-gold rounded-full -translate-x-[3.5px]"></div>
+        <div class="text-gold text-sm font-semibold mb-1">2013</div>
+        <h4 class="font-serif text-lg text-forest font-medium mb-1">Certification ISO 22000</h4>
+        <p class="text-forest/50 text-sm">Obtention de la certification internationale de management de la sécurité alimentaire. 50 pharmacies partenaires franchies.</p>
+      </div>
+      <div class="relative timeline-item pl-8 pb-10">
+        <div class="absolute left-0 top-1 w-2 h-2 bg-gold rounded-full -translate-x-[3.5px]"></div>
+        <div class="text-gold text-sm font-semibold mb-1">2017</div>
+        <h4 class="font-serif text-lg text-forest font-medium mb-1">Expansion nationale</h4>
+        <p class="text-forest/50 text-sm">Ouverture de 7 nouvelles zones commerciales couvrant l'ensemble du territoire français métropolitain.</p>
+      </div>
+      <div class="relative timeline-item pl-8 pb-10">
+        <div class="absolute left-0 top-1 w-2 h-2 bg-gold rounded-full -translate-x-[3.5px]"></div>
+        <div class="text-gold text-sm font-semibold mb-1">2021</div>
+        <h4 class="font-serif text-lg text-forest font-medium mb-1">Gamme Bio lancée</h4>
+        <p class="text-forest/50 text-sm">Lancement de la première gamme certifiée Agriculture Biologique FR-BIO-01. Partenariat avec des fermes françaises engagées.</p>
+      </div>
+      <div class="relative pl-8">
+        <div class="absolute left-0 top-1 w-2 h-2 bg-gold/50 border border-gold rounded-full -translate-x-[3.5px]"></div>
+        <div class="text-gold/60 text-sm font-semibold mb-1">2024–</div>
+        <h4 class="font-serif text-lg text-forest font-medium mb-1">400+ pharmacies</h4>
+        <p class="text-forest/50 text-sm">Déploiement du CRM nouvelle génération et élargissement du réseau officinal à plus de 400 partenaires en France.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- VALEURS — DARK -->
+<section class="bg-forest py-24 px-8 relative overflow-hidden">
+  <svg class="absolute right-0 top-0 w-[400px] opacity-[0.04]" viewBox="0 0 300 300" fill="none">
+    <circle cx="150" cy="150" r="140" stroke="#C8A96E" stroke-width="1"/>
+    <circle cx="150" cy="150" r="90" stroke="#C8A96E" stroke-width="0.5"/>
+  </svg>
+  <div class="relative z-10 max-w-7xl mx-auto">
+    <div class="text-center mb-16">
+      <div class="flex items-center justify-center gap-3 mb-5 reveal">
+        <div class="h-px w-8 bg-gold"></div>
+        <span class="text-gold/70 text-xs font-medium tracking-[0.2em] uppercase">Ce qui nous guide</span>
+        <div class="h-px w-8 bg-gold"></div>
+      </div>
+      <h2 class="font-serif text-4xl md:text-5xl text-cream font-light reveal delay-100">
+        Nos <em class="text-gold italic">valeurs</em> fondamentales
+      </h2>
+    </div>
+
+    <div class="grid md:grid-cols-3 gap-6">
+      <div class="value-card border border-gold/15 p-8 reveal">
+        <div class="w-10 h-10 border border-gold/30 flex items-center justify-center mb-6">
+          <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+            <circle cx="10" cy="10" r="7" stroke="#C8A96E" stroke-width="1.2"/>
+            <path d="M7 10l2 2 4-4" stroke="#C8A96E" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </div>
+        <div class="font-serif text-2xl text-cream font-light mb-3">Science</div>
+        <p class="text-cream/45 text-sm leading-relaxed">Chaque formule est développée sur la base d'études cliniques peer-reviewed. Nous travaillons avec des experts en nutrition, pharmacologie et médecine fonctionnelle.</p>
+      </div>
+      <div class="value-card border border-gold/15 p-8 reveal delay-100">
+        <div class="w-10 h-10 border border-gold/30 flex items-center justify-center mb-6">
+          <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+            <path d="M10 3C10 3 5 7 5 12C5 14.8 7.2 17 10 17C12.8 17 15 14.8 15 12C15 7 10 3 10 3Z" stroke="#C8A96E" stroke-width="1.2"/>
+            <path d="M10 3v14" stroke="#C8A96E" stroke-width="0.8" opacity="0.4" stroke-linecap="round"/>
+          </svg>
+        </div>
+        <div class="font-serif text-2xl text-cream font-light mb-3">Responsabilité</div>
+        <p class="text-cream/45 text-sm leading-relaxed">Approvisionnement éthique, emballages recyclables, compensation carbone. Nous mesurons et réduisons activement notre impact environnemental à chaque étape.</p>
+      </div>
+      <div class="value-card border border-gold/15 p-8 reveal delay-200">
+        <div class="w-10 h-10 border border-gold/30 flex items-center justify-center mb-6">
+          <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+            <path d="M6 10C6 10 7 7 10 7C13 7 14 10 14 10C14 10 13 13 10 13C7 13 6 10 6 10Z" stroke="#C8A96E" stroke-width="1.2"/>
+            <circle cx="10" cy="10" r="8" stroke="#C8A96E" stroke-width="1.2" stroke-dasharray="2 2"/>
+          </svg>
+        </div>
+        <div class="font-serif text-2xl text-cream font-light mb-3">Partenariat</div>
+        <p class="text-cream/45 text-sm leading-relaxed">Nous ne sommes pas un simple fournisseur. Nous formons les équipes officinales, co-construisons des animations et partageons des données de vente en temps réel.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ÉQUIPE -->
+<section class="py-24 px-8">
+  <div class="max-w-7xl mx-auto">
+    <div class="mb-16">
+      <div class="flex items-center gap-3 mb-5 reveal">
+        <div class="h-px w-8 bg-gold"></div>
+        <span class="text-gold/70 text-xs font-medium tracking-[0.2em] uppercase">L'équipe dirigeante</span>
+      </div>
+      <h2 class="font-serif text-4xl md:text-5xl font-light text-forest title-line reveal delay-100">
+        Des experts<br><em>au service des pharmaciens</em>
+      </h2>
+    </div>
+
+    <div class="grid md:grid-cols-4 gap-6">
+      <div class="team-card bg-cream-dark border border-cream-deep p-6 reveal">
+        <div class="w-14 h-14 bg-forest flex items-center justify-center font-serif text-xl font-semibold text-gold mb-5">SB</div>
+        <h4 class="font-serif text-lg font-semibold text-forest mb-0.5">Sophie Bernard</h4>
+        <p class="text-gold text-xs font-medium tracking-wide mb-3">PDG & Fondatrice</p>
+        <p class="text-forest/50 text-xs leading-relaxed">PharmD, ex-responsable R&D chez Arkopharma. 20 ans dans le secteur des compléments alimentaires.</p>
+      </div>
+      <div class="team-card bg-cream-dark border border-cream-deep p-6 reveal delay-100">
+        <div class="w-14 h-14 bg-forest-light flex items-center justify-center font-serif text-xl font-semibold text-gold mb-5">TM</div>
+        <h4 class="font-serif text-lg font-semibold text-forest mb-0.5">Thomas Martin</h4>
+        <p class="text-gold text-xs font-medium tracking-wide mb-3">Directeur R&D</p>
+        <p class="text-forest/50 text-xs leading-relaxed">PhD Nutrition, 15 ans de recherche clinique. Auteur de 23 publications dans des revues à comité de lecture.</p>
+      </div>
+      <div class="team-card bg-cream-dark border border-cream-deep p-6 reveal delay-200">
+        <div class="w-14 h-14 bg-bark flex items-center justify-center font-serif text-xl font-semibold text-gold mb-5">AL</div>
+        <h4 class="font-serif text-lg font-semibold text-forest mb-0.5">Amandine Lefebvre</h4>
+        <p class="text-gold text-xs font-medium tracking-wide mb-3">Directrice Commerciale</p>
+        <p class="text-forest/50 text-xs leading-relaxed">15 ans de développement réseau officinal. A structuré les 12 zones commerciales nationales.</p>
+      </div>
+      <div class="team-card bg-cream-dark border border-cream-deep p-6 reveal delay-300">
+        <div class="w-14 h-14 bg-forest-mid flex items-center justify-center font-serif text-xl font-semibold text-cream/80 mb-5">RC</div>
+        <h4 class="font-serif text-lg font-semibold text-forest mb-0.5">Raphaël Charpentier</h4>
+        <p class="text-gold text-xs font-medium tracking-wide mb-3">Directeur Qualité</p>
+        <p class="text-forest/50 text-xs leading-relaxed">Expert certification GMP & ISO 22000. Garant des protocoles qualité de la filière d'approvisionnement.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CERTIFICATIONS — FOND CRÈME FONCÉ -->
+<section class="bg-cream-dark py-20 px-8 border-t border-cream-deep">
+  <div class="max-w-7xl mx-auto">
+    <div class="text-center mb-12 reveal">
+      <div class="flex items-center justify-center gap-3 mb-5">
+        <div class="h-px w-8 bg-gold"></div>
+        <span class="text-gold/70 text-xs font-medium tracking-[0.2em] uppercase">Gage de confiance</span>
+        <div class="h-px w-8 bg-gold"></div>
+      </div>
+      <h2 class="font-serif text-4xl text-forest font-light">Nos <em class="italic">certifications</em></h2>
+    </div>
+
+    <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+      <div class="bg-cream border border-cream-deep p-6 text-center reveal">
+        <div class="font-serif text-3xl font-semibold text-forest mb-2">ISO<br>22000</div>
+        <div class="h-px w-8 bg-gold mx-auto my-3"></div>
+        <div class="text-forest/50 text-xs">Management sécurité alimentaire</div>
+      </div>
+      <div class="bg-cream border border-cream-deep p-6 text-center reveal delay-100">
+        <div class="font-serif text-3xl font-semibold text-forest mb-2">GMP</div>
+        <div class="h-px w-8 bg-gold mx-auto my-3"></div>
+        <div class="text-forest/50 text-xs">Bonnes Pratiques de Fabrication</div>
+      </div>
+      <div class="bg-cream border border-cream-deep p-6 text-center reveal delay-200">
+        <div class="font-serif text-3xl font-semibold text-forest mb-2">IFOS<br>5★</div>
+        <div class="h-px w-8 bg-gold mx-auto my-3"></div>
+        <div class="text-forest/50 text-xs">Certification Oméga-3 internationale</div>
+      </div>
+      <div class="bg-cream border border-cream-deep p-6 text-center reveal delay-300">
+        <div class="font-serif text-3xl font-semibold text-forest mb-2">Bio<br>FR-01</div>
+        <div class="h-px w-8 bg-gold mx-auto my-3"></div>
+        <div class="text-forest/50 text-xs">Agriculture biologique (gammes sélectionnées)</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="bg-forest py-20 px-8 text-center relative overflow-hidden">
+  <div class="absolute inset-0 flex items-center justify-center overflow-hidden pointer-events-none">
+    <span class="font-serif text-[15vw] font-bold text-white/[0.03] select-none whitespace-nowrap">PARTENARIAT</span>
+  </div>
+  <div class="relative z-10 max-w-lg mx-auto reveal">
+    <div class="h-px w-12 bg-gold mx-auto mb-8"></div>
+    <h2 class="font-serif text-4xl text-cream font-light mb-6">
+      Rejoignez le réseau<br><em class="text-gold italic">NaturaCorp</em>
+    </h2>
+    <p class="text-cream/50 text-sm mb-10 font-light leading-relaxed">
+      Plus de 400 pharmacies nous font confiance. Découvrez les conditions de partenariat et comment intégrer notre catalogue en officine.
+    </p>
+    <a href="contact.html" class="inline-flex items-center gap-3 bg-gold text-forest font-semibold px-8 py-4 hover:bg-gold-light transition-colors duration-300 tracking-wide text-sm">
+      Nous contacter
+      <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2 7h10M7 2l5 5-5 5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </a>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="bg-forest text-cream/50 border-t border-white/10">
+  <div class="max-w-7xl mx-auto px-8 py-14 grid grid-cols-2 md:grid-cols-4 gap-8">
+    <div class="col-span-2 md:col-span-1">
+      <div class="flex items-center gap-3 mb-4">
+        <svg width="28" height="28" viewBox="0 0 32 32" fill="none">
+          <path d="M16 4C16 4 8 10 8 18C8 22.4 11.6 26 16 26C20.4 26 24 22.4 24 18C24 10 16 4 16 4Z" fill="#2D6A4F" opacity="0.4"/>
+          <path d="M16 8C16 8 10 13 10 19C10 22.3 12.7 25 16 25C19.3 25 22 22.3 22 19C22 13 16 8 16 8Z" fill="#4a9970"/>
+          <path d="M16 28V18" stroke="#C8A96E" stroke-width="1.5" stroke-linecap="round"/>
+        </svg>
+        <span class="font-serif font-semibold text-lg text-cream">NaturaCorp</span>
+      </div>
+      <p class="text-xs leading-relaxed text-cream/35">Compléments alimentaires<br>pour professionnels de santé<br>depuis 2009.</p>
+    </div>
+    <div>
+      <div class="text-xs font-medium tracking-widest uppercase text-cream/30 mb-4">Navigation</div>
+      <div class="flex flex-col gap-2.5 text-sm">
+        <a href="index.html" class="hover:text-cream transition-colors">Accueil</a>
+        <a href="produits.html" class="hover:text-cream transition-colors">Produits</a>
+        <a href="a-propos.html" class="text-gold">À propos</a>
+        <a href="contact.html" class="hover:text-cream transition-colors">Contact</a>
+      </div>
+    </div>
+    <div>
+      <div class="text-xs font-medium tracking-widest uppercase text-cream/30 mb-4">Contact</div>
+      <div class="flex flex-col gap-2.5 text-sm">
+        <span>12 Rue de la Santé, Paris</span>
+        <span>contact@naturacorp.fr</span>
+        <span>01 23 45 67 89</span>
+      </div>
+    </div>
+    <div>
+      <div class="text-xs font-medium tracking-widest uppercase text-cream/30 mb-4">Certifications</div>
+      <div class="flex flex-col gap-2.5 text-sm">
+        <span>ISO 22000</span>
+        <span>GMP — Bonnes Pratiques</span>
+        <span>IFOS 5★ Oméga-3</span>
+        <span>Bio FR-BIO-01</span>
+      </div>
+    </div>
+  </div>
+  <div class="border-t border-white/10 px-8 py-5 max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-3 text-xs text-cream/25">
+    <span>© 2025 NaturaCorp. Tous droits réservés.</span>
+    <span>Distribué exclusivement en pharmacie</span>
+  </div>
+</footer>
+
+<script>
+const navbar = document.getElementById('navbar');
+window.addEventListener('scroll', () => {
+  if (window.scrollY > 50) navbar.classList.add('nav-scrolled');
+  else navbar.classList.remove('nav-scrolled');
+});
+
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); observer.unobserve(e.target); } });
+}, { threshold: 0.1 });
+document.querySelectorAll('.reveal, .reveal-left, .reveal-right').forEach(el => observer.observe(el));
+</script>
+
+</body>
+</html>

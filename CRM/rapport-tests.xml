@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuites>
+  <testsuite name="C:\Users\lahay\PhpstormProjects\naturacorp-crm\phpunit.xml" tests="22" assertions="47" errors="0" failures="0" skipped="0" time="2.151841">
+    <testsuite name="Unit" tests="1" assertions="1" errors="0" failures="0" skipped="0" time="0.009048">
+      <testsuite name="Tests\Unit\ExampleTest" file="tests\Unit\ExampleTest.php" tests="1" assertions="1" errors="0" failures="0" skipped="0" time="0.009048">
+        <testcase name="that true is true" file="tests\Unit\ExampleTest.php::that true is true" class="Tests\Unit\ExampleTest" classname="Tests.Unit.ExampleTest" assertions="1" time="0.009048"/>
+      </testsuite>
+    </testsuite>
+    <testsuite name="Feature" tests="21" assertions="46" errors="0" failures="0" skipped="0" time="2.142792">
+      <testsuite name="Tests\Feature\Auth\AuthenticationTest" file="tests\Feature\Auth\AuthenticationTest.php" tests="4" assertions="8" errors="0" failures="0" skipped="0" time="0.644606">
+        <testcase name="login screen can be rendered" file="tests\Feature\Auth\AuthenticationTest.php::login screen can be rendered" class="Tests\Feature\Auth\AuthenticationTest" classname="Tests.Feature.Auth.AuthenticationTest" assertions="1" time="0.330531"/>
+        <testcase name="users can authenticate using the login screen" file="tests\Feature\Auth\AuthenticationTest.php::users can authenticate using the login screen" class="Tests\Feature\Auth\AuthenticationTest" classname="Tests.Feature.Auth.AuthenticationTest" assertions="3" time="0.070825"/>
+        <testcase name="users can not authenticate with invalid password" file="tests\Feature\Auth\AuthenticationTest.php::users can not authenticate with invalid password" class="Tests\Feature\Auth\AuthenticationTest" classname="Tests.Feature.Auth.AuthenticationTest" assertions="1" time="0.224595"/>
+        <testcase name="users can logout" file="tests\Feature\Auth\AuthenticationTest.php::users can logout" class="Tests\Feature\Auth\AuthenticationTest" classname="Tests.Feature.Auth.AuthenticationTest" assertions="3" time="0.018655"/>
+      </testsuite>
+      <testsuite name="Tests\Feature\Auth\EmailVerificationTest" file="tests\Feature\Auth\EmailVerificationTest.php" tests="2" assertions="5" errors="0" failures="0" skipped="0" time="0.043544">
+        <testcase name="email can be verified" file="tests\Feature\Auth\EmailVerificationTest.php::email can be verified" class="Tests\Feature\Auth\EmailVerificationTest" classname="Tests.Feature.Auth.EmailVerificationTest" assertions="4" time="0.022848"/>
+        <testcase name="email is not verified with invalid hash" file="tests\Feature\Auth\EmailVerificationTest.php::email is not verified with invalid hash" class="Tests\Feature\Auth\EmailVerificationTest" classname="Tests.Feature.Auth.EmailVerificationTest" assertions="1" time="0.020696"/>
+      </testsuite>
+      <testsuite name="Tests\Feature\Auth\PasswordConfirmationTest" file="tests\Feature\Auth\PasswordConfirmationTest.php" tests="2" assertions="3" errors="0" failures="0" skipped="0" time="0.251079">
+        <testcase name="password can be confirmed" file="tests\Feature\Auth\PasswordConfirmationTest.php::password can be confirmed" class="Tests\Feature\Auth\PasswordConfirmationTest" classname="Tests.Feature.Auth.PasswordConfirmationTest" assertions="2" time="0.020678"/>
+        <testcase name="password is not confirmed with invalid password" file="tests\Feature\Auth\PasswordConfirmationTest.php::password is not confirmed with invalid password" class="Tests\Feature\Auth\PasswordConfirmationTest" classname="Tests.Feature.Auth.PasswordConfirmationTest" assertions="1" time="0.230402"/>
+      </testsuite>
+      <testsuite name="Tests\Feature\Auth\PasswordResetTest" file="tests\Feature\Auth\PasswordResetTest.php" tests="2" assertions="5" errors="0" failures="0" skipped="0" time="0.482662">
+        <testcase name="reset password link can be requested" file="tests\Feature\Auth\PasswordResetTest.php::reset password link can be requested" class="Tests\Feature\Auth\PasswordResetTest" classname="Tests.Feature.Auth.PasswordResetTest" assertions="1" time="0.228966"/>
+        <testcase name="password can be reset with valid token" file="tests\Feature\Auth\PasswordResetTest.php::password can be reset with valid token" class="Tests\Feature\Auth\PasswordResetTest" classname="Tests.Feature.Auth.PasswordResetTest" assertions="4" time="0.253696"/>
+      </testsuite>
+      <testsuite name="Tests\Feature\Auth\PasswordUpdateTest" file="tests\Feature\Auth\PasswordUpdateTest.php" tests="2" assertions="8" errors="0" failures="0" skipped="0" time="0.040245">
+        <testcase name="password can be updated" file="tests\Feature\Auth\PasswordUpdateTest.php::password can be updated" class="Tests\Feature\Auth\PasswordUpdateTest" classname="Tests.Feature.Auth.PasswordUpdateTest" assertions="4" time="0.021098"/>
+        <testcase name="correct password must be provided to update password" file="tests\Feature\Auth\PasswordUpdateTest.php::correct password must be provided to update password" class="Tests\Feature\Auth\PasswordUpdateTest" classname="Tests.Feature.Auth.PasswordUpdateTest" assertions="4" time="0.019148"/>
+      </testsuite>
+      <testsuite name="Tests\Feature\CommandeTest" file="tests\Feature\CommandeTest.php" tests="4" assertions="7" errors="0" failures="0" skipped="0" time="0.313436">
+        <testcase name="it permet d'accéder à la liste des commandes" file="tests\Feature\CommandeTest.php::it permet d'accéder à la liste des commandes" class="Tests\Feature\CommandeTest" classname="Tests.Feature.CommandeTest" assertions="1" time="0.031324"/>
+        <testcase name="it enregistre une nouvelle commande" file="tests\Feature\CommandeTest.php::it enregistre une nouvelle commande" class="Tests\Feature\CommandeTest" classname="Tests.Feature.CommandeTest" assertions="2" time="0.233122"/>
+        <testcase name="it met à jour une commande" file="tests\Feature\CommandeTest.php::it met à jour une commande" class="Tests\Feature\CommandeTest" classname="Tests.Feature.CommandeTest" assertions="2" time="0.024795"/>
+        <testcase name="it supprime une commande" file="tests\Feature\CommandeTest.php::it supprime une commande" class="Tests\Feature\CommandeTest" classname="Tests.Feature.CommandeTest" assertions="2" time="0.024196"/>
+      </testsuite>
+      <testsuite name="Tests\Feature\PharmacieTest" file="tests\Feature\PharmacieTest.php" tests="5" assertions="10" errors="0" failures="0" skipped="0" time="0.367220">
+        <testcase name="it permet d'accéder à la liste des pharmacies" file="tests\Feature\PharmacieTest.php::it permet d'accéder à la liste des pharmacies" class="Tests\Feature\PharmacieTest" classname="Tests.Feature.PharmacieTest" assertions="1" time="0.024845"/>
+        <testcase name="it affiche une fiche pharmacie" file="tests\Feature\PharmacieTest.php::it affiche une fiche pharmacie" class="Tests\Feature\PharmacieTest" classname="Tests.Feature.PharmacieTest" assertions="1" time="0.023933"/>
+        <testcase name="it enregistre une nouvelle pharmacie" file="tests\Feature\PharmacieTest.php::it enregistre une nouvelle pharmacie" class="Tests\Feature\PharmacieTest" classname="Tests.Feature.PharmacieTest" assertions="3" time="0.272189"/>
+        <testcase name="it met à jour une pharmacie" file="tests\Feature\PharmacieTest.php::it met à jour une pharmacie" class="Tests\Feature\PharmacieTest" classname="Tests.Feature.PharmacieTest" assertions="2" time="0.023685"/>
+        <testcase name="it supprime une pharmacie" file="tests\Feature\PharmacieTest.php::it supprime une pharmacie" class="Tests\Feature\PharmacieTest" classname="Tests.Feature.PharmacieTest" assertions="3" time="0.022568"/>
+      </testsuite>
+    </testsuite>
+  </testsuite>
+</testsuites>
