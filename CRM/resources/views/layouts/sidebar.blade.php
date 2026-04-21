@@ -139,7 +139,7 @@
 
   <!-- Vitrine link -->
   <div style="padding:10px 14px; flex-shrink:0;">
-    <a href="http://localhost:63342/Naturacorp/VITRINE/index.html" target="_blank"
+    <a href="/vitrine/index.html" target="_blank"
        style="display:flex; align-items:center; justify-content:space-between; gap:8px; padding:8px 12px; background:#F2F6F2; border:1px solid #E0E9E1; border-radius:8px; text-decoration:none; transition:all 0.15s;"
        onmouseover="this.style.background='#DCFCE7'; this.style.borderColor='#C4D6C6';"
        onmouseout="this.style.background='#F2F6F2'; this.style.borderColor='#E0E9E1';">

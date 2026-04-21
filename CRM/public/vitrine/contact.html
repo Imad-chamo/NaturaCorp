@@ -133,7 +133,7 @@ tailwind.config = {
       <a href="contact.html" class="link-gold nav-link-item active font-semibold">Contact</a>
     </div>
     <div class="hidden md:flex items-center gap-3">
-      <a href="http://localhost:8000/login" target="_blank"
+      <a href="/login" target="_blank"
          class="inline-flex items-center gap-1.5 text-xs font-medium nav-ghost border px-3.5 py-2 tracking-wide">
         <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg>
         Espace partenaire
@@ -424,7 +424,7 @@ const observer = new IntersectionObserver((entries) => {
 }, { threshold: 0.1 });
 document.querySelectorAll('.reveal, .reveal-left, .reveal-right').forEach(el => observer.observe(el));
 
-const CRM_API = 'http://localhost:8000/api';
+const CRM_API = '/api';
 
 function handleSubmit(e) {
   e.preventDefault();
