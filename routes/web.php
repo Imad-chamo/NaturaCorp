@@ -12,10 +12,14 @@ use App\Http\Controllers\{
     RapportController,
     CarteController,
     JournalActiviteController,
-    UserController
+    UserController,
+    DemandePartenaireController,
+    RelanceController,
+    SearchController
 };
 
-Route::get('/', fn() => redirect('dashboard'));
+Route::get('/', fn() => redirect('/vitrine/index.html'));
+Route::get('/crm', fn() => redirect('dashboard'));
 
 // Public API — no auth required, used by the Vitrine
 Route::prefix('api')->group(function () {
@@ -25,8 +29,10 @@ Route::prefix('api')->group(function () {
         ->header('Access-Control-Allow-Headers', 'Content-Type, Accept')
     )->where('any', '.*');
 
-    Route::get('produits', [\App\Http\Controllers\ProduitController::class, 'publicIndex'])->name('api.produits');
-    Route::post('contact',  [\App\Http\Controllers\ContactPublicController::class, 'store'])->name('api.contact');
+    Route::get('produits',    [\App\Http\Controllers\ProduitController::class, 'publicIndex'])->name('api.produits');
+    Route::get('pharmacies',  [\App\Http\Controllers\CommandePublicController::class, 'pharmacies'])->name('api.pharmacies');
+    Route::post('contact',    [\App\Http\Controllers\ContactPublicController::class, 'store'])->name('api.contact');
+    Route::post('commande',   [\App\Http\Controllers\CommandePublicController::class, 'store'])->name('api.commande');
 });
 
 // auth obligatoire pour tout ce qui suit
@@ -53,10 +59,22 @@ Route::middleware(['auth'])->group(function () {
     });
 
     // pharmacies commandes documents
+    Route::get('search', [SearchController::class, 'index'])->name('search');
+
     Route::middleware(['role:admin|commercial'])->group(function () {
         Route::resource('pharmacies', PharmacieController::class);
         Route::resource('commandes', CommandeController::class);
+        Route::get('commandes/{commande}/pdf',       [CommandeController::class, 'pdf'])->name('commandes.pdf');
+        Route::patch('commandes/{commande}/statut',  [CommandeController::class, 'updateStatut'])->name('commandes.statut');
         Route::resource('documents', DocumentJointController::class)->names('documents');
+        Route::get('relances', [RelanceController::class, 'index'])->name('relances.index');
+
+        // demandes partenaires (prospects vitrine)
+        Route::get('demandes',                       [DemandePartenaireController::class, 'index'])->name('demandes.index');
+        Route::get('demandes/export',                [DemandePartenaireController::class, 'export'])->name('demandes.export');
+        Route::get('demandes/{pharmacie}',           [DemandePartenaireController::class, 'show'])->name('demandes.show');
+        Route::patch('demandes/{pharmacie}/accept',  [DemandePartenaireController::class, 'accept'])->name('demandes.accept');
+        Route::delete('demandes/{pharmacie}/reject', [DemandePartenaireController::class, 'reject'])->name('demandes.reject');
     });
 
     // carte
@@ -65,7 +83,8 @@ Route::middleware(['auth'])->group(function () {
     // rapports
     Route::middleware(['role:admin'])->group(function () {
         Route::get('rapports', [RapportController::class, 'index'])->name('rapports.index');
-        Route::get('rapports/{rapport}', [RapportController::class, 'show'])->name('rapports.show');
+        Route::post('rapports/generate', [RapportController::class, 'generate'])->name('rapports.generate');
+        Route::get('rapports/{rapport}/download', [RapportController::class, 'show'])->name('rapports.show');
         Route::delete('rapports/{rapport}', [RapportController::class, 'destroy'])->name('rapports.destroy');
     });
 

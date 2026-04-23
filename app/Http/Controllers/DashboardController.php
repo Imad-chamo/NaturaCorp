@@ -15,7 +15,17 @@ class DashboardController extends Controller
             $this->getStatsTemporaires()
         );
 
-        return view('dashboard', compact('stats'));
+        $demandes = Pharmacie::where('statut', 'prospect')
+            ->orderByDesc('created_at')
+            ->limit(5)
+            ->get();
+
+        $commandes_recentes = \App\Models\Commande::with(['pharmacie', 'produit'])
+            ->orderByDesc('created_at')
+            ->limit(6)
+            ->get();
+
+        return view('dashboard', compact('stats', 'demandes', 'commandes_recentes'));
     }
 
     private function getStatsPharmacies(): array
@@ -26,6 +36,7 @@ class DashboardController extends Controller
                 ->groupBy('statut')->pluck('total', 'statut'),
             'prospects_mois' => Pharmacie::where('statut', 'prospect')
                 ->whereMonth('created_at', now()->month)->count(),
+            'demandes_attente' => Pharmacie::where('statut', 'prospect')->count(),
             'pharmacies_sans_commandes' => Pharmacie::where('statut', 'client_actif')
                 ->whereDoesntHave('commandes')->count(),
             'pharmacies_inactives' => Pharmacie::where('statut', 'client_actif')
@@ -37,6 +48,17 @@ class DashboardController extends Controller
 
     private function getStatsCommandes(): array
     {
+        $caTotal = Commande::selectRaw('SUM(tarif_unitaire * quantite) as ca')->value('ca') ?? 0;
+        $caMois  = Commande::whereMonth('created_at', now()->month)
+            ->selectRaw('SUM(tarif_unitaire * quantite) as ca')->value('ca') ?? 0;
+
+        $topPharmacies = Pharmacie::withCount('commandes')
+            ->withSum('commandes', DB::raw('tarif_unitaire * quantite'))
+            ->where('statut', 'client_actif')
+            ->orderByDesc('commandes_count')
+            ->limit(5)
+            ->get();
+
         return [
             'commandes_total' => Commande::count(),
             'commandes_par_statut' => Commande::select('statut', DB::raw('count(*) as total'))
@@ -48,6 +70,9 @@ class DashboardController extends Controller
                 round(Commande::count() / Pharmacie::count(), 2) : 0,
             'commandes_retard' => Commande::where('statut', 'en_cours')
                 ->where('created_at', '<=', now()->subDays(10))->count(),
+            'ca_total' => round($caTotal, 2),
+            'ca_mois'  => round($caMois, 2),
+            'top_pharmacies' => $topPharmacies,
         ];
     }
 

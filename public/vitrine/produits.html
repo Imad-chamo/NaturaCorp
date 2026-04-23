@@ -107,18 +107,52 @@ tailwind.config = {
   }
 
   /* Category color bands */
-  .band-immunite { background: linear-gradient(135deg, #2D6A4F, #4a9970); }
-  .band-energie   { background: linear-gradient(135deg, #7B5E2A, #C8A96E); }
-  .band-articulaire { background: linear-gradient(135deg, #5a4035, #8a6550); }
-  .band-sommeil   { background: linear-gradient(135deg, #1a1a3a, #3a3a6a); }
-  .band-digestion { background: linear-gradient(135deg, #1a3a24, #2D6A4F); }
-  .band-default   { background: linear-gradient(135deg, #0B1F12, #1a3a24); }
+  .band-immunite   { background: linear-gradient(135deg, #2D6A4F, #4a9970); }
+  .band-energie    { background: linear-gradient(135deg, #7B5E2A, #C8A96E); }
+  .band-articulaire{ background: linear-gradient(135deg, #5a4035, #8a6550); }
+  .band-sommeil    { background: linear-gradient(135deg, #1a1a3a, #3a3a6a); }
+  .band-digestion  { background: linear-gradient(135deg, #1a3a24, #2D6A4F); }
+  .band-beaute     { background: linear-gradient(135deg, #5a2a3a, #9a4a6a); }
+  .band-default    { background: linear-gradient(135deg, #0B1F12, #1a3a24); }
+  .band-ossature   { background: linear-gradient(135deg, #2a3a5a, #4a6a9a); }
+  .band-stress     { background: linear-gradient(135deg, #3a2a5a, #6a4a8a); }
+
+  /* Category badge colors */
+  .badge-immunite   { background: rgba(45,106,79,0.15);  color: #2D6A4F;  border-color: rgba(45,106,79,0.25); }
+  .badge-energie    { background: rgba(123,94,42,0.15);  color: #7B5E2A;  border-color: rgba(123,94,42,0.25); }
+  .badge-articulaire{ background: rgba(90,64,53,0.15);   color: #5a4035;  border-color: rgba(90,64,53,0.25); }
+  .badge-sommeil    { background: rgba(26,26,58,0.15);   color: #1a1a3a;  border-color: rgba(26,26,58,0.25); }
+  .badge-digestion  { background: rgba(26,58,36,0.15);   color: #1a3a24;  border-color: rgba(26,58,36,0.25); }
+  .badge-beaute     { background: rgba(90,42,58,0.15);   color: #5a2a3a;  border-color: rgba(90,42,58,0.25); }
+  .badge-cardiovasculaire { background: rgba(11,31,18,0.1); color: #0B1F12; border-color: rgba(11,31,18,0.2); }
+  .badge-stress     { background: rgba(58,42,90,0.15);   color: #3a2a5a;  border-color: rgba(58,42,90,0.25); }
+  .badge-ossature   { background: rgba(42,58,90,0.15);   color: #2a3a5a;  border-color: rgba(42,58,90,0.25); }
+
+  /* Product visual overlays */
+  .prod-visual {
+    position: relative;
+    height: 144px;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
 
   /* Modal */
   #modal-overlay { transition: opacity 0.3s ease; }
   #modal-overlay.hidden { opacity: 0; pointer-events: none; }
   #modal-box { transition: transform 0.35s ease, opacity 0.35s ease; }
   #modal-overlay.hidden #modal-box { transform: translateY(24px); opacity: 0; }
+
+  /* Conditions section */
+  .cond-card {
+    border: 1px solid #EDE4D0;
+    transition: border-color 0.3s ease, transform 0.3s ease;
+  }
+  .cond-card:hover {
+    border-color: #C8A96E;
+    transform: translateY(-4px);
+  }
 </style>
 </head>
 <body class="font-sans antialiased overflow-x-hidden">
@@ -147,13 +181,46 @@ tailwind.config = {
         <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg>
         Espace partenaire
       </a>
-      <a href="contact.html" class="inline-flex items-center gap-2 nav-cta text-sm font-medium px-6 py-2.5 tracking-wide">
+      <a href="partenaire.html" class="inline-flex items-center gap-2 nav-cta text-sm font-medium px-6 py-2.5 tracking-wide">
         Devenir partenaire
         <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2 7h10M7 2l5 5-5 5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
       </a>
     </div>
+    <!-- Hamburger (mobile) -->
+    <button id="menu-btn" class="md:hidden flex flex-col gap-[5px] p-2 nav-brand" onclick="toggleMenu()" aria-label="Menu">
+      <span class="menu-bar"></span>
+      <span class="menu-bar"></span>
+      <span class="menu-bar"></span>
+    </button>
   </div>
 </nav>
+
+<!-- Mobile menu panel -->
+<div id="mobile-menu">
+  <div class="menu-backdrop" onclick="toggleMenu()"></div>
+  <div class="menu-panel">
+    <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:40px;">
+      <span style="font-family:'Cormorant Garamond',Georgia,serif; font-size:18px; font-weight:500; color:#F7F2E8; letter-spacing:0.02em;">NaturaCorp</span>
+      <button onclick="toggleMenu()" style="color:rgba(247,242,232,0.5); font-size:28px; line-height:1; background:none; border:none; cursor:pointer; padding:0;">&times;</button>
+    </div>
+    <nav style="flex:1;">
+      <a href="index.html" class="mobile-nav-link">Accueil</a>
+      <a href="produits.html" class="mobile-nav-link active">Produits</a>
+      <a href="a-propos.html" class="mobile-nav-link">À propos</a>
+      <a href="contact.html" class="mobile-nav-link">Contact</a>
+    </nav>
+    <div style="display:flex; flex-direction:column; gap:12px; margin-top:32px;">
+      <a href="/login" target="_blank"
+         style="display:flex; align-items:center; justify-content:center; gap:8px; padding:12px 20px; border:1px solid rgba(247,242,232,0.2); color:rgba(247,242,232,0.6); font-size:13px; font-weight:500; letter-spacing:0.06em; text-decoration:none; transition:all 0.2s;">
+        Espace partenaire
+      </a>
+      <a href="partenaire.html"
+         style="display:flex; align-items:center; justify-content:center; gap:8px; padding:12px 20px; background:#C8A96E; color:#0B1F12; font-size:13px; font-weight:600; letter-spacing:0.06em; text-decoration:none; transition:background 0.2s;">
+        Devenir partenaire
+      </a>
+    </div>
+  </div>
+</div>
 
 <!-- HERO BANDE -->
 <section class="relative bg-forest overflow-hidden pt-32 pb-20 px-8">
@@ -185,14 +252,15 @@ tailwind.config = {
 <div class="sticky top-20 z-40 bg-cream/95 backdrop-blur-sm border-b border-cream-dark px-8 py-4">
   <div class="max-w-7xl mx-auto">
     <div class="flex flex-wrap gap-2 items-center">
-      <span class="text-xs text-forest/40 font-medium tracking-widest uppercase mr-2">Filtrer</span>
-      <button onclick="filterProducts('tous')" class="filter-pill active text-xs font-medium px-4 py-1.5 tracking-wide" data-filter="tous">Tous</button>
-      <button onclick="filterProducts('immunite')" class="filter-pill text-xs font-medium px-4 py-1.5 tracking-wide text-forest/60" data-filter="immunite">Immunité</button>
-      <button onclick="filterProducts('energie')" class="filter-pill text-xs font-medium px-4 py-1.5 tracking-wide text-forest/60" data-filter="energie">Énergie</button>
-      <button onclick="filterProducts('articulaire')" class="filter-pill text-xs font-medium px-4 py-1.5 tracking-wide text-forest/60" data-filter="articulaire">Articulaire</button>
-      <button onclick="filterProducts('sommeil')" class="filter-pill text-xs font-medium px-4 py-1.5 tracking-wide text-forest/60" data-filter="sommeil">Sommeil</button>
-      <button onclick="filterProducts('digestion')" class="filter-pill text-xs font-medium px-4 py-1.5 tracking-wide text-forest/60" data-filter="digestion">Digestion</button>
-      <span class="ml-auto text-xs text-forest/40" id="count-display">9 produits</span>
+      <span class="text-xs text-forest/40 font-medium tracking-widest uppercase mr-2">Catalogue</span>
+      <span class="filter-pill active text-xs font-medium px-4 py-1.5 tracking-wide" data-filter="tous">Tous</span>
+      <span class="filter-pill text-xs font-medium px-4 py-1.5 tracking-wide" data-filter="immunite">Immunité</span>
+      <span class="filter-pill text-xs font-medium px-4 py-1.5 tracking-wide" data-filter="energie">Énergie</span>
+      <span class="filter-pill text-xs font-medium px-4 py-1.5 tracking-wide" data-filter="digestion">Digestion</span>
+      <span class="filter-pill text-xs font-medium px-4 py-1.5 tracking-wide" data-filter="articulaire">Articulations</span>
+      <span class="filter-pill text-xs font-medium px-4 py-1.5 tracking-wide" data-filter="sommeil">Sommeil</span>
+      <span class="filter-pill text-xs font-medium px-4 py-1.5 tracking-wide" data-filter="beaute">Beauté</span>
+      <span class="ml-auto text-xs text-forest/40" id="count-display">7 produits</span>
     </div>
   </div>
 </div>
@@ -201,12 +269,15 @@ tailwind.config = {
 <section class="py-16 px-8">
   <div class="max-w-7xl mx-auto grid md:grid-cols-2 lg:grid-cols-3 gap-6" id="products-grid">
 
-    <!-- REF-001 -->
-    <div class="prod-card product-card reveal" data-category="immunite energie" onclick="openModal('Oméga-3 Premium', 'REF-001', 'immunite', 'EPA 600mg + DHA 400mg par capsule. Huile de poisson sauvage de qualité pharmaceutique, certification IFOS 5 étoiles. Encapsulation à froid, absence de goût de poisson garanti.', '60 capsules / boîte', ['Cardiovasculaire','Cognitif','Immunité'], 'https://images.unsplash.com/photo-1498837167922-ddd7525433e4?w=600&q=80&auto=format&fit=crop')">
-      <div class="relative h-36 overflow-hidden">
-        <img src="https://images.unsplash.com/photo-1498837167922-ddd7525433e4?w=600&q=80&auto=format&fit=crop" class="absolute inset-0 w-full h-full object-cover" alt="Oméga-3 Premium">
+    <!-- REF-001 : Oméga-3 Premium -->
+    <div class="prod-card product-card reveal cursor-pointer" data-category="immunite energie cardiovasculaire" onclick="openModal('Oméga-3 Premium','REF-001','immunite','EPA 600mg + DHA 400mg par capsule. Issu de poissons sauvages des mers froides, sous forme de triglycérides naturels pour une absorption optimale. Certification IFOS 5 étoiles. Absence de goût de poisson garantie.','60 capsules / boîte',['Cardiovasculaire','Cognitif','Immunité','Anti-inflammatoire'],'Omega.png')">
+      <div class="prod-visual">
+        <img src="Omega.png" class="absolute inset-0 w-full h-full object-cover" alt="Oméga-3 Premium">
         <div class="absolute inset-0 band-immunite" style="opacity:0.55"></div>
-        <div class="absolute inset-0 flex items-end justify-end p-5">
+        <div class="absolute top-3 left-3 z-10">
+          <span class="text-[10px] font-semibold tracking-[0.15em] uppercase px-2.5 py-1 border badge-immunite" style="background:rgba(45,106,79,0.85);color:#fff;border-color:rgba(45,106,79,0.4);">Immunité</span>
+        </div>
+        <div class="absolute inset-0 flex items-end justify-end p-5 z-10">
           <span class="text-white/70 text-xs font-medium tracking-widest">REF-001</span>
         </div>
       </div>
@@ -214,204 +285,326 @@ tailwind.config = {
         <div class="flex items-start justify-between mb-2">
           <h3 class="font-serif text-xl font-semibold text-forest">Oméga-3 Premium</h3>
         </div>
-        <p class="text-forest/55 text-sm leading-relaxed mb-4">EPA 600mg + DHA 400mg. Certification IFOS 5 étoiles. Absence de goût de poisson garanti.</p>
+        <p class="text-forest/55 text-sm leading-relaxed mb-4 line-clamp-2">EPA 600mg + DHA 400mg. Certification IFOS 5 étoiles. Absence de goût de poisson garanti.</p>
         <div class="flex flex-wrap gap-1.5 mb-5">
-          <span class="text-[11px] font-medium px-2.5 py-1 bg-forest/8 text-forest/70 border border-forest/10">Cardiovasculaire</span>
-          <span class="text-[11px] font-medium px-2.5 py-1 bg-forest/8 text-forest/70 border border-forest/10">Cognitif</span>
-          <span class="text-[11px] font-medium px-2.5 py-1 bg-forest/8 text-forest/70 border border-forest/10">Immunité</span>
+          <span class="text-[11px] font-medium px-2.5 py-1 border badge-cardiovasculaire">Cardiovasculaire</span>
+          <span class="text-[11px] font-medium px-2.5 py-1 border badge-cardiovasculaire">Cognitif</span>
+          <span class="text-[11px] font-medium px-2.5 py-1 border badge-immunite">Immunité</span>
         </div>
         <div class="flex items-center justify-between pt-4 border-t border-cream-dark">
-          <span class="text-xs text-forest/40">60 capsules / boîte</span>
+          <div>
+            <div class="text-xs text-forest/40 mb-0.5">60 capsules / boîte</div>
+            <div class="font-serif text-lg font-semibold text-forest">28,90 € <span class="text-xs text-forest/40 font-sans font-normal">HT</span></div>
+          </div>
           <button class="text-xs font-medium text-gold hover:text-forest transition tracking-wide">Voir détail →</button>
         </div>
       </div>
     </div>
 
-    <!-- REF-002 -->
-    <div class="prod-card product-card reveal delay-100" data-category="immunite articulaire" onclick="openModal('Vitamine D3 + K2', 'REF-002', 'immunite', 'D3 5000 UI + K2 MK-7 200µg. Formule huileuse microencapsulée pour une absorption maximale. Idéale pour les carences hivernales et le maintien osseux à long terme.', '90 capsules / boîte', ['Immunité','Osseux','Densité minérale'], 'https://images.unsplash.com/photo-1584308666744-24d5c474f2ae?w=600&q=80&auto=format&fit=crop')">
-      <div class="relative h-36 overflow-hidden">
-        <img src="https://images.unsplash.com/photo-1584308666744-24d5c474f2ae?w=600&q=80&auto=format&fit=crop" class="absolute inset-0 w-full h-full object-cover" alt="Vitamine D3 + K2">
-        <div class="absolute inset-0 band-energie" style="opacity:0.55"></div>
-        <div class="absolute inset-0 flex items-end justify-end p-5">
+    <!-- REF-002 : Magnésium Bisglycinate -->
+    <div class="prod-card product-card reveal delay-100 cursor-pointer" data-category="energie stress" onclick="openModal('Magnésium Bisglycinate 300mg','REF-002','energie','300mg de magnésium sous forme bisglycinate, la forme la mieux absorbée et la mieux tolérée. Idéal pour les états de stress, la fatigue chronique et les crampes musculaires. Sans effet laxatif.','60 gélules / boîte',['Stress','Fatigue','Crampes musculaires','Énergie'],'')">
+      <div class="prod-visual band-energie">
+        <!-- SVG molecule overlay -->
+        <svg class="absolute inset-0 w-full h-full opacity-10" viewBox="0 0 200 140" fill="none">
+          <circle cx="100" cy="70" r="18" stroke="#fff" stroke-width="1.5"/>
+          <circle cx="60" cy="45" r="10" stroke="#fff" stroke-width="1"/>
+          <circle cx="140" cy="45" r="10" stroke="#fff" stroke-width="1"/>
+          <circle cx="60" cy="95" r="10" stroke="#fff" stroke-width="1"/>
+          <circle cx="140" cy="95" r="10" stroke="#fff" stroke-width="1"/>
+          <line x1="82" y1="60" x2="68" y2="51" stroke="#fff" stroke-width="1"/>
+          <line x1="118" y1="60" x2="132" y2="51" stroke="#fff" stroke-width="1"/>
+          <line x1="82" y1="80" x2="68" y2="89" stroke="#fff" stroke-width="1"/>
+          <line x1="118" y1="80" x2="132" y2="89" stroke="#fff" stroke-width="1"/>
+        </svg>
+        <svg class="relative z-10 opacity-50" width="40" height="40" viewBox="0 0 40 40" fill="none">
+          <path d="M20 5L35 15V25L20 35L5 25V15L20 5Z" stroke="#C8A96E" stroke-width="1.5" fill="none"/>
+          <circle cx="20" cy="20" r="6" fill="#C8A96E" opacity="0.6"/>
+        </svg>
+        <div class="absolute top-3 left-3 z-10">
+          <span class="text-[10px] font-semibold tracking-[0.15em] uppercase px-2.5 py-1" style="background:rgba(123,94,42,0.85);color:#fff;border:1px solid rgba(200,169,110,0.3);">Énergie</span>
+        </div>
+        <div class="absolute inset-0 flex items-end justify-end p-5 z-10">
           <span class="text-white/70 text-xs font-medium tracking-widest">REF-002</span>
         </div>
       </div>
       <div class="p-6">
-        <h3 class="font-serif text-xl font-semibold text-forest mb-2">Vitamine D3 + K2</h3>
-        <p class="text-forest/55 text-sm leading-relaxed mb-4">D3 5000 UI + K2 MK-7 200µg. Formule huileuse microencapsulée, absorption maximale.</p>
+        <h3 class="font-serif text-xl font-semibold text-forest mb-2">Magnésium Bisglycinate 300mg</h3>
+        <p class="text-forest/55 text-sm leading-relaxed mb-4 line-clamp-2">Stress, fatigue chronique, crampes musculaires. Forme bisglycinate hautement biodisponible.</p>
         <div class="flex flex-wrap gap-1.5 mb-5">
-          <span class="text-[11px] font-medium px-2.5 py-1 bg-forest/8 text-forest/70 border border-forest/10">Immunité</span>
-          <span class="text-[11px] font-medium px-2.5 py-1 bg-forest/8 text-forest/70 border border-forest/10">Osseux</span>
+          <span class="text-[11px] font-medium px-2.5 py-1 border badge-energie">Stress</span>
+          <span class="text-[11px] font-medium px-2.5 py-1 border badge-energie">Fatigue</span>
+          <span class="text-[11px] font-medium px-2.5 py-1 border badge-energie">Crampes</span>
         </div>
         <div class="flex items-center justify-between pt-4 border-t border-cream-dark">
-          <span class="text-xs text-forest/40">90 capsules / boîte</span>
+          <div>
+            <div class="text-xs text-forest/40 mb-0.5">60 gélules / boîte</div>
+            <div class="font-serif text-lg font-semibold text-forest">22,50 € <span class="text-xs text-forest/40 font-sans font-normal">HT</span></div>
+          </div>
           <button class="text-xs font-medium text-gold hover:text-forest transition tracking-wide">Voir détail →</button>
         </div>
       </div>
     </div>
 
-    <!-- REF-003 -->
-    <div class="prod-card product-card reveal delay-200" data-category="articulaire" onclick="openModal('Curcuma & Poivre Noir', 'REF-003', 'articulaire', 'Curcumine 95% titrée + Pipérine 98%. Biodisponibilité 20× supérieure grâce à la nanoencapsulation brevetée. Sans additifs, sans gluten, vegan certifié.', '60 gélules / boîte', ['Anti-inflammatoire','Articulaire','Digestion'], 'https://images.unsplash.com/photo-1615485500704-8e990f9900f7?w=600&q=80&auto=format&fit=crop')">
-      <div class="relative h-36 overflow-hidden">
-        <img src="https://images.unsplash.com/photo-1615485500704-8e990f9900f7?w=600&q=80&auto=format&fit=crop" class="absolute inset-0 w-full h-full object-cover" alt="Curcuma & Poivre Noir">
-        <div class="absolute inset-0 band-articulaire" style="opacity:0.50"></div>
-        <div class="absolute inset-0 flex items-end justify-end p-5">
+    <!-- REF-003 : Vitamine D3+K2 Liposomale -->
+    <div class="prod-card product-card reveal delay-200 cursor-pointer" data-category="immunite ossature" onclick="openModal('Vitamine D3+K2 Liposomale','REF-003','immunite','Synergie unique D3 + K2 en formulation liposomale pour une absorption maximale. La vitamine K2 oriente le calcium vers les os en évitant sa dépôt artériel. Immunité, ossature, système cardiovasculaire.','30ml gouttes / flacon',['Immunité','Ossature','Synergie D3/K2','Cardiovasculaire'],'')">
+      <div class="prod-visual band-ossature">
+        <svg class="absolute inset-0 w-full h-full opacity-10" viewBox="0 0 200 140" fill="none">
+          <circle cx="100" cy="70" r="50" stroke="#fff" stroke-width="0.8"/>
+          <circle cx="100" cy="70" r="35" stroke="#fff" stroke-width="0.8"/>
+          <circle cx="100" cy="70" r="20" stroke="#fff" stroke-width="0.8"/>
+          <line x1="100" y1="20" x2="100" y2="120" stroke="#fff" stroke-width="0.8"/>
+          <line x1="50" y1="70" x2="150" y2="70" stroke="#fff" stroke-width="0.8"/>
+        </svg>
+        <svg class="relative z-10 opacity-55" width="36" height="36" viewBox="0 0 36 36" fill="none">
+          <path d="M18 3L33 12V24L18 33L3 24V12L18 3Z" stroke="#C8A96E" stroke-width="1.5"/>
+          <path d="M18 10L18 26M11 14L25 22M25 14L11 22" stroke="#C8A96E" stroke-width="1.2" opacity="0.6"/>
+        </svg>
+        <div class="absolute top-3 left-3 z-10">
+          <span class="text-[10px] font-semibold tracking-[0.15em] uppercase px-2.5 py-1" style="background:rgba(42,58,90,0.85);color:#fff;border:1px solid rgba(74,106,154,0.3);">Ossature</span>
+        </div>
+        <div class="absolute inset-0 flex items-end justify-end p-5 z-10">
           <span class="text-white/70 text-xs font-medium tracking-widest">REF-003</span>
         </div>
       </div>
       <div class="p-6">
-        <h3 class="font-serif text-xl font-semibold text-forest mb-2">Curcuma & Poivre Noir</h3>
-        <p class="text-forest/55 text-sm leading-relaxed mb-4">Curcumine 95% + Pipérine 98%. Biodisponibilité 20× supérieure. Vegan certifié.</p>
+        <h3 class="font-serif text-xl font-semibold text-forest mb-2">Vitamine D3+K2 Liposomale</h3>
+        <p class="text-forest/55 text-sm leading-relaxed mb-4 line-clamp-2">Immunité, ossature, synergie D3/K2 en formulation liposomale haute absorption.</p>
         <div class="flex flex-wrap gap-1.5 mb-5">
-          <span class="text-[11px] font-medium px-2.5 py-1 bg-forest/8 text-forest/70 border border-forest/10">Anti-inflammatoire</span>
-          <span class="text-[11px] font-medium px-2.5 py-1 bg-forest/8 text-forest/70 border border-forest/10">Articulaire</span>
+          <span class="text-[11px] font-medium px-2.5 py-1 border badge-immunite">Immunité</span>
+          <span class="text-[11px] font-medium px-2.5 py-1 border badge-ossature">Ossature</span>
+          <span class="text-[11px] font-medium px-2.5 py-1 border badge-ossature">D3/K2</span>
         </div>
         <div class="flex items-center justify-between pt-4 border-t border-cream-dark">
-          <span class="text-xs text-forest/40">60 gélules / boîte</span>
+          <div>
+            <div class="text-xs text-forest/40 mb-0.5">30ml gouttes / flacon</div>
+            <div class="font-serif text-lg font-semibold text-forest">24,90 € <span class="text-xs text-forest/40 font-sans font-normal">HT</span></div>
+          </div>
           <button class="text-xs font-medium text-gold hover:text-forest transition tracking-wide">Voir détail →</button>
         </div>
       </div>
     </div>
 
-    <!-- REF-004 -->
-    <div class="prod-card product-card reveal" data-category="energie" onclick="openModal('Magnésium Marin', 'REF-004', 'energie', 'Magnésium bisglycinate + marin 300mg élémentaire par jour. Triple complexe pour une assimilation optimale et une tolérance digestive maximale. Enrichi en vitamine B6 active (P5P).', '90 comprimés / boîte', ['Stress & Fatigue','Musculaire','Système nerveux'], 'https://images.unsplash.com/photo-1550572017-edd951b55104?w=600&q=80&auto=format&fit=crop')">
-      <div class="relative h-36 overflow-hidden">
-        <img src="https://images.unsplash.com/photo-1550572017-edd951b55104?w=600&q=80&auto=format&fit=crop" class="absolute inset-0 w-full h-full object-cover" alt="Magnésium Marin">
-        <div class="absolute inset-0 band-energie" style="opacity:0.55"></div>
-        <div class="absolute inset-0 flex items-end justify-end p-5">
+    <!-- REF-004 : Probiotiques Premium -->
+    <div class="prod-card product-card reveal cursor-pointer" data-category="digestion immunite" onclick="openModal('Probiotiques Premium 50Md','REF-004','digestion','50 milliards de bactéries par gélule, 8 souches sélectionnées pour leur efficacité clinique. Microencapsulation brevetée garantissant la survie jusqu\'au côlon. Microbiome, transit, immunité digestive.','30 gélules / boîte',['Microbiome','Transit','Immunité digestive','Flore intestinale'],'')">
+      <div class="prod-visual band-digestion">
+        <svg class="absolute inset-0 w-full h-full opacity-10" viewBox="0 0 200 140" fill="none">
+          <path d="M40 70 Q70 30 100 70 Q130 110 160 70" stroke="#fff" stroke-width="1.5" fill="none"/>
+          <path d="M40 60 Q70 20 100 60 Q130 100 160 60" stroke="#fff" stroke-width="0.8" fill="none" opacity="0.5"/>
+          <path d="M40 80 Q70 40 100 80 Q130 120 160 80" stroke="#fff" stroke-width="0.8" fill="none" opacity="0.5"/>
+          <circle cx="70" cy="60" r="5" fill="#fff" opacity="0.4"/>
+          <circle cx="130" cy="80" r="5" fill="#fff" opacity="0.4"/>
+        </svg>
+        <svg class="relative z-10 opacity-50" width="38" height="38" viewBox="0 0 38 38" fill="none">
+          <circle cx="19" cy="19" r="16" stroke="#C8A96E" stroke-width="1.5"/>
+          <path d="M10 19 Q14 12 19 19 Q24 26 28 19" stroke="#C8A96E" stroke-width="1.5" fill="none"/>
+        </svg>
+        <div class="absolute top-3 left-3 z-10">
+          <span class="text-[10px] font-semibold tracking-[0.15em] uppercase px-2.5 py-1" style="background:rgba(26,58,36,0.85);color:#fff;border:1px solid rgba(45,106,79,0.3);">Digestion</span>
+        </div>
+        <div class="absolute inset-0 flex items-end justify-end p-5 z-10">
           <span class="text-white/70 text-xs font-medium tracking-widest">REF-004</span>
         </div>
       </div>
       <div class="p-6">
-        <h3 class="font-serif text-xl font-semibold text-forest mb-2">Magnésium Marin</h3>
-        <p class="text-forest/55 text-sm leading-relaxed mb-4">Triple complexe 300mg. Tolérance digestive maximale. Enrichi vitamine B6 P5P.</p>
+        <h3 class="font-serif text-xl font-semibold text-forest mb-2">Probiotiques Premium 50Md</h3>
+        <p class="text-forest/55 text-sm leading-relaxed mb-4 line-clamp-2">Microbiome, transit intestinal, immunité digestive. 50 milliards de bactéries, 8 souches.</p>
         <div class="flex flex-wrap gap-1.5 mb-5">
-          <span class="text-[11px] font-medium px-2.5 py-1 bg-forest/8 text-forest/70 border border-forest/10">Stress & Fatigue</span>
-          <span class="text-[11px] font-medium px-2.5 py-1 bg-forest/8 text-forest/70 border border-forest/10">Musculaire</span>
+          <span class="text-[11px] font-medium px-2.5 py-1 border badge-digestion">Microbiome</span>
+          <span class="text-[11px] font-medium px-2.5 py-1 border badge-digestion">Transit</span>
+          <span class="text-[11px] font-medium px-2.5 py-1 border badge-immunite">Immunité dig.</span>
         </div>
         <div class="flex items-center justify-between pt-4 border-t border-cream-dark">
-          <span class="text-xs text-forest/40">90 comprimés / boîte</span>
+          <div>
+            <div class="text-xs text-forest/40 mb-0.5">30 gélules / boîte</div>
+            <div class="font-serif text-lg font-semibold text-forest">32,00 € <span class="text-xs text-forest/40 font-sans font-normal">HT</span></div>
+          </div>
           <button class="text-xs font-medium text-gold hover:text-forest transition tracking-wide">Voir détail →</button>
         </div>
       </div>
     </div>
 
-    <!-- REF-005 -->
-    <div class="prod-card product-card reveal delay-100" data-category="sommeil" onclick="openModal('Mélatonine & Passiflore', 'REF-005', 'sommeil', 'Mélatonine 1,9 mg à libération prolongée + extrait de passiflore 200mg standardisé. Favorise l\'endormissement naturel et améliore la qualité du sommeil profond sans accoutumance.', '30 comprimés / boîte', ['Sommeil','Relaxation','Sans accoutumance'], 'https://images.unsplash.com/photo-1563986768494-4dee2763ff3f?w=600&q=80&auto=format&fit=crop')">
-      <div class="relative h-36 overflow-hidden">
-        <img src="https://images.unsplash.com/photo-1563986768494-4dee2763ff3f?w=600&q=80&auto=format&fit=crop" class="absolute inset-0 w-full h-full object-cover" alt="Mélatonine & Passiflore">
-        <div class="absolute inset-0 band-sommeil" style="opacity:0.60"></div>
-        <div class="absolute inset-0 flex items-end justify-end p-5">
+    <!-- REF-005 : Curcuma Liposomal -->
+    <div class="prod-card product-card reveal delay-100 cursor-pointer" data-category="articulaire" onclick="openModal('Curcuma Liposomal BioActif','REF-005','articulaire','Curcuminoïdes en formulation liposomale pour une biodisponibilité 20x supérieure. Action anti-inflammatoire puissante, protection articulaire et antioxydante. Idéal pour douleurs articulaires chroniques.','60 gélules / boîte',['Anti-inflammatoire','Articulations','Antioxydant','Mobilité'],'')">
+      <div class="prod-visual band-articulaire">
+        <svg class="absolute inset-0 w-full h-full opacity-10" viewBox="0 0 200 140" fill="none">
+          <path d="M60 100L80 60L100 80L120 50L140 90" stroke="#fff" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+          <circle cx="60" cy="100" r="6" fill="#fff" opacity="0.5"/>
+          <circle cx="80" cy="60" r="6" fill="#fff" opacity="0.5"/>
+          <circle cx="100" cy="80" r="6" fill="#fff" opacity="0.5"/>
+          <circle cx="120" cy="50" r="6" fill="#fff" opacity="0.5"/>
+          <circle cx="140" cy="90" r="6" fill="#fff" opacity="0.5"/>
+        </svg>
+        <svg class="relative z-10 opacity-50" width="36" height="36" viewBox="0 0 36 36" fill="none">
+          <path d="M18 4L18 32M4 18L32 18" stroke="#C8A96E" stroke-width="1.5" stroke-linecap="round"/>
+          <circle cx="18" cy="18" r="8" stroke="#C8A96E" stroke-width="1.5"/>
+          <circle cx="18" cy="18" r="3" fill="#C8A96E" opacity="0.5"/>
+        </svg>
+        <div class="absolute top-3 left-3 z-10">
+          <span class="text-[10px] font-semibold tracking-[0.15em] uppercase px-2.5 py-1" style="background:rgba(90,64,53,0.9);color:#fff;border:1px solid rgba(138,101,80,0.3);">Articulaire</span>
+        </div>
+        <div class="absolute inset-0 flex items-end justify-end p-5 z-10">
           <span class="text-white/70 text-xs font-medium tracking-widest">REF-005</span>
         </div>
       </div>
       <div class="p-6">
-        <h3 class="font-serif text-xl font-semibold text-forest mb-2">Mélatonine & Passiflore</h3>
-        <p class="text-forest/55 text-sm leading-relaxed mb-4">Mélatonine 1,9mg libération prolongée + passiflore 200mg. Sans accoutumance.</p>
+        <h3 class="font-serif text-xl font-semibold text-forest mb-2">Curcuma Liposomal BioActif</h3>
+        <p class="text-forest/55 text-sm leading-relaxed mb-4 line-clamp-2">Anti-inflammatoire, articulations, antioxydant. Biodisponibilité 20x supérieure aux formes standard.</p>
         <div class="flex flex-wrap gap-1.5 mb-5">
-          <span class="text-[11px] font-medium px-2.5 py-1 bg-forest/8 text-forest/70 border border-forest/10">Sommeil</span>
-          <span class="text-[11px] font-medium px-2.5 py-1 bg-forest/8 text-forest/70 border border-forest/10">Relaxation</span>
+          <span class="text-[11px] font-medium px-2.5 py-1 border badge-articulaire">Anti-inflam.</span>
+          <span class="text-[11px] font-medium px-2.5 py-1 border badge-articulaire">Articulations</span>
+          <span class="text-[11px] font-medium px-2.5 py-1 border badge-articulaire">Antioxydant</span>
         </div>
         <div class="flex items-center justify-between pt-4 border-t border-cream-dark">
-          <span class="text-xs text-forest/40">30 comprimés / boîte</span>
+          <div>
+            <div class="text-xs text-forest/40 mb-0.5">60 gélules / boîte</div>
+            <div class="font-serif text-lg font-semibold text-forest">26,90 € <span class="text-xs text-forest/40 font-sans font-normal">HT</span></div>
+          </div>
           <button class="text-xs font-medium text-gold hover:text-forest transition tracking-wide">Voir détail →</button>
         </div>
       </div>
     </div>
 
-    <!-- REF-006 -->
-    <div class="prod-card product-card reveal delay-200" data-category="digestion immunite" onclick="openModal('Probiotiques Pro 50', 'REF-006', 'digestion', '50 milliards de bactéries actives garanties jusqu\'à la date d\'expiration, 10 souches dont Lactobacillus rhamnosus GG. Conditionnement thermorésistant, sans réfrigération requise.', '30 gélules / boîte', ['Microbiote','Immunité','Digestion'], 'https://images.unsplash.com/photo-1611077543185-f13ccf247b0b?w=600&q=80&auto=format&fit=crop')">
-      <div class="relative h-36 overflow-hidden">
-        <img src="https://images.unsplash.com/photo-1611077543185-f13ccf247b0b?w=600&q=80&auto=format&fit=crop" class="absolute inset-0 w-full h-full object-cover" alt="Probiotiques Pro 50">
-        <div class="absolute inset-0 band-digestion" style="opacity:0.55"></div>
-        <div class="absolute inset-0 flex items-end justify-end p-5">
+    <!-- REF-006 : Zinc + Sélénium Organique -->
+    <div class="prod-card product-card reveal delay-200 cursor-pointer" data-category="immunite beaute" onclick="openModal('Zinc + Sélénium Organique','REF-006','beaute','Duo synergique zinc bisglycinate + sélénium organique (sélénométhionine) pour une absorption optimale. Action immunostimulante, protection cellulaire antioxydante, santé de la peau, des cheveux et des ongles.','60 comprimés / boîte',['Immunité','Peau','Cheveux','Ongles','Antioxydant'],'')">
+      <div class="prod-visual band-beaute">
+        <svg class="absolute inset-0 w-full h-full opacity-10" viewBox="0 0 200 140" fill="none">
+          <path d="M100 20L100 120M60 70L140 70" stroke="#fff" stroke-width="1" opacity="0.5"/>
+          <circle cx="100" cy="70" r="40" stroke="#fff" stroke-width="1"/>
+          <circle cx="100" cy="70" r="25" stroke="#fff" stroke-width="0.8"/>
+          <circle cx="100" cy="30" r="8" fill="#fff" opacity="0.3"/>
+          <circle cx="100" cy="110" r="8" fill="#fff" opacity="0.3"/>
+          <circle cx="60" cy="70" r="8" fill="#fff" opacity="0.3"/>
+          <circle cx="140" cy="70" r="8" fill="#fff" opacity="0.3"/>
+        </svg>
+        <svg class="relative z-10 opacity-50" width="36" height="36" viewBox="0 0 36 36" fill="none">
+          <path d="M18 4C10 4 4 10 4 18C4 26 10 32 18 32C26 32 32 26 32 18C32 10 26 4 18 4Z" stroke="#C8A96E" stroke-width="1.5"/>
+          <path d="M18 12L18 24M12 18L24 18" stroke="#C8A96E" stroke-width="1.5" stroke-linecap="round"/>
+        </svg>
+        <div class="absolute top-3 left-3 z-10">
+          <span class="text-[10px] font-semibold tracking-[0.15em] uppercase px-2.5 py-1" style="background:rgba(90,42,58,0.9);color:#fff;border:1px solid rgba(154,74,106,0.3);">Beauté</span>
+        </div>
+        <div class="absolute inset-0 flex items-end justify-end p-5 z-10">
           <span class="text-white/70 text-xs font-medium tracking-widest">REF-006</span>
         </div>
       </div>
       <div class="p-6">
-        <h3 class="font-serif text-xl font-semibold text-forest mb-2">Probiotiques Pro 50</h3>
-        <p class="text-forest/55 text-sm leading-relaxed mb-4">50 milliards de bactéries actives, 10 souches. Sans réfrigération.</p>
+        <h3 class="font-serif text-xl font-semibold text-forest mb-2">Zinc + Sélénium Organique</h3>
+        <p class="text-forest/55 text-sm leading-relaxed mb-4 line-clamp-2">Immunité, peau, cheveux, ongles. Duo zinc bisglycinate + sélénométhionine haute absorption.</p>
         <div class="flex flex-wrap gap-1.5 mb-5">
-          <span class="text-[11px] font-medium px-2.5 py-1 bg-forest/8 text-forest/70 border border-forest/10">Microbiote</span>
-          <span class="text-[11px] font-medium px-2.5 py-1 bg-forest/8 text-forest/70 border border-forest/10">Immunité</span>
-          <span class="text-[11px] font-medium px-2.5 py-1 bg-forest/8 text-forest/70 border border-forest/10">Digestion</span>
+          <span class="text-[11px] font-medium px-2.5 py-1 border badge-immunite">Immunité</span>
+          <span class="text-[11px] font-medium px-2.5 py-1 border badge-beaute">Peau</span>
+          <span class="text-[11px] font-medium px-2.5 py-1 border badge-beaute">Cheveux</span>
         </div>
         <div class="flex items-center justify-between pt-4 border-t border-cream-dark">
-          <span class="text-xs text-forest/40">30 gélules / boîte</span>
+          <div>
+            <div class="text-xs text-forest/40 mb-0.5">60 comprimés / boîte</div>
+            <div class="font-serif text-lg font-semibold text-forest">18,90 € <span class="text-xs text-forest/40 font-sans font-normal">HT</span></div>
+          </div>
           <button class="text-xs font-medium text-gold hover:text-forest transition tracking-wide">Voir détail →</button>
         </div>
       </div>
     </div>
 
-    <!-- REF-007 -->
-    <div class="prod-card product-card reveal" data-category="immunite energie" onclick="openModal('Vitamine C Liposomale', 'REF-007', 'immunite', '1000 mg de vitamine C encapsulée en liposomes phospholipidiques de haute pureté. Biodisponibilité 4× supérieure à la vitamine C classique. Tolérée par les estomacs sensibles.', '60 sachets / boîte', ['Immunité','Antioxydant','Collagène'], 'https://images.unsplash.com/photo-1612776572997-76cc42e058c3?w=600&q=80&auto=format&fit=crop')">
-      <div class="relative h-36 overflow-hidden">
-        <img src="https://images.unsplash.com/photo-1612776572997-76cc42e058c3?w=600&q=80&auto=format&fit=crop" class="absolute inset-0 w-full h-full object-cover" alt="Vitamine C Liposomale">
-        <div class="absolute inset-0 band-immunite" style="opacity:0.55"></div>
-        <div class="absolute inset-0 flex items-end justify-end p-5">
+    <!-- REF-007 : Mélatonine + Passiflore -->
+    <div class="prod-card product-card reveal cursor-pointer" data-category="sommeil" onclick="openModal('Mélatonine 1mg + Passiflore','REF-007','sommeil','Association mélatonine 1mg (dosage cliniquement validé) et extrait standardisé de passiflore pour amplifier l\'effet relaxant. Favorise l\'endormissement, améliore la qualité du sommeil sans accoutumance.','60 comprimés / boîte',['Sommeil','Endormissement','Relaxation','Sans accoutumance'],'')">
+      <div class="prod-visual band-sommeil">
+        <svg class="absolute inset-0 w-full h-full opacity-10" viewBox="0 0 200 140" fill="none">
+          <circle cx="80" cy="70" r="35" stroke="#fff" stroke-width="1"/>
+          <path d="M80 35C80 35 115 55 115 70C115 85 80 105 80 105C80 105 45 85 45 70C45 55 80 35 80 35Z" fill="#fff" opacity="0.05"/>
+          <circle cx="150" cy="35" r="12" stroke="#fff" stroke-width="0.8"/>
+          <circle cx="165" cy="50" r="7" stroke="#fff" stroke-width="0.6" opacity="0.5"/>
+          <circle cx="140" cy="50" r="5" fill="#fff" opacity="0.2"/>
+        </svg>
+        <svg class="relative z-10 opacity-55" width="38" height="38" viewBox="0 0 38 38" fill="none">
+          <path d="M28 8C20 8 13 15 13 23C13 31 20 37 28 37C22 37 10 31 10 19C10 8 22 3 28 8Z" fill="#C8A96E" opacity="0.5"/>
+          <path d="M30 8C22 8 15 15 15 23C15 31 22 38 30 38C24 38 12 31 12 19C12 8 24 3 30 8Z" stroke="#C8A96E" stroke-width="1.5" fill="none"/>
+        </svg>
+        <div class="absolute top-3 left-3 z-10">
+          <span class="text-[10px] font-semibold tracking-[0.15em] uppercase px-2.5 py-1" style="background:rgba(26,26,58,0.9);color:#fff;border:1px solid rgba(58,58,106,0.3);">Sommeil</span>
+        </div>
+        <div class="absolute inset-0 flex items-end justify-end p-5 z-10">
           <span class="text-white/70 text-xs font-medium tracking-widest">REF-007</span>
         </div>
       </div>
       <div class="p-6">
-        <h3 class="font-serif text-xl font-semibold text-forest mb-2">Vitamine C Liposomale</h3>
-        <p class="text-forest/55 text-sm leading-relaxed mb-4">1000mg encapsulée en liposomes. Biodisponibilité 4× supérieure. Tolérance maximale.</p>
+        <h3 class="font-serif text-xl font-semibold text-forest mb-2">Mélatonine 1mg + Passiflore</h3>
+        <p class="text-forest/55 text-sm leading-relaxed mb-4 line-clamp-2">Sommeil, endormissement, qualité du repos. Mélatonine 1mg + passiflore standardisée.</p>
         <div class="flex flex-wrap gap-1.5 mb-5">
-          <span class="text-[11px] font-medium px-2.5 py-1 bg-forest/8 text-forest/70 border border-forest/10">Immunité</span>
-          <span class="text-[11px] font-medium px-2.5 py-1 bg-forest/8 text-forest/70 border border-forest/10">Antioxydant</span>
+          <span class="text-[11px] font-medium px-2.5 py-1 border badge-sommeil">Sommeil</span>
+          <span class="text-[11px] font-medium px-2.5 py-1 border badge-sommeil">Endormissement</span>
+          <span class="text-[11px] font-medium px-2.5 py-1 border badge-sommeil">Relaxation</span>
         </div>
         <div class="flex items-center justify-between pt-4 border-t border-cream-dark">
-          <span class="text-xs text-forest/40">60 sachets / boîte</span>
+          <div>
+            <div class="text-xs text-forest/40 mb-0.5">60 comprimés / boîte</div>
+            <div class="font-serif text-lg font-semibold text-forest">16,90 € <span class="text-xs text-forest/40 font-sans font-normal">HT</span></div>
+          </div>
           <button class="text-xs font-medium text-gold hover:text-forest transition tracking-wide">Voir détail →</button>
         </div>
       </div>
     </div>
 
-    <!-- REF-008 -->
-    <div class="prod-card product-card reveal delay-100" data-category="articulaire energie" onclick="openModal('Zinc & Sélénium', 'REF-008', 'articulaire', 'Zinc bisglycinate 15mg + Sélénium organique (sélénométhionine) 100µg. Association synergique idéale pour la peau, les ongles, les cheveux et le système immunitaire.', '60 gélules / boîte', ['Peau & Cheveux','Immunité','Antioxydant'], 'https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=600&q=80&auto=format&fit=crop')">
-      <div class="relative h-36 overflow-hidden">
-        <img src="https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=600&q=80&auto=format&fit=crop" class="absolute inset-0 w-full h-full object-cover" alt="Zinc & Sélénium">
-        <div class="absolute inset-0 band-articulaire" style="opacity:0.50"></div>
-        <div class="absolute inset-0 flex items-end justify-end p-5">
-          <span class="text-white/70 text-xs font-medium tracking-widest">REF-008</span>
-        </div>
-      </div>
-      <div class="p-6">
-        <h3 class="font-serif text-xl font-semibold text-forest mb-2">Zinc & Sélénium</h3>
-        <p class="text-forest/55 text-sm leading-relaxed mb-4">Zinc bisglycinate 15mg + Sélénium organique 100µg. Peau, ongles, cheveux.</p>
-        <div class="flex flex-wrap gap-1.5 mb-5">
-          <span class="text-[11px] font-medium px-2.5 py-1 bg-forest/8 text-forest/70 border border-forest/10">Peau & Cheveux</span>
-          <span class="text-[11px] font-medium px-2.5 py-1 bg-forest/8 text-forest/70 border border-forest/10">Immunité</span>
-        </div>
-        <div class="flex items-center justify-between pt-4 border-t border-cream-dark">
-          <span class="text-xs text-forest/40">60 gélules / boîte</span>
-          <button class="text-xs font-medium text-gold hover:text-forest transition tracking-wide">Voir détail →</button>
-        </div>
-      </div>
-    </div>
+  </div>
+</section>
 
-    <!-- REF-009 -->
-    <div class="prod-card product-card reveal delay-200" data-category="digestion energie" onclick="openModal('Complexe B Actif', 'REF-009', 'energie', '8 vitamines du groupe B sous formes biologiquement actives : méthylfolate (5-MTHF), méthylcobalamine (B12), pyridoxal-5-phosphate (B6). Formule de référence pour le soutien neurologique et énergétique.', '60 comprimés / boîte', ['Énergie','Neurologique','Homocystéine'], 'https://images.unsplash.com/photo-1559757148-5c350d0d3c56?w=600&q=80&auto=format&fit=crop')">
-      <div class="relative h-36 overflow-hidden">
-        <img src="https://images.unsplash.com/photo-1559757148-5c350d0d3c56?w=600&q=80&auto=format&fit=crop" class="absolute inset-0 w-full h-full object-cover" alt="Complexe B Actif">
-        <div class="absolute inset-0 band-digestion" style="opacity:0.55"></div>
-        <div class="absolute inset-0 flex items-end justify-end p-5">
-          <span class="text-white/70 text-xs font-medium tracking-widest">REF-009</span>
-        </div>
+<!-- SECTION CONDITIONS DE RÉFÉRENCEMENT -->
+<section class="py-20 px-8 bg-cream-dark">
+  <div class="max-w-7xl mx-auto">
+    <div class="text-center mb-14 reveal">
+      <div class="flex items-center justify-center gap-3 mb-4">
+        <div class="h-px w-10 bg-gold"></div>
+        <span class="text-gold text-xs font-medium tracking-[0.25em] uppercase">Partenariat pharmacies</span>
+        <div class="h-px w-10 bg-gold"></div>
       </div>
-      <div class="p-6">
-        <h3 class="font-serif text-xl font-semibold text-forest mb-2">Complexe B Actif</h3>
-        <p class="text-forest/55 text-sm leading-relaxed mb-4">8 vitamines B sous formes actives. Méthylfolate, méthylcobalamine. Formule neurologique.</p>
-        <div class="flex flex-wrap gap-1.5 mb-5">
-          <span class="text-[11px] font-medium px-2.5 py-1 bg-forest/8 text-forest/70 border border-forest/10">Énergie</span>
-          <span class="text-[11px] font-medium px-2.5 py-1 bg-forest/8 text-forest/70 border border-forest/10">Neurologique</span>
-        </div>
-        <div class="flex items-center justify-between pt-4 border-t border-cream-dark">
-          <span class="text-xs text-forest/40">60 comprimés / boîte</span>
-          <button class="text-xs font-medium text-gold hover:text-forest transition tracking-wide">Voir détail →</button>
-        </div>
-      </div>
+      <h2 class="font-serif text-4xl md:text-5xl font-light text-forest">
+        Conditions de <em class="text-gold">référencement</em>
+      </h2>
     </div>
+    <div class="grid md:grid-cols-3 gap-6">
 
+      <!-- Commande minimum -->
+      <div class="cond-card bg-cream p-8 reveal">
+        <div class="w-12 h-12 border border-gold/30 flex items-center justify-center mb-6">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#C8A96E" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/>
+            <line x1="3" y1="6" x2="21" y2="6"/>
+            <path d="M16 10a4 4 0 01-8 0"/>
+          </svg>
+        </div>
+        <div class="font-serif text-3xl text-gold mb-1">10 boîtes</div>
+        <h3 class="font-sans font-semibold text-forest text-base mb-3">Commande minimum</h3>
+        <p class="text-forest/55 text-sm leading-relaxed">À partir de 10 boîtes par référence pour votre première commande. Aucun engagement de volume annuel à l'entrée dans le réseau.</p>
+      </div>
+
+      <!-- Délai livraison -->
+      <div class="cond-card bg-cream p-8 reveal delay-100">
+        <div class="w-12 h-12 border border-gold/30 flex items-center justify-center mb-6">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#C8A96E" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="1" y="3" width="15" height="13" rx="1"/>
+            <path d="M16 8h4l3 4v4h-7V8z"/>
+            <circle cx="5.5" cy="18.5" r="2.5"/>
+            <circle cx="18.5" cy="18.5" r="2.5"/>
+          </svg>
+        </div>
+        <div class="font-serif text-3xl text-gold mb-1">J+2</div>
+        <h3 class="font-sans font-semibold text-forest text-base mb-3">Délai de livraison</h3>
+        <p class="text-forest/55 text-sm leading-relaxed">France entière en J+2 ouvré. Commandes passées avant 14h expédiées le jour même. Suivi en temps réel inclus.</p>
+      </div>
+
+      <!-- Tarifs dégressifs -->
+      <div class="cond-card bg-cream p-8 reveal delay-200">
+        <div class="w-12 h-12 border border-gold/30 flex items-center justify-center mb-6">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#C8A96E" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="12" y1="1" x2="12" y2="23"/>
+            <path d="M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6"/>
+          </svg>
+        </div>
+        <div class="font-serif text-3xl text-gold mb-1">-15%</div>
+        <h3 class="font-sans font-semibold text-forest text-base mb-3">Tarifs dégressifs</h3>
+        <p class="text-forest/55 text-sm leading-relaxed">À partir de 50 boîtes par commande : -10%. Dès 100 boîtes : -15%. Tarifs annuels personnalisés pour les grosses officines.</p>
+      </div>
+
+    </div>
   </div>
 </section>
 
@@ -428,7 +621,7 @@ tailwind.config = {
     <p class="text-cream/50 text-sm leading-relaxed mb-10 font-light">
       Contactez votre commercial NaturaCorp pour obtenir le catalogue tarifaire complet et les conditions de partenariat exclusives pharmacies.
     </p>
-    <a href="contact.html" class="inline-flex items-center gap-3 bg-gold text-forest font-semibold px-8 py-4 hover:bg-gold-light transition-colors duration-300 tracking-wide text-sm">
+    <a href="partenaire.html" class="inline-flex items-center gap-3 bg-gold text-forest font-semibold px-8 py-4 hover:bg-gold-light transition-colors duration-300 tracking-wide text-sm">
       Demander un catalogue
       <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2 7h10M7 2l5 5-5 5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
     </a>
@@ -477,7 +670,12 @@ tailwind.config = {
     </div>
   </div>
   <div class="border-t border-white/10 px-8 py-5 max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-3 text-xs text-cream/25">
-    <span>© 2025 NaturaCorp. Tous droits réservés.</span>
+    <span>© 2025 NaturaCorp SAS. Tous droits réservés.</span>
+    <div class="flex gap-5 text-xs">
+      <a href="mentions-legales.html" class="hover:text-cream/70 transition">Mentions légales</a>
+      <a href="confidentialite.html" class="hover:text-cream/70 transition">Confidentialité</a>
+      <a href="cgv.html" class="hover:text-cream/70 transition">CGV</a>
+    </div>
     <span>Distribué exclusivement en pharmacie</span>
   </div>
 </footer>
@@ -487,7 +685,7 @@ tailwind.config = {
   <div class="absolute inset-0 bg-forest/70 backdrop-blur-sm"></div>
   <div id="modal-box" class="relative bg-cream max-w-lg w-full shadow-2xl">
     <div id="modal-band" class="relative h-40 overflow-hidden band-default flex items-end justify-between px-8 py-5">
-      <img id="modal-img" src="" alt="" class="absolute inset-0 w-full h-full object-cover">
+      <img id="modal-img" src="" alt="" class="absolute inset-0 w-full h-full object-cover" style="display:none;">
       <div id="modal-overlay-color" class="absolute inset-0 band-default" style="opacity:0.55"></div>
       <span id="modal-ref" class="relative z-10 text-white/70 text-xs font-medium tracking-widest"></span>
       <button onclick="closeModal()" class="relative z-10 text-white/70 hover:text-white transition text-2xl leading-none">&times;</button>
@@ -498,7 +696,7 @@ tailwind.config = {
       <div class="flex flex-wrap gap-2 mb-6" id="modal-tags"></div>
       <div class="flex items-center justify-between pt-5 border-t border-cream-dark">
         <span id="modal-format" class="text-xs text-forest/40"></span>
-        <a href="contact.html" class="inline-flex items-center gap-2 bg-forest text-cream text-xs font-medium px-5 py-2.5 hover:bg-forest-light transition-colors tracking-wide">
+        <a href="commander.html" class="inline-flex items-center gap-2 bg-forest text-cream text-xs font-medium px-5 py-2.5 hover:bg-forest-light transition-colors tracking-wide">
           Commander
           <svg width="12" height="12" viewBox="0 0 14 14" fill="none"><path d="M2 7h10M7 2l5 5-5 5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
         </a>
@@ -508,21 +706,18 @@ tailwind.config = {
 </div>
 
 <script>
-// CRM API sync — enrichit les cartes avec les données live du CRM
-const CRM_API = '/api';
+// CRM API sync
+const CRM_API = (window.location.port === '8000' || window.location.port === '') ? '/api' : 'http://127.0.0.1:8000/api';
 fetch(CRM_API + '/produits', { headers: { 'Accept': 'application/json' } })
   .then(r => r.ok ? r.json() : null)
   .then(produits => {
     if (!produits) return;
     produits.forEach(p => {
-      // Trouver la carte correspondante par nom
       document.querySelectorAll('.product-card').forEach(card => {
         const h3 = card.querySelector('h3');
         if (!h3 || h3.textContent.trim() !== p.nom) return;
-        // Mettre à jour l'image si différente
         const img = card.querySelector('img');
         if (img && p.image_url) img.src = p.image_url;
-        // Injecter le tarif
         const footer = card.querySelector('.border-t');
         if (footer) {
           let priceEl = footer.querySelector('.crm-price');
@@ -533,20 +728,18 @@ fetch(CRM_API + '/produits', { headers: { 'Accept': 'application/json' } })
           }
           priceEl.textContent = Number(p.tarif_unitaire).toFixed(2) + ' € HT';
         }
-        // Badge rupture si stock = 0
         if (p.stock === 0) {
-          const imgWrap = card.querySelector('.relative.h-36');
+          const imgWrap = card.querySelector('.prod-visual');
           if (imgWrap && !imgWrap.querySelector('.rupture-badge')) {
             const badge = document.createElement('div');
             badge.className = 'rupture-badge';
-            badge.style.cssText = 'position:absolute;top:10px;left:10px;background:rgba(220,38,38,0.85);color:#fff;font-size:10px;font-weight:600;padding:3px 8px;border-radius:3px;letter-spacing:0.06em;z-index:2;backdrop-filter:blur(4px);';
+            badge.style.cssText = 'position:absolute;top:10px;left:10px;background:rgba(220,38,38,0.85);color:#fff;font-size:10px;font-weight:600;padding:3px 8px;z-index:5;letter-spacing:0.06em;backdrop-filter:blur(4px);';
             badge.textContent = 'RUPTURE';
             imgWrap.appendChild(badge);
           }
         }
       });
     });
-    // Indicateur de connexion CRM actif
     const countEl = document.getElementById('count-display');
     if (countEl) {
       const dot = document.createElement('span');
@@ -564,33 +757,71 @@ window.addEventListener('scroll', () => {
   else navbar.classList.remove('nav-scrolled');
 });
 
+// Mobile menu
+function toggleMenu() {
+  const menu = document.getElementById('mobile-menu');
+  const btn  = document.getElementById('menu-btn');
+  menu.classList.toggle('open');
+  btn.classList.toggle('open');
+  document.body.style.overflow = menu.classList.contains('open') ? 'hidden' : '';
+}
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape') {
+    const m = document.getElementById('mobile-menu');
+    if (m.classList.contains('open')) toggleMenu();
+    else closeModal();
+  }
+});
+
 // Reveal
 const observer = new IntersectionObserver((entries) => {
   entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); observer.unobserve(e.target); } });
 }, { threshold: 0.12 });
 document.querySelectorAll('.reveal, .reveal-left').forEach(el => observer.observe(el));
 
-// Filter
-function filterProducts(category) {
-  const cards = document.querySelectorAll('.product-card');
-  const pills = document.querySelectorAll('.filter-pill');
+// Filter system
+const pills  = document.querySelectorAll('.filter-pill');
+const cards  = document.querySelectorAll('.product-card');
+const countEl = document.getElementById('count-display');
 
-  pills.forEach(p => p.classList.remove('active'));
-  document.querySelector(`[data-filter="${category}"]`).classList.add('active');
-
-  let visible = 0;
-  cards.forEach(card => {
-    const show = category === 'tous' || card.dataset.category.includes(category);
-    card.style.display = show ? 'block' : 'none';
-    if (show) visible++;
-  });
-  document.getElementById('count-display').textContent = visible + ' produit' + (visible > 1 ? 's' : '');
+function updateCount() {
+  const visible = [...cards].filter(c => c.style.display !== 'none').length;
+  const txt = visible + ' produit' + (visible > 1 ? 's' : '');
+  // Keep CRM dot if present
+  const dot = countEl.querySelector('span');
+  if (dot) {
+    countEl.innerHTML = '';
+    countEl.appendChild(dot);
+    countEl.appendChild(document.createTextNode(txt));
+  } else {
+    countEl.textContent = txt;
+  }
 }
+
+pills.forEach(pill => {
+  pill.addEventListener('click', () => {
+    const filter = pill.dataset.filter;
+    pills.forEach(p => p.classList.remove('active'));
+    pill.classList.add('active');
+    cards.forEach(card => {
+      if (filter === 'tous' || card.dataset.category.includes(filter)) {
+        card.style.display = '';
+        card.style.opacity = '1';
+      } else {
+        card.style.display = 'none';
+      }
+    });
+    updateCount();
+  });
+});
+
+updateCount();
 
 // Modal
 const bandMap = {
   immunite: 'band-immunite', energie: 'band-energie', articulaire: 'band-articulaire',
-  sommeil: 'band-sommeil', digestion: 'band-digestion', default: 'band-default'
+  sommeil: 'band-sommeil', digestion: 'band-digestion', beaute: 'band-beaute',
+  ossature: 'band-ossature', default: 'band-default'
 };
 function openModal(name, ref, category, desc, format, tags, imageUrl) {
   document.getElementById('modal-name').textContent = name;
@@ -599,14 +830,15 @@ function openModal(name, ref, category, desc, format, tags, imageUrl) {
   document.getElementById('modal-format').textContent = format;
   const tagsEl = document.getElementById('modal-tags');
   tagsEl.innerHTML = tags.map(t => `<span class="text-[11px] font-medium px-2.5 py-1 bg-forest/8 text-forest/70 border border-forest/10">${t}</span>`).join('');
-  const band = document.getElementById('modal-band');
-  band.className = `relative h-40 overflow-hidden flex items-end justify-between px-8 py-5`;
   const overlayColor = document.getElementById('modal-overlay-color');
   overlayColor.className = `absolute inset-0 ${bandMap[category] || bandMap.default}`;
+  overlayColor.style.opacity = '0.7';
+  const img = document.getElementById('modal-img');
   if (imageUrl) {
-    const img = document.getElementById('modal-img');
     img.src = imageUrl;
     img.style.display = 'block';
+  } else {
+    img.style.display = 'none';
   }
   const overlay = document.getElementById('modal-overlay');
   overlay.classList.remove('hidden');
@@ -620,10 +852,28 @@ function closeModal() {
   document.body.style.overflow = '';
 }
 function closeModalOutside(e) {
-  if (e.target === document.getElementById('modal-overlay') || e.target === e.currentTarget.querySelector('.absolute.inset-0')) closeModal();
+  if (e.target === document.getElementById('modal-overlay') || e.target.classList.contains('absolute')) closeModal();
 }
-document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
 </script>
 
+<!-- COOKIE BANNER -->
+<div id="cookie-banner" style="display:none; position:fixed; bottom:0; left:0; right:0; z-index:99999; background:#0B1F12; border-top:1px solid rgba(200,169,110,0.25); padding:18px 32px; align-items:center; justify-content:space-between; gap:24px; flex-wrap:wrap; font-family:'DM Sans',system-ui,sans-serif; box-shadow:0 -4px 32px rgba(0,0,0,0.25);">
+  <p style="margin:0; font-size:13px; color:rgba(247,242,232,0.75); line-height:1.6; max-width:600px;">
+    Nous utilisons des cookies pour améliorer votre expérience. En continuant, vous acceptez notre
+    <a href="confidentialite.html" style="color:#C8A96E; text-decoration:none;">politique de confidentialité</a>.
+  </p>
+  <div style="display:flex; gap:10px; flex-shrink:0;">
+    <button onclick="cookieRefuse()" style="padding:9px 20px; background:transparent; border:1px solid rgba(247,242,232,0.2); color:rgba(247,242,232,0.55); font-size:12px; font-weight:500; cursor:pointer; font-family:inherit; letter-spacing:0.05em;">Refuser</button>
+    <button onclick="cookieAccept()" style="padding:9px 20px; background:#C8A96E; border:1px solid #C8A96E; color:#0B1F12; font-size:12px; font-weight:700; cursor:pointer; font-family:inherit; letter-spacing:0.08em; text-transform:uppercase;">Accepter</button>
+  </div>
+</div>
+<script>
+(function(){
+  var b = document.getElementById('cookie-banner');
+  if (b && !localStorage.getItem('nc_cookie')) { b.style.display = 'flex'; }
+})();
+function cookieAccept() { localStorage.setItem('nc_cookie','1'); document.getElementById('cookie-banner').style.display='none'; }
+function cookieRefuse() { localStorage.setItem('nc_cookie','0'); document.getElementById('cookie-banner').style.display='none'; }
+</script>
 </body>
 </html>

@@ -123,7 +123,7 @@ tailwind.config = {
         <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg>
         Espace partenaire
       </a>
-      <a href="contact.html" class="inline-flex items-center gap-2 nav-cta text-sm font-medium px-6 py-2.5 tracking-wide">
+      <a href="partenaire.html" class="inline-flex items-center gap-2 nav-cta text-sm font-medium px-6 py-2.5 tracking-wide">
         Devenir partenaire
         <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2 7h10M7 2l5 5-5 5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
       </a>
@@ -385,7 +385,7 @@ tailwind.config = {
     <p class="text-cream/50 text-sm mb-10 font-light leading-relaxed">
       Plus de 400 pharmacies nous font confiance. Découvrez les conditions de partenariat et comment intégrer notre catalogue en officine.
     </p>
-    <a href="contact.html" class="inline-flex items-center gap-3 bg-gold text-forest font-semibold px-8 py-4 hover:bg-gold-light transition-colors duration-300 tracking-wide text-sm">
+    <a href="partenaire.html" class="inline-flex items-center gap-3 bg-gold text-forest font-semibold px-8 py-4 hover:bg-gold-light transition-colors duration-300 tracking-wide text-sm">
       Nous contacter
       <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2 7h10M7 2l5 5-5 5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
     </a>
@@ -434,7 +434,12 @@ tailwind.config = {
     </div>
   </div>
   <div class="border-t border-white/10 px-8 py-5 max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-3 text-xs text-cream/25">
-    <span>© 2025 NaturaCorp. Tous droits réservés.</span>
+    <span>© 2025 NaturaCorp SAS. Tous droits réservés.</span>
+        <div class="flex gap-5 text-xs">
+          <a href="mentions-legales.html" class="hover:text-cream/70 transition">Mentions légales</a>
+          <a href="confidentialite.html" class="hover:text-cream/70 transition">Confidentialité</a>
+          <a href="cgv.html" class="hover:text-cream/70 transition">CGV</a>
+        </div>
     <span>Distribué exclusivement en pharmacie</span>
   </div>
 </footer>
@@ -452,5 +457,24 @@ const observer = new IntersectionObserver((entries) => {
 document.querySelectorAll('.reveal, .reveal-left, .reveal-right').forEach(el => observer.observe(el));
 </script>
 
+<!-- COOKIE BANNER -->
+<div id="cookie-banner" style="display:none; position:fixed; bottom:0; left:0; right:0; z-index:99999; background:#0B1F12; border-top:1px solid rgba(200,169,110,0.25); padding:18px 32px; align-items:center; justify-content:space-between; gap:24px; flex-wrap:wrap; font-family:'DM Sans',system-ui,sans-serif; box-shadow:0 -4px 32px rgba(0,0,0,0.25);">
+  <p style="margin:0; font-size:13px; color:rgba(247,242,232,0.75); line-height:1.6; max-width:600px;">
+    Nous utilisons des cookies pour améliorer votre expérience. En continuant, vous acceptez notre
+    <a href="confidentialite.html" style="color:#C8A96E; text-decoration:none;">politique de confidentialité</a>.
+  </p>
+  <div style="display:flex; gap:10px; flex-shrink:0;">
+    <button onclick="cookieRefuse()" style="padding:9px 20px; background:transparent; border:1px solid rgba(247,242,232,0.2); color:rgba(247,242,232,0.55); font-size:12px; font-weight:500; cursor:pointer; font-family:inherit; letter-spacing:0.05em;">Refuser</button>
+    <button onclick="cookieAccept()" style="padding:9px 20px; background:#C8A96E; border:1px solid #C8A96E; color:#0B1F12; font-size:12px; font-weight:700; cursor:pointer; font-family:inherit; letter-spacing:0.08em; text-transform:uppercase;">Accepter</button>
+  </div>
+</div>
+<script>
+(function(){
+  var b = document.getElementById('cookie-banner');
+  if (b && !localStorage.getItem('nc_cookie')) { b.style.display = 'flex'; }
+})();
+function cookieAccept() { localStorage.setItem('nc_cookie','1'); document.getElementById('cookie-banner').style.display='none'; }
+function cookieRefuse() { localStorage.setItem('nc_cookie','0'); document.getElementById('cookie-banner').style.display='none'; }
+</script>
 </body>
 </html>

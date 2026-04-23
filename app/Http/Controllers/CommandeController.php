@@ -162,6 +162,27 @@ class CommandeController extends Controller
         });
     }
 
+    public function pdf(Commande $commande)
+    {
+        $commande->load(['pharmacie', 'produit']);
+        $pdf = Pdf::loadView('pdfs.commande', compact('commande'));
+        $filename = 'NC-' . $commande->created_at->format('Y') . '-' . str_pad($commande->id, 4, '0', STR_PAD_LEFT) . '.pdf';
+        return $pdf->download($filename);
+    }
+
+    public function updateStatut(Request $request, Commande $commande)
+    {
+        $data = $request->validate([
+            'statut' => 'required|in:' . implode(',', array_column(StatutCommande::cases(), 'value')),
+        ]);
+
+        $ancien = $commande->statut->value;
+        $commande->update(['statut' => $data['statut']]);
+        JournalService::log('update', "Statut commande #{$commande->id} : {$ancien} → {$data['statut']}");
+
+        return response()->json(['success' => true, 'statut' => $data['statut']]);
+    }
+
     public function destroy(Commande $commande)
     {
         $this->authorize('delete', $commande);

@@ -47,7 +47,6 @@ tailwind.config = {
   /* Nav scroll effect */
   .nav-scrolled { background-color: rgba(247,242,232,0.95) !important; backdrop-filter: blur(12px); border-bottom: 1px solid #D6C9A8; }
 
-  /* Navbar transparent (sur hero sombre) */
   .nav-brand     { color: #F7F2E8; transition: color 0.3s ease; }
   .nav-link-item { color: rgba(247,242,232,0.65); transition: color 0.25s ease; }
   .nav-link-item:hover, .nav-link-item.active { color: #F7F2E8; }
@@ -55,7 +54,6 @@ tailwind.config = {
   .nav-ghost:hover { color: #F7F2E8 !important; border-color: rgba(247,242,232,0.45) !important; }
   .nav-cta { background: #C8A96E !important; color: #0B1F12 !important; transition: background 0.25s; }
   .nav-cta:hover { background: #e0c48a !important; }
-  /* Navbar scrollée (sur fond clair) */
   .nav-scrolled .nav-brand     { color: #0B1F12; }
   .nav-scrolled .nav-link-item { color: rgba(11,31,18,0.65); }
   .nav-scrolled .nav-link-item:hover, .nav-scrolled .nav-link-item.active { color: #0B1F12; }
@@ -71,7 +69,6 @@ tailwind.config = {
     pointer-events: none;
   }
 
-  /* Number counter animation */
   .count-up { display: inline-block; }
 
   /* Line accent */
@@ -119,6 +116,50 @@ tailwind.config = {
   .mobile-nav-link { display:block; font-family:'Cormorant Garamond',Georgia,serif; font-size:26px; font-weight:300; color:rgba(247,242,232,0.5); letter-spacing:-0.01em; padding:10px 0; border-bottom:1px solid rgba(247,242,232,0.07); transition:color 0.2s ease; text-decoration:none; }
   .mobile-nav-link:hover, .mobile-nav-link.active { color:#F7F2E8; }
   .mobile-nav-link.active { font-weight:500; }
+
+  /* Domaines de santé cards */
+  .domaine-card {
+    background: #F7F2E8;
+    border: 1px solid #D6C9A8;
+    transition: border-color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
+  }
+  .domaine-card:hover {
+    border-color: #C8A96E;
+    transform: translateY(-4px);
+    box-shadow: 0 16px 40px rgba(11,31,18,0.08);
+  }
+
+  /* Testimonials */
+  .testi-card {
+    border-left: 2px solid #C8A96E;
+    transition: border-color 0.3s ease;
+  }
+  .testi-card:hover { border-color: #E8D5A8; }
+
+  /* FAQ accordion */
+  .faq-item { border-bottom: 1px solid #D6C9A8; }
+  .faq-chevron { transition: transform 0.3s ease; }
+  .faq-item.open .faq-chevron { transform: rotate(180deg); }
+  .faq-body { max-height: 0; overflow: hidden; transition: max-height 0.4s ease, padding 0.3s ease; }
+  .faq-item.open .faq-body { max-height: 300px; }
+
+  /* Newsletter */
+  .newsletter-input:focus {
+    outline: none;
+    border-color: #C8A96E;
+  }
+
+  /* Social icons */
+  .social-icon {
+    width: 36px; height: 36px;
+    border: 1px solid rgba(247,242,232,0.15);
+    display: inline-flex; align-items: center; justify-content: center;
+    transition: border-color 0.25s, background 0.25s;
+  }
+  .social-icon:hover {
+    border-color: #C8A96E;
+    background: rgba(200,169,110,0.1);
+  }
 </style>
 </head>
 <body class="font-sans antialiased overflow-x-hidden">
@@ -147,7 +188,7 @@ tailwind.config = {
         <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg>
         Espace partenaire
       </a>
-      <a href="contact.html" class="inline-flex items-center gap-2 nav-cta text-sm font-medium px-6 py-2.5 tracking-wide">
+      <a href="partenaire.html" class="inline-flex items-center gap-2 nav-cta text-sm font-medium px-6 py-2.5 tracking-wide">
         Devenir partenaire
         <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2 7h10M7 2l5 5-5 5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
       </a>
@@ -181,7 +222,7 @@ tailwind.config = {
         <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg>
         Espace partenaire
       </a>
-      <a href="contact.html"
+      <a href="partenaire.html"
          style="display:flex; align-items:center; justify-content:center; gap:8px; padding:12px 20px; background:#C8A96E; color:#0B1F12; font-size:13px; font-weight:600; letter-spacing:0.06em; text-decoration:none; transition:background 0.2s;">
         Devenir partenaire
         <svg width="12" height="12" viewBox="0 0 14 14" fill="none"><path d="M2 7h10M7 2l5 5-5 5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
@@ -203,7 +244,6 @@ tailwind.config = {
     <svg class="absolute bottom-0 left-0 w-[500px] h-[500px] opacity-[0.05]" viewBox="0 0 300 300" fill="none">
       <path d="M0 300 Q50 0 300 0 Q250 150 150 200 Q100 230 0 300Z" fill="#4a9970"/>
     </svg>
-    <!-- Large botanical leaf right -->
     <svg class="absolute right-0 top-1/2 -translate-y-1/2 w-[480px] opacity-[0.08]" viewBox="0 0 300 500" fill="none">
       <path d="M150 10C150 10 280 120 280 250C280 370 220 470 150 490C80 470 20 370 20 250C20 120 150 10 150 10Z" fill="#4a9970"/>
       <path d="M150 10C150 10 150 200 150 490" stroke="#C8A96E" stroke-width="1" opacity="0.4"/>
@@ -311,83 +351,143 @@ tailwind.config = {
 
 <!-- PRODUITS PHARES -->
 <section class="py-28 px-8 bg-cream">
-  <div class="max-w-7xl mx-auto">
-    <div class="grid md:grid-cols-2 gap-6 items-end mb-16">
-      <div class="reveal">
-        <p class="text-gold text-xs tracking-[0.25em] uppercase mb-4 font-medium">Sélection</p>
-        <h2 class="font-serif text-5xl md:text-6xl font-light text-forest leading-tight title-line">
-          Nos produits<br><em>phares</em>
-        </h2>
-      </div>
-      <div class="reveal delay-200">
-        <p class="text-forest/60 leading-relaxed max-w-md ml-auto">Des formulations avancées, testées cliniquement et plébiscitées par les professionnels de santé à travers toute la France.</p>
-        <a href="produits.html" class="inline-flex items-center gap-2 mt-6 text-forest-mid font-semibold text-sm link-gold">
-          Voir le catalogue complet
-          <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2 7h10M7 2l5 5-5 5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
-        </a>
-      </div>
+  <div class="max-w-5xl mx-auto">
+    <div class="text-center mb-16 reveal">
+      <p class="text-gold text-xs tracking-[0.25em] uppercase mb-4 font-medium">Sélection</p>
+      <h2 class="font-serif text-5xl md:text-6xl font-light text-forest leading-tight">
+        Notre produit <em>phare</em>
+      </h2>
     </div>
 
-    <div class="grid md:grid-cols-3 gap-6">
-      <!-- Produit 1 -->
-      <div class="prod-card bg-white border border-cream-deep/40 p-8 reveal">
-        <div class="flex items-start justify-between mb-6">
-          <div class="w-12 h-12 bg-forest/5 flex items-center justify-center text-2xl">🐟</div>
-          <span class="font-serif text-xs text-gold/70 tracking-wider">REF-001</span>
+    <a href="produit.html?ref=REF-001" class="prod-card reveal group flex flex-col md:flex-row bg-forest overflow-hidden" style="text-decoration:none;">
+      <div class="md:w-2/5 relative overflow-hidden" style="min-height:280px;">
+        <img src="Omega.png" alt="Oméga-3 Premium"
+             class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105">
+        <div class="absolute inset-0" style="background:linear-gradient(to right,transparent 60%,rgba(11,31,18,0.6));"></div>
+      </div>
+      <div class="md:w-3/5 p-10 flex flex-col justify-between">
+        <div>
+          <div class="flex items-center justify-between mb-6">
+            <span class="text-xs text-gold/60 tracking-[0.2em] uppercase font-mono">REF-001</span>
+            <span class="text-xs border border-gold/30 text-gold/70 px-3 py-1">Certification IFOS 5★</span>
+          </div>
+          <h3 class="font-serif text-3xl md:text-4xl font-light text-cream mb-3">Oméga-3 Premium</h3>
+          <p class="text-cream/50 text-sm leading-relaxed mb-6">EPA 600mg · DHA 400mg par capsule. Issus de poissons sauvages des mers froides, sous forme de triglycérides naturels pour une absorption optimale.</p>
+          <div class="flex flex-wrap gap-2 mb-8">
+            <span class="text-xs border border-gold/25 text-gold/70 px-3 py-1">Cardiovasculaire</span>
+            <span class="text-xs border border-gold/25 text-gold/70 px-3 py-1">Cognitif</span>
+            <span class="text-xs border border-gold/25 text-gold/70 px-3 py-1">Immunité</span>
+            <span class="text-xs border border-gold/25 text-gold/70 px-3 py-1">Anti-inflammatoire</span>
+          </div>
         </div>
-        <h3 class="font-serif text-2xl font-medium text-forest mb-3">Oméga-3 Premium</h3>
-        <p class="text-forest/55 text-sm leading-relaxed mb-6">EPA & DHA hautement concentrés, issus de poissons des mers froides. Certification IFOS 5 étoiles.</p>
-        <div class="flex flex-wrap gap-2 mb-6">
-          <span class="text-xs border border-forest/20 text-forest/60 px-3 py-1">Cardiovasculaire</span>
-          <span class="text-xs border border-forest/20 text-forest/60 px-3 py-1">Cognitif</span>
-        </div>
-        <div class="h-px bg-cream-deep/60 mb-5"></div>
-        <div class="flex items-center justify-between">
-          <span class="text-xs text-forest/40">60 capsules / boîte</span>
-          <a href="contact.html" class="text-forest-mid text-sm font-semibold link-gold">Commander →</a>
+        <div class="flex items-center justify-between pt-6 border-t border-cream/10">
+          <span class="font-serif text-2xl text-cream font-light">28,90 € <span class="text-xs text-cream/40 font-sans">HT / boîte</span></span>
+          <span class="inline-flex items-center gap-2 text-gold text-sm font-semibold group-hover:gap-3 transition-all duration-200">
+            Voir le produit
+            <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2 7h10M7 2l5 5-5 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </span>
         </div>
       </div>
+    </a>
 
-      <!-- Produit 2 — featured (dark) -->
-      <div class="prod-card bg-forest p-8 reveal delay-200 relative overflow-hidden">
-        <div class="absolute top-0 right-0 w-32 h-32 opacity-10">
-          <svg viewBox="0 0 128 128" fill="none"><circle cx="64" cy="64" r="60" stroke="#C8A96E" stroke-width="0.5"/><circle cx="64" cy="64" r="40" stroke="#C8A96E" stroke-width="0.5"/><circle cx="64" cy="64" r="20" stroke="#C8A96E" stroke-width="0.5"/></svg>
-        </div>
-        <div class="flex items-start justify-between mb-6">
-          <div class="w-12 h-12 bg-gold/15 flex items-center justify-center text-2xl">☀️</div>
-          <span class="font-serif text-xs text-gold/50 tracking-wider">REF-002</span>
-        </div>
-        <h3 class="font-serif text-2xl font-medium text-cream mb-3">Vitamine D3 + K2</h3>
-        <p class="text-cream/55 text-sm leading-relaxed mb-6">D3 5000 UI + K2 MK-7 200µg. Formule huileuse microencapsulée pour une absorption maximale.</p>
-        <div class="flex flex-wrap gap-2 mb-6">
-          <span class="text-xs border border-gold/30 text-gold/80 px-3 py-1">Immunité</span>
-          <span class="text-xs border border-gold/30 text-gold/80 px-3 py-1">Osseux</span>
-        </div>
-        <div class="h-px bg-cream/10 mb-5"></div>
-        <div class="flex items-center justify-between">
-          <span class="text-xs text-cream/40">90 capsules / boîte</span>
-          <a href="contact.html" class="text-gold text-sm font-semibold hover:text-gold-light transition">Commander →</a>
-        </div>
-      </div>
+    <div class="text-center mt-10 reveal">
+      <a href="produits.html" class="inline-flex items-center gap-2 border border-forest/25 text-forest hover:border-gold hover:text-gold font-medium px-8 py-3.5 transition-colors duration-300 text-sm tracking-wide">
+        Voir tous les produits
+        <svg width="13" height="13" viewBox="0 0 14 14" fill="none"><path d="M2 7h10M7 2l5 5-5 5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </a>
+    </div>
+  </div>
+</section>
 
-      <!-- Produit 3 -->
-      <div class="prod-card bg-white border border-cream-deep/40 p-8 reveal delay-300">
-        <div class="flex items-start justify-between mb-6">
-          <div class="w-12 h-12 bg-forest/5 flex items-center justify-center text-2xl">🌿</div>
-          <span class="font-serif text-xs text-gold/70 tracking-wider">REF-003</span>
+<!-- NOS DOMAINES DE SANTÉ -->
+<section class="py-28 px-8" style="background:#EDE4D0;">
+  <div class="max-w-7xl mx-auto">
+    <div class="text-center mb-16 reveal">
+      <p class="text-gold text-xs tracking-[0.25em] uppercase mb-4 font-medium">Expertise</p>
+      <h2 class="font-serif text-5xl md:text-6xl font-light text-forest leading-tight">
+        Nos domaines <em>de santé</em>
+      </h2>
+      <p class="text-forest/50 text-base mt-4 max-w-lg mx-auto font-light">Des formules spécialisées pour chaque besoin thérapeutique de votre officine.</p>
+    </div>
+
+    <div class="grid md:grid-cols-3 gap-5">
+
+      <!-- Cardiovasculaire -->
+      <a href="produits.html" class="domaine-card p-7 reveal group" style="text-decoration:none;">
+        <div class="w-11 h-11 border border-gold/30 flex items-center justify-center mb-5 group-hover:border-gold/60 transition-colors">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#C8A96E" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/>
+          </svg>
         </div>
-        <h3 class="font-serif text-2xl font-medium text-forest mb-3">Curcuma & Poivre Noir</h3>
-        <p class="text-forest/55 text-sm leading-relaxed mb-6">Curcumine 95% titrée + Pipérine 98%. Biodisponibilité 20× supérieure aux extraits classiques.</p>
-        <div class="flex flex-wrap gap-2 mb-6">
-          <span class="text-xs border border-forest/20 text-forest/60 px-3 py-1">Anti-inflammatoire</span>
-          <span class="text-xs border border-forest/20 text-forest/60 px-3 py-1">Articulaire</span>
+        <h3 class="font-serif text-xl font-semibold text-forest mb-2">Cardiovasculaire</h3>
+        <p class="text-forest/50 text-sm leading-relaxed mb-4">Oméga-3, CoQ10, antioxydants pour la santé du cœur et la circulation.</p>
+        <span class="text-gold text-xs font-medium tracking-wide group-hover:gap-2 inline-flex items-center gap-1 transition-all">Voir les produits <span class="group-hover:translate-x-1 transition-transform inline-block">→</span></span>
+      </a>
+
+      <!-- Immunité -->
+      <a href="produits.html?filter=immunite" class="domaine-card p-7 reveal delay-100 group" style="text-decoration:none;">
+        <div class="w-11 h-11 border border-gold/30 flex items-center justify-center mb-5 group-hover:border-gold/60 transition-colors">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#C8A96E" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+          </svg>
         </div>
-        <div class="h-px bg-cream-deep/60 mb-5"></div>
-        <div class="flex items-center justify-between">
-          <span class="text-xs text-forest/40">60 gélules / boîte</span>
-          <a href="contact.html" class="text-forest-mid text-sm font-semibold link-gold">Commander →</a>
+        <h3 class="font-serif text-xl font-semibold text-forest mb-2">Immunité</h3>
+        <p class="text-forest/50 text-sm leading-relaxed mb-4">Vitamine D3+K2, Zinc, Sélénium pour renforcer les défenses naturelles.</p>
+        <span class="text-gold text-xs font-medium tracking-wide group-hover:gap-2 inline-flex items-center gap-1 transition-all">Voir les produits <span class="group-hover:translate-x-1 transition-transform inline-block">→</span></span>
+      </a>
+
+      <!-- Articulations -->
+      <a href="produits.html?filter=articulaire" class="domaine-card p-7 reveal delay-200 group" style="text-decoration:none;">
+        <div class="w-11 h-11 border border-gold/30 flex items-center justify-center mb-5 group-hover:border-gold/60 transition-colors">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#C8A96E" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="10"/>
+            <path d="M12 8v4l3 3"/>
+            <path d="M7 13c.5-2.5 2.5-4 5-4"/>
+          </svg>
         </div>
-      </div>
+        <h3 class="font-serif text-xl font-semibold text-forest mb-2">Articulations</h3>
+        <p class="text-forest/50 text-sm leading-relaxed mb-4">Curcuma liposomal, collagène marin pour mobilité et confort articulaire.</p>
+        <span class="text-gold text-xs font-medium tracking-wide group-hover:gap-2 inline-flex items-center gap-1 transition-all">Voir les produits <span class="group-hover:translate-x-1 transition-transform inline-block">→</span></span>
+      </a>
+
+      <!-- Énergie & Vitalité -->
+      <a href="produits.html?filter=energie" class="domaine-card p-7 reveal group" style="text-decoration:none;">
+        <div class="w-11 h-11 border border-gold/30 flex items-center justify-center mb-5 group-hover:border-gold/60 transition-colors">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#C8A96E" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/>
+          </svg>
+        </div>
+        <h3 class="font-serif text-xl font-semibold text-forest mb-2">Énergie &amp; Vitalité</h3>
+        <p class="text-forest/50 text-sm leading-relaxed mb-4">Magnésium, vitamines B, adaptogènes pour combattre fatigue et stress.</p>
+        <span class="text-gold text-xs font-medium tracking-wide group-hover:gap-2 inline-flex items-center gap-1 transition-all">Voir les produits <span class="group-hover:translate-x-1 transition-transform inline-block">→</span></span>
+      </a>
+
+      <!-- Digestion -->
+      <a href="produits.html?filter=digestion" class="domaine-card p-7 reveal delay-100 group" style="text-decoration:none;">
+        <div class="w-11 h-11 border border-gold/30 flex items-center justify-center mb-5 group-hover:border-gold/60 transition-colors">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#C8A96E" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="10"/>
+            <path d="M8 12c0-2.2 1.8-4 4-4s4 1.8 4 4-1.8 4-4 4"/>
+            <path d="M12 16v2"/>
+          </svg>
+        </div>
+        <h3 class="font-serif text-xl font-semibold text-forest mb-2">Digestion</h3>
+        <p class="text-forest/50 text-sm leading-relaxed mb-4">Probiotiques premium, enzymes digestives pour un microbiome équilibré.</p>
+        <span class="text-gold text-xs font-medium tracking-wide group-hover:gap-2 inline-flex items-center gap-1 transition-all">Voir les produits <span class="group-hover:translate-x-1 transition-transform inline-block">→</span></span>
+      </a>
+
+      <!-- Sommeil -->
+      <a href="produits.html?filter=sommeil" class="domaine-card p-7 reveal delay-200 group" style="text-decoration:none;">
+        <div class="w-11 h-11 border border-gold/30 flex items-center justify-center mb-5 group-hover:border-gold/60 transition-colors">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#C8A96E" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/>
+          </svg>
+        </div>
+        <h3 class="font-serif text-xl font-semibold text-forest mb-2">Sommeil</h3>
+        <p class="text-forest/50 text-sm leading-relaxed mb-4">Mélatonine, plantes adaptogènes pour un endormissement et repos de qualité.</p>
+        <span class="text-gold text-xs font-medium tracking-wide group-hover:gap-2 inline-flex items-center gap-1 transition-all">Voir les produits <span class="group-hover:translate-x-1 transition-transform inline-block">→</span></span>
+      </a>
+
     </div>
   </div>
 </section>
@@ -404,7 +504,6 @@ tailwind.config = {
         <h2 class="font-serif text-5xl font-light text-cream leading-tight title-line mb-8">
           Pourquoi<br><em>NaturaCorp ?</em>
         </h2>
-        <!-- Testimonial -->
         <div class="border-l-2 border-gold/50 pl-6 mt-10 reveal delay-300">
           <blockquote class="font-serif text-xl text-cream/70 italic leading-relaxed mb-4">
             "Depuis que nous référençons NaturaCorp, nos ventes en compléments alimentaires ont augmenté de 35%."
@@ -461,6 +560,71 @@ tailwind.config = {
   </div>
 </section>
 
+<!-- TÉMOIGNAGES PHARMACIENS -->
+<section class="py-28 px-8" style="background:#0B1F12;">
+  <div class="max-w-7xl mx-auto">
+    <div class="text-center mb-16 reveal">
+      <div class="flex items-center justify-center gap-3 mb-4">
+        <div class="h-px w-10 bg-gold opacity-50"></div>
+        <span class="text-gold text-xs font-medium tracking-[0.25em] uppercase">Ils nous font confiance</span>
+        <div class="h-px w-10 bg-gold opacity-50"></div>
+      </div>
+      <h2 class="font-serif text-5xl md:text-6xl font-light text-cream leading-tight">
+        La parole aux <em class="text-gold italic">pharmaciens</em>
+      </h2>
+    </div>
+
+    <div class="grid md:grid-cols-3 gap-8">
+
+      <!-- Témoignage 1 -->
+      <div class="testi-card pl-6 py-2 reveal">
+        <div class="text-gold/30 font-serif text-6xl leading-none mb-4 font-light select-none">"</div>
+        <blockquote class="font-serif text-xl text-cream/80 italic leading-relaxed mb-6">
+          NaturaCorp a transformé notre rayon compléments. En 6 mois, +42% de CA sur cette catégorie. Les patients apprécient la qualité et la transparence des formulations.
+        </blockquote>
+        <div class="flex items-center gap-3 mt-6">
+          <div class="w-9 h-9 flex items-center justify-center font-serif font-semibold text-sm text-forest" style="background:#C8A96E;">SR</div>
+          <div>
+            <div class="text-cream/90 text-sm font-medium">Sophie Renaud</div>
+            <div class="text-cream/35 text-xs mt-0.5">Pharmacienne titulaire — Lyon</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Témoignage 2 -->
+      <div class="testi-card pl-6 py-2 reveal delay-100">
+        <div class="text-gold/30 font-serif text-6xl leading-none mb-4 font-light select-none">"</div>
+        <blockquote class="font-serif text-xl text-cream/80 italic leading-relaxed mb-6">
+          La traçabilité totale que propose NaturaCorp est un argument de vente décisif. Nos clients demandent des preuves scientifiques, NaturaCorp les fournit.
+        </blockquote>
+        <div class="flex items-center gap-3 mt-6">
+          <div class="w-9 h-9 flex items-center justify-center font-serif font-semibold text-sm text-forest" style="background:#C8A96E;">MT</div>
+          <div>
+            <div class="text-cream/90 text-sm font-medium">Marc Tissier</div>
+            <div class="text-cream/35 text-xs mt-0.5">Directeur de pharmacie — Bordeaux</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Témoignage 3 -->
+      <div class="testi-card pl-6 py-2 reveal delay-200">
+        <div class="text-gold/30 font-serif text-6xl leading-none mb-4 font-light select-none">"</div>
+        <blockquote class="font-serif text-xl text-cream/80 italic leading-relaxed mb-6">
+          L'accompagnement du commercial est exemplaire. Formation en rayon, présentoirs fournis, données de vente partagées — c'est un vrai partenariat.
+        </blockquote>
+        <div class="flex items-center gap-3 mt-6">
+          <div class="w-9 h-9 flex items-center justify-center font-serif font-semibold text-sm text-forest" style="background:#C8A96E;">EV</div>
+          <div>
+            <div class="text-cream/90 text-sm font-medium">Émilie Vidal</div>
+            <div class="text-cream/35 text-xs mt-0.5">Pharmacienne — Nantes</div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
 <!-- CTA -->
 <section class="py-28 px-8 bg-cream relative overflow-hidden">
   <div class="absolute inset-0 flex items-center justify-center opacity-[0.03] pointer-events-none">
@@ -475,7 +639,7 @@ tailwind.config = {
       Rejoignez les 400+ pharmacies qui font confiance à NaturaCorp pour des compléments alimentaires de qualité professionnelle.
     </p>
     <div class="flex flex-col sm:flex-row gap-4 justify-center reveal delay-300">
-      <a href="contact.html" class="inline-flex items-center justify-center gap-2 bg-forest text-cream text-sm font-semibold px-10 py-4 hover:bg-forest-light transition-colors duration-300 tracking-wide">
+      <a href="partenaire.html" class="inline-flex items-center justify-center gap-2 bg-forest text-cream text-sm font-semibold px-10 py-4 hover:bg-forest-light transition-colors duration-300 tracking-wide">
         Demander un devis gratuit
         <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2 7h10M7 2l5 5-5 5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
       </a>
@@ -486,10 +650,117 @@ tailwind.config = {
   </div>
 </section>
 
+<!-- FAQ -->
+<section class="py-24 px-8 bg-cream-dark">
+  <div class="max-w-3xl mx-auto">
+    <div class="text-center mb-14 reveal">
+      <p class="text-gold text-xs tracking-[0.25em] uppercase mb-4 font-medium">Questions fréquentes</p>
+      <h2 class="font-serif text-4xl md:text-5xl font-light text-forest leading-tight">
+        Tout ce que vous <em>devez savoir</em>
+      </h2>
+    </div>
+
+    <!-- FAQ Item 1 -->
+    <div class="faq-item" id="faq-1">
+      <button class="w-full flex items-center justify-between py-5 text-left group" onclick="toggleFaq('faq-1')">
+        <span class="font-sans font-medium text-forest text-base pr-8 group-hover:text-forest/80 transition-colors">Quelles sont les conditions pour devenir pharmacie partenaire ?</span>
+        <svg class="faq-chevron flex-shrink-0 text-gold" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>
+      </button>
+      <div class="faq-body">
+        <p class="text-forest/60 text-sm leading-relaxed pb-5">Pas de volume minimum d'achat à l'entrée. Un commercial vous rencontrera pour présenter le catalogue et établir un tarif personnalisé adapté à la taille et aux besoins de votre officine.</p>
+      </div>
+    </div>
+
+    <!-- FAQ Item 2 -->
+    <div class="faq-item" id="faq-2">
+      <button class="w-full flex items-center justify-between py-5 text-left group" onclick="toggleFaq('faq-2')">
+        <span class="font-sans font-medium text-forest text-base pr-8 group-hover:text-forest/80 transition-colors">Quels délais de livraison ?</span>
+        <svg class="faq-chevron flex-shrink-0 text-gold" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>
+      </button>
+      <div class="faq-body">
+        <p class="text-forest/60 text-sm leading-relaxed pb-5">Livraison J+2 sur toute la France métropolitaine. Commandes passées avant 14h expédiées le jour même. DOM-TOM sur devis. Suivi de colis disponible en temps réel via votre espace partenaire.</p>
+      </div>
+    </div>
+
+    <!-- FAQ Item 3 -->
+    <div class="faq-item" id="faq-3">
+      <button class="w-full flex items-center justify-between py-5 text-left group" onclick="toggleFaq('faq-3')">
+        <span class="font-sans font-medium text-forest text-base pr-8 group-hover:text-forest/80 transition-colors">Les produits sont-ils remboursables par la Sécurité Sociale ?</span>
+        <svg class="faq-chevron flex-shrink-0 text-gold" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>
+      </button>
+      <div class="faq-body">
+        <p class="text-forest/60 text-sm leading-relaxed pb-5">Nos compléments alimentaires ne sont pas remboursés par la Sécurité Sociale. Ils sont cependant pris en charge par certaines mutuelles (liste disponible sur demande auprès de votre commercial).</p>
+      </div>
+    </div>
+
+    <!-- FAQ Item 4 -->
+    <div class="faq-item" id="faq-4">
+      <button class="w-full flex items-center justify-between py-5 text-left group" onclick="toggleFaq('faq-4')">
+        <span class="font-sans font-medium text-forest text-base pr-8 group-hover:text-forest/80 transition-colors">Comment obtenir les certificats d'analyse ?</span>
+        <svg class="faq-chevron flex-shrink-0 text-gold" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>
+      </button>
+      <div class="faq-body">
+        <p class="text-forest/60 text-sm leading-relaxed pb-5">Chaque lot dispose d'un certificat d'analyse (COA) disponible sur demande auprès de votre commercial ou directement via votre espace partenaire en ligne. Délai de mise à disposition : 24h ouvrées.</p>
+      </div>
+    </div>
+
+    <!-- FAQ Item 5 -->
+    <div class="faq-item" id="faq-5" style="border-bottom:none;">
+      <button class="w-full flex items-center justify-between py-5 text-left group" onclick="toggleFaq('faq-5')">
+        <span class="font-sans font-medium text-forest text-base pr-8 group-hover:text-forest/80 transition-colors">Y a-t-il un support à la vente en rayon ?</span>
+        <svg class="faq-chevron flex-shrink-0 text-gold" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>
+      </button>
+      <div class="faq-body">
+        <p class="text-forest/60 text-sm leading-relaxed pb-5">Oui : présentoirs personnalisés, fiches conseil patients, formations équipe officinale assurées par nos délégués médicaux, et accès aux données de vente via notre CRM partenaire — pour optimiser votre rayon en continu.</p>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- NEWSLETTER -->
+<section class="py-20 px-8 bg-forest relative overflow-hidden">
+  <svg class="absolute top-0 right-0 w-[350px] opacity-[0.05]" viewBox="0 0 300 300" fill="none">
+    <circle cx="150" cy="150" r="140" stroke="#C8A96E" stroke-width="1"/>
+    <circle cx="150" cy="150" r="90" stroke="#C8A96E" stroke-width="0.5"/>
+  </svg>
+  <div class="relative z-10 max-w-2xl mx-auto text-center reveal">
+    <div class="flex items-center justify-center gap-3 mb-6">
+      <div class="h-px w-10 bg-gold opacity-50"></div>
+      <span class="text-gold text-xs font-medium tracking-[0.25em] uppercase">Restez informé</span>
+      <div class="h-px w-10 bg-gold opacity-50"></div>
+    </div>
+    <h2 class="font-serif text-4xl md:text-5xl text-cream font-light mb-4">
+      Actualités &amp; <em class="text-gold">innovations</em>
+    </h2>
+    <p class="text-cream/50 text-sm leading-relaxed mb-10 max-w-lg mx-auto font-light">
+      Recevez chaque mois les dernières études cliniques, nouveautés produits et conseils exclusifs pour votre officine.
+    </p>
+    <div class="flex flex-col sm:flex-row gap-3 max-w-md mx-auto">
+      <input
+        type="email"
+        placeholder="votre@pharmacie.fr"
+        class="newsletter-input flex-1 bg-forest-light border border-white/15 text-cream placeholder-cream/30 text-sm px-5 py-3.5 font-sans"
+        style="outline:none; transition:border-color 0.25s;"
+        onfocus="this.style.borderColor='#C8A96E'" onblur="this.style.borderColor='rgba(255,255,255,0.15)'"
+      >
+      <button
+        onclick="newsletterSubmit(this)"
+        class="inline-flex items-center justify-center gap-2 bg-gold text-forest text-sm font-semibold px-7 py-3.5 hover:bg-gold-light transition-colors duration-300 tracking-wide whitespace-nowrap"
+      >
+        S'inscrire
+        <svg width="13" height="13" viewBox="0 0 14 14" fill="none"><path d="M2 7h10M7 2l5 5-5 5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </button>
+    </div>
+    <p id="newsletter-confirm" class="text-green-400 text-xs mt-4" style="display:none;">Merci ! Vous recevrez notre prochaine lettre d'information.</p>
+    <p class="text-cream/25 text-xs mt-5">Aucun spam. Désinscription en un clic.</p>
+  </div>
+</section>
+
 <!-- FOOTER -->
 <footer class="bg-forest text-cream/50 py-16 px-8">
   <div class="max-w-7xl mx-auto">
-    <div class="grid md:grid-cols-4 gap-10 pb-12 border-b border-white/10">
+    <div class="grid md:grid-cols-5 gap-10 pb-12 border-b border-white/10">
       <div class="md:col-span-2">
         <div class="flex items-center gap-3 mb-5">
           <svg width="28" height="28" viewBox="0 0 32 32" fill="none">
@@ -522,10 +793,42 @@ tailwind.config = {
           <li class="flex items-start gap-2"><span class="text-gold mt-0.5">—</span> contact@naturacorp.fr</li>
         </ul>
       </div>
+      <div>
+        <h4 class="text-cream/90 text-xs tracking-[0.2em] uppercase font-semibold mb-5">Suivez-nous</h4>
+        <div class="flex gap-2 mb-5">
+          <!-- LinkedIn -->
+          <a href="#" class="social-icon" title="LinkedIn" aria-label="LinkedIn">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="rgba(247,242,232,0.5)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M16 8a6 6 0 016 6v7h-4v-7a2 2 0 00-2-2 2 2 0 00-2 2v7h-4v-7a6 6 0 016-6z"/>
+              <rect x="2" y="9" width="4" height="12"/>
+              <circle cx="4" cy="4" r="2"/>
+            </svg>
+          </a>
+          <!-- Twitter/X -->
+          <a href="#" class="social-icon" title="X / Twitter" aria-label="X / Twitter">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="rgba(247,242,232,0.5)">
+              <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
+            </svg>
+          </a>
+          <!-- Instagram -->
+          <a href="#" class="social-icon" title="Instagram" aria-label="Instagram">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="rgba(247,242,232,0.5)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="2" y="2" width="20" height="20" rx="5" ry="5"/>
+              <path d="M16 11.37A4 4 0 1112.63 8 4 4 0 0116 11.37z"/>
+              <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/>
+            </svg>
+          </a>
+        </div>
+        <p class="text-cream/25 text-xs leading-relaxed">Rejoignez notre communauté de pharmaciens partenaires.</p>
+      </div>
     </div>
-    <div class="pt-8 flex flex-col md:flex-row justify-between items-center gap-3 text-xs text-cream/30">
-      <span>© 2025 NaturaCorp. Tous droits réservés.</span>
-      <span class="font-serif italic text-cream/20">La nature au service de la santé</span>
+    <div class="pt-8 flex flex-col md:flex-row justify-between items-center gap-4 text-xs text-cream/30">
+      <span>© 2025 NaturaCorp SAS. Tous droits réservés.</span>
+      <div class="flex gap-5">
+        <a href="mentions-legales.html" class="hover:text-cream/70 transition">Mentions légales</a>
+        <a href="confidentialite.html" class="hover:text-cream/70 transition">Confidentialité</a>
+        <a href="cgv.html" class="hover:text-cream/70 transition">CGV</a>
+      </div>
     </div>
   </div>
 </footer>
@@ -546,7 +849,12 @@ function toggleMenu() {
   btn.classList.toggle('open');
   document.body.style.overflow = menu.classList.contains('open') ? 'hidden' : '';
 }
-document.addEventListener('keydown', e => { if (e.key === 'Escape') { const m = document.getElementById('mobile-menu'); if (m.classList.contains('open')) toggleMenu(); } });
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape') {
+    const m = document.getElementById('mobile-menu');
+    if (m.classList.contains('open')) toggleMenu();
+  }
+});
 
 // Intersection observer for reveal animations
 const observer = new IntersectionObserver((entries) => {
@@ -554,6 +862,51 @@ const observer = new IntersectionObserver((entries) => {
 }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
 
 document.querySelectorAll('.reveal, .reveal-left, .reveal-right').forEach(el => observer.observe(el));
+
+// FAQ accordion
+function toggleFaq(id) {
+  const item = document.getElementById(id);
+  const isOpen = item.classList.contains('open');
+  // Close all
+  document.querySelectorAll('.faq-item.open').forEach(el => el.classList.remove('open'));
+  // Open clicked if was closed
+  if (!isOpen) item.classList.add('open');
+}
+
+// Newsletter mock submit
+function newsletterSubmit(btn) {
+  const input = btn.previousElementSibling;
+  if (!input || !input.value.includes('@')) {
+    input.style.borderColor = '#ef4444';
+    setTimeout(() => input.style.borderColor = 'rgba(255,255,255,0.15)', 1500);
+    return;
+  }
+  btn.textContent = 'Inscrit !';
+  btn.style.background = '#16A34A';
+  btn.style.color = '#fff';
+  btn.disabled = true;
+  document.getElementById('newsletter-confirm').style.display = 'block';
+}
+</script>
+
+<!-- COOKIE BANNER -->
+<div id="cookie-banner" style="display:none; position:fixed; bottom:0; left:0; right:0; z-index:99999; background:#0B1F12; border-top:1px solid rgba(200,169,110,0.25); padding:18px 32px; align-items:center; justify-content:space-between; gap:24px; flex-wrap:wrap; font-family:'DM Sans',system-ui,sans-serif; box-shadow:0 -4px 32px rgba(0,0,0,0.25);">
+  <p style="margin:0; font-size:13px; color:rgba(247,242,232,0.75); line-height:1.6; max-width:600px;">
+    Nous utilisons des cookies pour améliorer votre expérience. En continuant, vous acceptez notre
+    <a href="confidentialite.html" style="color:#C8A96E; text-decoration:none;">politique de confidentialité</a>.
+  </p>
+  <div style="display:flex; gap:10px; flex-shrink:0;">
+    <button onclick="cookieRefuse()" style="padding:9px 20px; background:transparent; border:1px solid rgba(247,242,232,0.2); color:rgba(247,242,232,0.55); font-size:12px; font-weight:500; cursor:pointer; font-family:inherit; letter-spacing:0.05em;">Refuser</button>
+    <button onclick="cookieAccept()" style="padding:9px 20px; background:#C8A96E; border:1px solid #C8A96E; color:#0B1F12; font-size:12px; font-weight:700; cursor:pointer; font-family:inherit; letter-spacing:0.08em; text-transform:uppercase;">Accepter</button>
+  </div>
+</div>
+<script>
+(function(){
+  var b = document.getElementById('cookie-banner');
+  if (b && !localStorage.getItem('nc_cookie')) { b.style.display = 'flex'; }
+})();
+function cookieAccept() { localStorage.setItem('nc_cookie','1'); document.getElementById('cookie-banner').style.display='none'; }
+function cookieRefuse() { localStorage.setItem('nc_cookie','0'); document.getElementById('cookie-banner').style.display='none'; }
 </script>
 </body>
 </html>

@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Devenir partenaire — NaturaCorp</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+:root {
+  --forest:   #0B1F12;
+  --forest-l: #1a3a24;
+  --mid:      #2D6A4F;
+  --gold:     #C8A96E;
+  --gold-l:   #E8D5A8;
+  --cream:    #F7F2E8;
+  --cream-d:  #EDE4D0;
+  --cream-dd: #D6C9A8;
+  --muted:    rgba(11,31,18,0.5);
+  --faint:    rgba(11,31,18,0.35);
+}
+html { font-size:16px; }
+body {
+  font-family: 'DM Sans', system-ui, sans-serif;
+  background: var(--cream); color: var(--forest);
+  min-height: 100vh; display: flex; flex-direction: column;
+}
+body::before {
+  content:''; position:fixed; inset:0; z-index:9999; pointer-events:none;
+  background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+  opacity:0.3;
+}
+
+/* NAV */
+nav {
+  position:sticky; top:0; z-index:100;
+  background:rgba(247,242,232,0.95); backdrop-filter:blur(12px);
+  border-bottom:1px solid var(--cream-dd);
+  padding:0 32px; height:64px;
+  display:flex; align-items:center; justify-content:space-between;
+}
+.nav-logo { display:flex; align-items:center; gap:10px; text-decoration:none; }
+.nav-logo span { font-family:'Cormorant Garamond',Georgia,serif; font-size:18px; font-weight:600; color:var(--forest); }
+.nav-back { display:flex; align-items:center; gap:6px; font-size:12px; font-weight:500; color:var(--muted); text-decoration:none; transition:color 0.2s; }
+.nav-back:hover { color:var(--forest); }
+
+/* LAYOUT */
+main { flex:1; max-width:960px; margin:0 auto; width:100%; padding:48px 24px 80px; display:grid; grid-template-columns:1fr 420px; gap:64px; align-items:start; }
+
+/* GAUCHE */
+.info-col { position:sticky; top:88px; }
+.eyebrow { font-size:10px; font-weight:700; letter-spacing:0.22em; text-transform:uppercase; color:var(--gold); margin-bottom:20px; display:flex; align-items:center; gap:10px; }
+.eyebrow::after { content:''; flex:1; height:1px; background:var(--gold); opacity:0.35; }
+.info-title { font-family:'Cormorant Garamond',Georgia,serif; font-size:42px; font-weight:300; line-height:1.1; margin-bottom:16px; }
+.info-title em { font-style:italic; color:var(--mid); }
+.info-desc { font-size:13px; color:var(--muted); line-height:1.8; margin-bottom:32px; }
+
+.avantage { display:flex; gap:14px; margin-bottom:18px; }
+.avantage-icon { width:36px; height:36px; background:rgba(45,106,79,0.1); border:1px solid rgba(45,106,79,0.2); display:flex; align-items:center; justify-content:center; flex-shrink:0; }
+.avantage-text h4 { font-size:12px; font-weight:600; color:var(--forest); margin-bottom:3px; }
+.avantage-text p { font-size:11px; color:var(--muted); line-height:1.6; }
+
+.trust-bar { margin-top:28px; padding:16px; background:var(--forest); display:flex; gap:20px; }
+.trust-item { text-align:center; }
+.trust-num { font-family:'Cormorant Garamond',Georgia,serif; font-size:22px; font-weight:300; color:var(--gold); }
+.trust-lbl { font-size:9px; text-transform:uppercase; letter-spacing:0.15em; color:rgba(247,242,232,0.4); }
+
+/* FORM */
+.form-title { font-family:'Cormorant Garamond',Georgia,serif; font-size:28px; font-weight:400; margin-bottom:6px; }
+.form-sub { font-size:13px; color:var(--muted); margin-bottom:28px; line-height:1.6; }
+
+fieldset { border:none; padding:0; margin:0 0 20px; display:flex; flex-direction:column; gap:14px; }
+.field-group { display:grid; grid-template-columns:1fr 1fr; gap:12px; }
+.field-wrap { display:flex; flex-direction:column; gap:6px; }
+label.field-label { font-size:11px; font-weight:600; letter-spacing:0.1em; text-transform:uppercase; color:var(--faint); }
+input, select, textarea {
+  font-family:'DM Sans',sans-serif; font-size:14px;
+  background:white; border:1.5px solid var(--cream-dd);
+  color:var(--forest); padding:11px 14px; border-radius:2px;
+  outline:none; width:100%; transition:border-color 0.2s, box-shadow 0.2s;
+}
+input:focus, select:focus, textarea:focus {
+  border-color:var(--forest); box-shadow:0 0 0 3px rgba(11,31,18,0.06);
+}
+input::placeholder, textarea::placeholder { color:rgba(11,31,18,0.3); }
+textarea { resize:vertical; min-height:90px; }
+
+.rgpd-wrap { display:flex; align-items:flex-start; gap:10px; margin-top:6px; }
+.rgpd-wrap input[type=checkbox] { width:16px; height:16px; flex-shrink:0; margin-top:2px; accent-color:var(--forest); cursor:pointer; }
+.rgpd-wrap label { font-size:11px; color:var(--faint); line-height:1.6; cursor:pointer; }
+.rgpd-wrap a { color:var(--gold); text-decoration:none; }
+
+.btn-submit {
+  width:100%; padding:16px; background:var(--forest); color:var(--cream);
+  border:none; cursor:pointer; border-radius:2px;
+  font-family:'DM Sans',sans-serif; font-size:13px; font-weight:600;
+  letter-spacing:0.1em; text-transform:uppercase;
+  display:flex; align-items:center; justify-content:center; gap:10px;
+  transition:background 0.25s; margin-top:20px;
+}
+.btn-submit:hover:not(:disabled) { background:var(--forest-l); }
+.btn-submit:disabled { opacity:0.6; cursor:not-allowed; }
+
+.error-banner { background:rgba(220,38,38,0.06); border:1px solid rgba(220,38,38,0.25); padding:12px 16px; border-radius:2px; display:none; font-size:13px; color:#991B1B; margin-bottom:16px; }
+.error-banner.visible { display:block; }
+
+/* SUCCESS */
+#success-screen { display:none; text-align:center; padding:56px 32px; background:white; border:1px solid var(--cream-dd); border-radius:2px; }
+#success-screen.visible { display:block; animation:fadeUp 0.6s ease forwards; }
+@keyframes fadeUp { from { opacity:0; transform:translateY(20px); } to { opacity:1; transform:translateY(0); } }
+.success-check { width:64px; height:64px; border-radius:50%; background:rgba(45,106,79,0.1); border:2px solid var(--mid); display:flex; align-items:center; justify-content:center; margin:0 auto 24px; animation:pop 0.5s 0.3s cubic-bezier(0.34,1.56,0.64,1) both; }
+@keyframes pop { from { transform:scale(0); } to { transform:scale(1); } }
+.success-title { font-family:'Cormorant Garamond',Georgia,serif; font-size:30px; font-weight:400; color:var(--forest); margin-bottom:10px; }
+.success-sub { font-size:13px; color:var(--muted); line-height:1.7; margin-bottom:28px; }
+.btn-back { display:inline-flex; align-items:center; gap:8px; font-size:13px; font-weight:500; color:var(--forest); text-decoration:none; border:1.5px solid var(--cream-dd); padding:10px 20px; border-radius:2px; transition:all 0.2s; }
+.btn-back:hover { border-color:var(--forest); background:var(--forest); color:var(--cream); }
+
+/* MOBILE */
+@media (max-width:720px) {
+  main { grid-template-columns:1fr; gap:32px; padding:24px 16px 60px; }
+  .info-col { position:static; }
+  .field-group { grid-template-columns:1fr; }
+  .trust-bar { gap:12px; }
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="index.html" class="nav-logo">
+    <svg width="28" height="28" viewBox="0 0 32 32" fill="none">
+      <path d="M16 4C16 4 8 10 8 18C8 22.4 11.6 26 16 26C20.4 26 24 22.4 24 18C24 10 16 4 16 4Z" fill="#2D6A4F" opacity="0.3"/>
+      <path d="M16 8C16 8 10 13 10 19C10 22.3 12.7 25 16 25C19.3 25 22 22.3 22 19C22 13 16 8 16 8Z" fill="#2D6A4F"/>
+      <path d="M16 28V18" stroke="#C8A96E" stroke-width="1.5" stroke-linecap="round"/>
+    </svg>
+    <span>NaturaCorp</span>
+  </a>
+  <a href="produit.html?ref=REF-001" class="nav-back">
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M19 12H5M12 5l-7 7 7 7"/></svg>
+    Retour au produit
+  </a>
+</nav>
+
+<main>
+
+  <!-- GAUCHE : PRÉSENTATION -->
+  <div class="info-col">
+    <div class="eyebrow">Rejoignez le réseau</div>
+    <h1 class="info-title">Devenez<br>pharmacie <em>partenaire</em></h1>
+    <p class="info-desc">Rejoignez notre réseau de pharmacies partenaires et proposez à vos patients des compléments alimentaires de qualité premium. Un commercial NaturaCorp prendra contact dans les 48h.</p>
+
+    <div class="avantage">
+      <div class="avantage-icon">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#2D6A4F" stroke-width="1.8" stroke-linecap="round"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
+      </div>
+      <div class="avantage-text">
+        <h4>Tarifs préférentiels partenaires</h4>
+        <p>Accès aux prix grossiste et remises sur volumes dès la première commande.</p>
+      </div>
+    </div>
+
+    <div class="avantage">
+      <div class="avantage-icon">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#2D6A4F" stroke-width="1.8" stroke-linecap="round"><rect x="1" y="3" width="15" height="13" rx="1"/><path d="M16 8h4l3 5v3h-7V8z"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg>
+      </div>
+      <div class="avantage-text">
+        <h4>Livraison express J+1</h4>
+        <p>Commandes passées avant 14h livrées le lendemain ouvré directement en pharmacie.</p>
+      </div>
+    </div>
+
+    <div class="avantage">
+      <div class="avantage-icon">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#2D6A4F" stroke-width="1.8" stroke-linecap="round"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75"/></svg>
+      </div>
+      <div class="avantage-text">
+        <h4>Accompagnement commercial dédié</h4>
+        <p>Un commercial NaturaCorp vous accompagne et reste disponible pour toute question.</p>
+      </div>
+    </div>
+
+    <div class="avantage">
+      <div class="avantage-icon">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#2D6A4F" stroke-width="1.8" stroke-linecap="round"><path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+      </div>
+      <div class="avantage-text">
+        <h4>Produits certifiés IFOS 5★</h4>
+        <p>Qualité garantie, traçabilité complète, certificats d'analyse disponibles sur demande.</p>
+      </div>
+    </div>
+
+    <div class="trust-bar">
+      <div class="trust-item" style="flex:1;">
+        <div class="trust-num">40+</div>
+        <div class="trust-lbl">Partenaires actifs</div>
+      </div>
+      <div style="width:1px; background:rgba(247,242,232,0.1);"></div>
+      <div class="trust-item" style="flex:1;">
+        <div class="trust-num">J+1</div>
+        <div class="trust-lbl">Livraison</div>
+      </div>
+      <div style="width:1px; background:rgba(247,242,232,0.1);"></div>
+      <div class="trust-item" style="flex:1;">
+        <div class="trust-num">48h</div>
+        <div class="trust-lbl">Réponse garantie</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- DROITE : FORMULAIRE -->
+  <div class="form-panel">
+    <h2 class="form-title">Votre demande</h2>
+    <p class="form-sub">Remplissez ce formulaire et notre équipe commerciale vous recontactera sous 48h ouvrées pour vous présenter notre offre partenaire.</p>
+
+    <div id="error-banner" class="error-banner">Une erreur est survenue. Veuillez réessayer.</div>
+
+    <form id="partner-form" novalidate>
+
+      <fieldset>
+        <legend style="font-size:11px; font-weight:700; letter-spacing:0.15em; text-transform:uppercase; color:var(--faint); margin-bottom:14px;">Votre pharmacie</legend>
+        <div class="field-wrap">
+          <label class="field-label" for="f-pharmacie">Nom de la pharmacie *</label>
+          <input id="f-pharmacie" name="pharmacie" type="text" required placeholder="Pharmacie de la République">
+        </div>
+        <div class="field-group">
+          <div class="field-wrap">
+            <label class="field-label" for="f-prenom">Prénom</label>
+            <input id="f-prenom" name="prenom" type="text" placeholder="Marie">
+          </div>
+          <div class="field-wrap">
+            <label class="field-label" for="f-nom">Nom</label>
+            <input id="f-nom" name="nom" type="text" placeholder="Dupont">
+          </div>
+        </div>
+        <div class="field-group">
+          <div class="field-wrap">
+            <label class="field-label" for="f-email">Email professionnel *</label>
+            <input id="f-email" name="email" type="email" required placeholder="contact@pharmacie.fr">
+          </div>
+          <div class="field-wrap">
+            <label class="field-label" for="f-tel">Téléphone</label>
+            <input id="f-tel" name="telephone" type="tel" placeholder="01 23 45 67 89">
+          </div>
+        </div>
+        <div class="field-wrap" style="max-width:160px;">
+          <label class="field-label" for="f-cp">Code postal *</label>
+          <input id="f-cp" name="code_postal" type="text" required maxlength="5" placeholder="75014">
+        </div>
+      </fieldset>
+
+      <fieldset>
+        <legend style="font-size:11px; font-weight:700; letter-spacing:0.15em; text-transform:uppercase; color:var(--faint); margin-bottom:14px;">Votre message</legend>
+        <div class="field-wrap">
+          <label class="field-label" for="f-message">Message (optionnel)</label>
+          <textarea id="f-message" name="message" placeholder="Présentez votre pharmacie, vos besoins, vos questions sur notre gamme…"></textarea>
+        </div>
+      </fieldset>
+
+      <div class="rgpd-wrap">
+        <input type="checkbox" id="rgpd" required>
+        <label for="rgpd">J'accepte que mes données soient utilisées par NaturaCorp pour traiter ma demande de partenariat, conformément à notre <a href="confidentialite.html">politique de confidentialité</a>.</label>
+      </div>
+
+      <button type="button" class="btn-submit" id="submit-btn" onclick="submitPartnerForm()">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 9.81 19.79 19.79 0 01.1 1.18 2 2 0 012.1 0h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L6.09 7.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 14.92z"/></svg>
+        <span id="btn-label">Envoyer ma demande</span>
+      </button>
+    </form>
+
+    <!-- SUCCÈS -->
+    <div id="success-screen">
+      <div class="success-check">
+        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#2D6A4F" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+      </div>
+      <h2 class="success-title">Demande envoyée !</h2>
+      <p class="success-sub">
+        Merci pour votre intérêt. Votre demande a bien été transmise à notre équipe commerciale.<br>
+        Un conseiller NaturaCorp vous contactera dans les <strong>48h ouvrées</strong>.
+      </p>
+      <a href="index.html" class="btn-back">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M19 12H5M12 5l-7 7 7 7"/></svg>
+        Retour à l'accueil
+      </a>
+    </div>
+  </div>
+
+</main>
+
+<!-- FOOTER -->
+<footer style="background:#0B1F12; color:rgba(247,242,232,0.35); padding:20px 32px; font-size:12px; display:flex; flex-direction:column; gap:10px; align-items:center; border-top:1px solid rgba(255,255,255,0.06);">
+  <span>© 2025 NaturaCorp SAS. Tous droits réservés.</span>
+  <div style="display:flex; gap:20px;">
+    <a href="mentions-legales.html" style="color:rgba(247,242,232,0.35); text-decoration:none;" onmouseover="this.style.color='rgba(247,242,232,0.7)'" onmouseout="this.style.color='rgba(247,242,232,0.35)'">Mentions légales</a>
+    <a href="confidentialite.html" style="color:rgba(247,242,232,0.35); text-decoration:none;" onmouseover="this.style.color='rgba(247,242,232,0.7)'" onmouseout="this.style.color='rgba(247,242,232,0.35)'">Confidentialité</a>
+    <a href="cgv.html" style="color:rgba(247,242,232,0.35); text-decoration:none;" onmouseover="this.style.color='rgba(247,242,232,0.7)'" onmouseout="this.style.color='rgba(247,242,232,0.35)'">CGV</a>
+  </div>
+</footer>
+
+<!-- COOKIE BANNER -->
+<div id="cookie-banner" style="display:none; position:fixed; bottom:0; left:0; right:0; z-index:99999; background:#0B1F12; border-top:1px solid rgba(200,169,110,0.25); padding:18px 32px; align-items:center; justify-content:space-between; gap:24px; flex-wrap:wrap; font-family:'DM Sans',system-ui,sans-serif; box-shadow:0 -4px 32px rgba(0,0,0,0.25);">
+  <p style="margin:0; font-size:13px; color:rgba(247,242,232,0.75); line-height:1.6; max-width:600px;">
+    Nous utilisons des cookies pour améliorer votre expérience. En continuant, vous acceptez notre
+    <a href="confidentialite.html" style="color:#C8A96E; text-decoration:none;">politique de confidentialité</a>.
+  </p>
+  <div style="display:flex; gap:10px; flex-shrink:0;">
+    <button onclick="cookieRefuse()" style="padding:9px 20px; background:transparent; border:1px solid rgba(247,242,232,0.2); color:rgba(247,242,232,0.55); font-size:12px; font-weight:500; cursor:pointer; font-family:inherit;">Refuser</button>
+    <button onclick="cookieAccept()" style="padding:9px 20px; background:#C8A96E; border:1px solid #C8A96E; color:#0B1F12; font-size:12px; font-weight:700; cursor:pointer; font-family:inherit; text-transform:uppercase;">Accepter</button>
+  </div>
+</div>
+
+<script>
+var API = (window.location.port === '8000' || window.location.port === '') ? '' : 'http://127.0.0.1:8000';
+
+if (new URLSearchParams(window.location.search).get('preview') === '1') {
+  document.addEventListener('DOMContentLoaded', function() {
+    document.getElementById('partner-form').style.display = 'none';
+    document.getElementById('success-screen').style.display = 'block';
+  });
+}
+
+function submitPartnerForm() {
+  var pharmacie = document.getElementById('f-pharmacie').value.trim();
+  var email     = document.getElementById('f-email').value.trim();
+  var cp        = document.getElementById('f-cp').value.trim();
+  var rgpd      = document.getElementById('rgpd').checked;
+  var errBanner = document.getElementById('error-banner');
+
+  if (!pharmacie || !email || !cp) {
+    errBanner.textContent   = 'Veuillez remplir tous les champs obligatoires (*).';
+    errBanner.style.display = 'block';
+    return;
+  }
+  if (!rgpd) {
+    errBanner.textContent   = 'Veuillez accepter la politique de confidentialité.';
+    errBanner.style.display = 'block';
+    return;
+  }
+
+  errBanner.style.display = 'none';
+
+  var form = document.getElementById('partner-form');
+  var s    = document.getElementById('success-screen');
+
+  form.style.opacity = '0';
+  form.style.transition = 'opacity 0.4s';
+  setTimeout(function() {
+    form.style.display = 'none';
+    s.style.display    = 'block';
+    window.scrollTo({ top: s.getBoundingClientRect().top + window.scrollY - 80, behavior: 'smooth' });
+  }, 400);
+
+  fetch(API + '/api/contact', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+    body: JSON.stringify({
+      pharmacie:   pharmacie,
+      prenom:      document.getElementById('f-prenom').value.trim() || null,
+      nom:         document.getElementById('f-nom').value.trim() || null,
+      email:       email,
+      telephone:   document.getElementById('f-tel').value.trim() || null,
+      code_postal: cp,
+      sujet:       'Demande de partenariat',
+      message:     document.getElementById('f-message').value.trim() || null,
+    }),
+  }).catch(function() {});
+}
+
+(function(){ var b=document.getElementById('cookie-banner'); if(b&&!localStorage.getItem('nc_cookie')) b.style.display='flex'; })();
+function cookieAccept(){ localStorage.setItem('nc_cookie','1'); document.getElementById('cookie-banner').style.display='none'; }
+function cookieRefuse(){ localStorage.setItem('nc_cookie','0'); document.getElementById('cookie-banner').style.display='none'; }
+</script>
+
+</body>
+</html>

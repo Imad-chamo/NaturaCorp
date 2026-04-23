@@ -17,6 +17,7 @@
       @elseif(request()->routeIs('produits.*'))   Produits
       @elseif(request()->routeIs('carte.index'))  Carte
       @elseif(request()->routeIs('users.*'))      Utilisateurs
+      @elseif(request()->routeIs('relances.*'))    Relances
       @elseif(request()->routeIs('rapports.*'))   Rapports
       @elseif(request()->routeIs('admin.*'))      Administration
       @elseif(request()->routeIs('profile.*'))    Profil
@@ -24,6 +25,20 @@
       @endif
     </span>
   </div>
+
+  <!-- Search -->
+  <form method="GET" action="{{ route('search') }}" style="flex:1; max-width:320px; margin:0 24px;">
+    <div style="position:relative;">
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+           style="position:absolute; left:10px; top:50%; transform:translateY(-50%); color:#9DBDA0; pointer-events:none;">
+        <circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/>
+      </svg>
+      <input type="text" name="q" placeholder="Rechercher…" value="{{ request('q') }}"
+             style="width:100%; background:#F2F6F2; border:1px solid #E0E9E1; border-radius:8px; padding:7px 12px 7px 32px; font-size:13px; color:#18271C; font-family:'DM Sans',sans-serif; outline:none; transition:all 0.15s;"
+             onfocus="this.style.borderColor='#16A34A'; this.style.boxShadow='0 0 0 3px rgba(22,163,74,0.12)'; this.style.background='#fff'"
+             onblur="this.style.borderColor='#E0E9E1'; this.style.boxShadow='none'; this.style.background='#F2F6F2'">
+    </div>
+  </form>
 
   <!-- Right -->
   <div style="display:flex; align-items:center; gap:10px;">

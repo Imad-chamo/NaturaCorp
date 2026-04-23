@@ -1,22 +1,18 @@
 # ===========================
-# CRM — Laravel
+# Laravel
 # ===========================
-CRM/vendor/
-CRM/node_modules/
-CRM/.env
-CRM/.env.testing
-CRM/storage/logs/*.log
-CRM/storage/app/public/documents/
-CRM/bootstrap/cache/*.php
-CRM/public/hot
-CRM/public/build/
-CRM/.phpunit.result.cache
-CRM/.phpunit.cache/
-
-# ===========================
-# VITRINE — Static HTML
-# ===========================
-VITRINE/node_modules/
+vendor/
+node_modules/
+.env
+.env.testing
+.env.backup
+storage/logs/*.log
+storage/app/public/documents/
+bootstrap/cache/*.php
+public/hot
+public/build/
+.phpunit.result.cache
+.phpunit.cache/
 
 # ===========================
 # Système / IDE
@@ -28,3 +24,4 @@ Thumbs.db
 *.swp
 *.swo
 .claude/
+rapport-tests.xml

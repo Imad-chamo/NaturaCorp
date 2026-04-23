@@ -66,6 +66,30 @@
     </a>
     @endrole
 
+    @auth
+    @role('commercial|admin')
+    @php
+        $active = request()->routeIs('demandes.*');
+        $pendingCount = \App\Models\Pharmacie::where('statut', 'prospect')->count();
+    @endphp
+    <a href="{{ route('demandes.index') }}"
+       style="display:flex; align-items:center; gap:10px; padding:9px 10px; text-decoration:none; border-radius:8px; margin-bottom:1px; font-size:13px; font-weight:500; transition:all 0.15s; position:relative;
+              {{ $active ? 'background:#DCFCE7; color:#15803D;' : 'color:#5E8264;' }}"
+       onmouseover="if(!this.style.background.includes('DCFCE7')) { this.style.background='#F2F6F2'; this.style.color='#18271C'; }"
+       onmouseout="if(!this.style.background.includes('DCFCE7')) { this.style.background='transparent'; this.style.color='#5E8264'; }">
+      @if($active)<span style="position:absolute; left:0; top:6px; bottom:6px; width:3px; background:#16A34A; border-radius:0 2px 2px 0;"></span>@endif
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0; opacity:{{ $active ? '1' : '0.7' }}">
+        <path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/>
+        <path d="M23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75"/>
+      </svg>
+      <span style="flex:1;">Demandes</span>
+      @if($pendingCount > 0)
+        <span style="background:#D97706; color:#fff; font-size:10px; font-weight:700; padding:1px 7px; border-radius:20px; min-width:20px; text-align:center;">{{ $pendingCount }}</span>
+      @endif
+    </a>
+    @endrole
+    @endauth
+
     @role('commercial|admin')
     @php $active = request()->routeIs('commandes.*'); @endphp
     <a href="{{ route('commandes.index') }}"
@@ -78,6 +102,21 @@
         <path d="M4 4h1.5L8 16m0 0h8m-8 0a2 2 0 100 4 2 2 0 000-4zm8 0a2 2 0 100 4 2 2 0 000-4zm.75-3H7.5M11 7H6.312M17 4v6m-3-3h6"/>
       </svg>
       Commandes
+    </a>
+    @endrole
+
+    @role('commercial|admin')
+    @php $active = request()->routeIs('relances.*'); @endphp
+    <a href="{{ route('relances.index') }}"
+       style="display:flex; align-items:center; gap:10px; padding:9px 10px; text-decoration:none; border-radius:8px; margin-bottom:1px; font-size:13px; font-weight:500; transition:all 0.15s; position:relative;
+              {{ $active ? 'background:#DCFCE7; color:#15803D;' : 'color:#5E8264;' }}"
+       onmouseover="if(!this.style.background.includes('DCFCE7')) { this.style.background='#F2F6F2'; this.style.color='#18271C'; }"
+       onmouseout="if(!this.style.background.includes('DCFCE7')) { this.style.background='transparent'; this.style.color='#5E8264'; }">
+      @if($active)<span style="position:absolute; left:0; top:6px; bottom:6px; width:3px; background:#16A34A; border-radius:0 2px 2px 0;"></span>@endif
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0; opacity:{{ $active ? '1' : '0.7' }}">
+        <path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.95 12a19.79 19.79 0 01-3.07-8.67A2 2 0 012.86 1h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L6.91 8.83a16 16 0 006.07 6.07l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/>
+      </svg>
+      Relances
     </a>
     @endrole
 

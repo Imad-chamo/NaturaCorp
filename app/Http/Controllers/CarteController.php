@@ -26,7 +26,7 @@ class CarteController extends Controller
             abort(403);
         }
 
-        $pharmacies = $query->get();
+        $pharmacies = $query->withCount('commandes')->get();
 
         $commerciaux = User::role('commercial')->pluck('name');
         $villes = Pharmacie::distinct()->pluck('ville');

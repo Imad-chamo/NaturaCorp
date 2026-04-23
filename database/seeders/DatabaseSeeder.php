@@ -17,6 +17,7 @@ class DatabaseSeeder extends Seeder
             ZoneSeeder::class,
             RoleAndUserSeeder::class,
             PharmacieSeeder::class,
+            ProduitSeeder::class,
         ]);
     }
 

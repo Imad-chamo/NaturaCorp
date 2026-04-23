@@ -55,6 +55,17 @@
                 @endforeach
             </select>
 
+            <input type="date" x-model="filterDateFrom" class="crm-input" style="width:auto; padding:7px 10px;" title="Du">
+            <span style="font-size:12px; color:var(--c-faint);">→</span>
+            <input type="date" x-model="filterDateTo" class="crm-input" style="width:auto; padding:7px 10px;" title="Au">
+
+            <button @click="filterStatut=''; filterDateFrom=''; filterDateTo=''; search='';"
+                    class="btn-secondary" style="padding:7px 12px; font-size:12px; gap:5px;"
+                    x-show="filterStatut || filterDateFrom || filterDateTo || search">
+                <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+                Réinitialiser
+            </button>
+
             <span style="margin-left:auto; font-family:'DM Mono',monospace; font-size:11px; color:var(--c-muted);"
                   x-text="filteredCommandes().length + ' résultat(s)'"></span>
         </div>
@@ -80,7 +91,12 @@
                         <tr>
                             <td class="td-mono" x-text="'#' + String(commande.id).padStart(4,'0')"></td>
                             <td>
-                                <span style="font-weight:500; color:var(--c-text);" x-text="commande.pharmacie.nom"></span>
+                                <div style="display:flex; align-items:center; gap:6px; flex-wrap:wrap;">
+                                    <span style="font-weight:500; color:var(--c-text);" x-text="commande.pharmacie.nom"></span>
+                                    <template x-if="commande.observations && commande.observations.startsWith('Commande passée depuis le site vitrine')">
+                                        <span style="font-size:9px; font-family:'DM Mono',monospace; font-weight:700; letter-spacing:0.1em; padding:2px 6px; background:rgba(200,169,110,0.15); color:#7B5E2A; border:1px solid rgba(200,169,110,0.35);">VITRINE</span>
+                                    </template>
+                                </div>
                                 <div class="td-mono" style="font-size:11px; margin-top:1px;" x-text="commande.pharmacie.ville"></div>
                             </td>
                             <td>
@@ -88,22 +104,31 @@
                             </td>
                             <td class="td-mono" style="font-size:12px;" x-text="formatDate(commande.date_commande)"></td>
                             <td>
-                                <span class="badge"
-                                      :class="{
-                                          'badge-green': commande.statut === 'livree',
-                                          'badge-amber': commande.statut === 'en_cours',
-                                          'badge-blue':  commande.statut === 'validee',
-                                          'badge-gray':  commande.statut === 'annulee',
-                                      }"
-                                      x-text="commande.statut_label">
-                                </span>
+                                <select @change="updateStatut(commande, $event.target.value)"
+                                        :value="commande.statut"
+                                        style="font-size:11px; font-weight:600; border-radius:20px; padding:2px 8px; border:1px solid; cursor:pointer; outline:none; font-family:'DM Sans',sans-serif;"
+                                        :style="{
+                                            background: commande.statut==='livree'  ? '#DCFCE7' : commande.statut==='validee' ? '#DBEAFE' : commande.statut==='en_cours' ? '#FEF3C7' : '#F1F3F2',
+                                            color:      commande.statut==='livree'  ? '#166534' : commande.statut==='validee' ? '#1E40AF' : commande.statut==='en_cours' ? '#78350F' : '#4B5563',
+                                            borderColor:commande.statut==='livree'  ? '#BBF7D0' : commande.statut==='validee' ? '#BFDBFE' : commande.statut==='en_cours' ? '#FDE68A' : '#D1D5DB',
+                                        }">
+                                    @foreach($statuts as $s)
+                                    <option value="{{ $s->value }}">{{ $s->label() }}</option>
+                                    @endforeach
+                                </select>
                             </td>
                             <td class="td-right td-mono" x-text="commande.quantite"></td>
                             <td class="td-right td-mono" x-text="parseFloat(commande.tarif_unitaire).toFixed(2) + ' €'"></td>
                             <td class="td-right td-mono" style="color:var(--c-green);"
                                 x-text="(parseFloat(commande.tarif_unitaire) * commande.quantite).toFixed(2) + ' €'"></td>
                             <td class="td-right">
-                                <div style="display:flex; align-items:center; justify-content:flex-end; gap:12px;">
+                                <div style="display:flex; align-items:center; justify-content:flex-end; gap:8px;">
+                                    <a :href="`/commandes/${commande.id}/pdf`" target="_blank"
+                                       class="link-edit" style="gap:4px;"
+                                       title="Télécharger PDF">
+                                        <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+                                        PDF
+                                    </a>
                                     <button @click="modalMode = 'edit'; editingCommande = { ...commande, quantite_initiale: commande.quantite }; modalOpen = true"
                                             class="link-edit">Modifier</button>
                                     <form method="POST" :action="`/commandes/${commande.id}`"
@@ -141,6 +166,8 @@
             return {
                 search: '',
                 filterStatut: '',
+                filterDateFrom: '',
+                filterDateTo: '',
                 modalOpen: false,
                 modalMode: 'create',
                 editingCommande: {},
@@ -153,7 +180,10 @@
                             const s = this.search.toLowerCase();
                             const matchSearch = !s || c.pharmacie.nom.toLowerCase().includes(s);
                             const matchStatut = !this.filterStatut || c.statut === this.filterStatut;
-                            return matchSearch && matchStatut;
+                            const d = new Date(c.date_commande);
+                            const matchFrom = !this.filterDateFrom || d >= new Date(this.filterDateFrom);
+                            const matchTo   = !this.filterDateTo   || d <= new Date(this.filterDateTo);
+                            return matchSearch && matchStatut && matchFrom && matchTo;
                         })
                         .sort((a, b) => new Date(b.date_commande) - new Date(a.date_commande));
                 },
@@ -161,6 +191,23 @@
                 formatDate(dateString) {
                     if (!dateString) return '—';
                     return new Date(dateString).toLocaleDateString('fr-FR');
+                },
+
+                async updateStatut(commande, newStatut) {
+                    const res = await fetch(`/commandes/${commande.id}/statut`, {
+                        method: 'PATCH',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content,
+                            'Accept': 'application/json',
+                        },
+                        body: JSON.stringify({ statut: newStatut }),
+                    });
+                    if (res.ok) {
+                        const labels = @json(collect($statuts)->mapWithKeys(fn($s) => [$s->value => $s->label()]));
+                        commande.statut = newStatut;
+                        commande.statut_label = labels[newStatut] ?? newStatut;
+                    }
                 }
             };
         }
