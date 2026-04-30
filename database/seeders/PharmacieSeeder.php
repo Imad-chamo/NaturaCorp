@@ -120,7 +120,7 @@ class PharmacieSeeder extends Seeder
         ];
 
         foreach ($pharmacies as $data) {
-            Pharmacie::create($data);
+            Pharmacie::firstOrCreate(['siret' => $data['siret']], $data);
         }
     }
 }
