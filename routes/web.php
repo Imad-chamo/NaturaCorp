@@ -96,11 +96,6 @@ Route::middleware(['auth'])->group(function () {
         Route::delete('/{notification}', [NotificationInterneController::class, 'destroy'])->name('notifications.destroy');
     });
 
-    // debug (suppression pharmacie)
-    Route::get('/debug-delete/{pharmacie}', function (\App\Models\Pharmacie $pharmacie) {
-        dd($pharmacie);
-    });
-
     Route::get('/confidentialite', function () {
         return view('politiques.rgpd');
     })->name('confidentialite');
