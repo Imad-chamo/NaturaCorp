@@ -57,26 +57,7 @@
 
   </div>
 
-  {{-- ── Row 2 : demandes KPI (si > 0) ── --}}
-  @if($stats['demandes_attente'] > 0)
-  <a href="{{ route('demandes.index') }}" style="text-decoration:none; display:block;">
-    <div style="background:linear-gradient(135deg, #FFFBEB, #FEF9EE); border:1px solid #FDE68A; border-radius:12px; padding:14px 20px; display:flex; align-items:center; gap:14px; transition:box-shadow 0.2s; box-shadow:var(--shadow-xs);"
-         onmouseover="this.style.boxShadow='var(--shadow-md)'" onmouseout="this.style.boxShadow='var(--shadow-xs)'">
-      <div style="width:36px; height:36px; background:#FEF3C7; border-radius:9px; display:flex; align-items:center; justify-content:center; flex-shrink:0;">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#D97706" stroke-width="2" stroke-linecap="round"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75"/></svg>
-      </div>
-      <div style="flex:1;">
-        <div style="font-size:11px; font-weight:700; color:#D97706; letter-spacing:0.08em; text-transform:uppercase; margin-bottom:2px;">Demandes partenaires en attente</div>
-        <div style="font-family:'Fraunces',serif; font-size:24px; font-weight:400; color:#78350F; line-height:1;">{{ $stats['demandes_attente'] }}</div>
-      </div>
-      <div style="display:flex; align-items:center; gap:5px; color:#D97706; font-size:12px; font-weight:600;">
-        Traiter <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-      </div>
-    </div>
-  </a>
-  @endif
-
-  {{-- ── Row 3 : Charts ── --}}
+  {{-- ── Row 2 : Charts ── --}}
   <div style="display:grid; grid-template-columns:1fr 1fr 1fr; gap:16px;">
 
     {{-- Donut pharmacies --}}
