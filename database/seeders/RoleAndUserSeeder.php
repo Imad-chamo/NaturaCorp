@@ -18,29 +18,28 @@ class RoleAndUserSeeder extends Seeder
         }
 
         // Admin
-        $admin = User::factory()->create([
-            'name' => 'admin',
-            'email' => 'admin@naturacorp.com',
-            'password' => bcrypt('password'),
-        ]);
+        $admin = User::firstOrCreate(
+            ['email' => 'admin@naturacorp.com'],
+            ['name' => 'admin', 'password' => bcrypt('password')]
+        );
         $admin->assignRole('admin');
 
         // Commerciaux
         for ($i = 1; $i <= 5; $i++) {
-            User::factory()->create([
-                'name' => "commercial{$i}",
-                'email' => "commercial{$i}@naturacorp.com",
-                'password' => bcrypt('password'),
-            ])->assignRole('commercial');
+            $user = User::firstOrCreate(
+                ['email' => "commercial{$i}@naturacorp.com"],
+                ['name' => "commercial{$i}", 'password' => bcrypt('password')]
+            );
+            $user->assignRole('commercial');
         }
 
         // Logistiques
         for ($i = 1; $i <= 5; $i++) {
-            User::factory()->create([
-                'name' => "logistique{$i}",
-                'email' => "logistique{$i}@naturacorp.com",
-                'password' => bcrypt('password'),
-            ])->assignRole('logistique');
+            $user = User::firstOrCreate(
+                ['email' => "logistique{$i}@naturacorp.com"],
+                ['name' => "logistique{$i}", 'password' => bcrypt('password')]
+            );
+            $user->assignRole('logistique');
         }
     }
 }
